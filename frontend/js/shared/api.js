@@ -6,7 +6,7 @@ class API {
         // Replace with your Render or PythonAnywhere URL:
         // example: https://your-app-name.onrender.com/api
         // ============================================================
-        this.baseURL = window.API_BASE_URL || 'https://your-backend-url.onrender.com/api';
+       this.baseURL = window.API_BASE_URL || 'https://mall-dashboard.onrender.com/api';
         // For local development, you can set window.API_BASE_URL = 'http://127.0.0.1:5000/api';
         // before loading this script, or change the fallback above.
         
