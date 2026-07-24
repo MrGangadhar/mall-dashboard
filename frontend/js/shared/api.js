@@ -54,7 +54,7 @@ class API {
                 } else {
                     // Refresh failed – clear tokens and redirect
                     this._clearTokens();
-                    window.location.href = '/login.html';
+                    window.location.href = '/index.html';
                     throw new Error('Session expired. Please log in again.');
                 }
             }
