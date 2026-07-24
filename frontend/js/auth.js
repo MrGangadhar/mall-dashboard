@@ -1,7 +1,8 @@
 // Authentication Module
 class Auth {
     constructor() {
-        this.baseURL = 'http://127.0.0.1:5000/api';
+        // Use the same API base URL as api.js (fallback to Render URL)
+        this.baseURL = window.API_BASE_URL || 'https://mall-dashboard.onrender.com/api';
         this.token = localStorage.getItem('auth_token');
         try {
             this.user = JSON.parse(localStorage.getItem('user') || 'null');
@@ -76,7 +77,8 @@ class Auth {
         } finally {
             localStorage.removeItem('auth_token');
             localStorage.removeItem('user');
-            window.location.href = 'login.html';
+            // Redirect to login page (which is now index.html)
+            window.location.href = 'index.html';
         }
     }
 
