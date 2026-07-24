@@ -25,3 +25,4 @@ email-validator==2.0.0
 gunicorn==21.2.0  # For Linux, optional on Windows
 eventlet==0.33.3
 werkzeug==2.3.7
+PyJWT==2.8.0
