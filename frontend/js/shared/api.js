@@ -1,8 +1,15 @@
 // API Service
 class API {
     constructor() {
-        this.baseURL = window.API_BASE_URL || 'http://127.0.0.1:5000/api';
-        // Always fetch token fresh – don't rely on constructor value
+        // ============================================================
+        // 🔧 UPDATE THIS URL TO YOUR DEPLOYED BACKEND
+        // Replace with your Render or PythonAnywhere URL:
+        // example: https://your-app-name.onrender.com/api
+        // ============================================================
+        this.baseURL = window.API_BASE_URL || 'https://your-backend-url.onrender.com/api';
+        // For local development, you can set window.API_BASE_URL = 'http://127.0.0.1:5000/api';
+        // before loading this script, or change the fallback above.
+        
         this.refreshToken = localStorage.getItem('refresh_token');
     }
 
@@ -157,9 +164,10 @@ class API {
     }
 
     // ========== MALLS ==========
-   async getMalls() {
-    return this.request('/malls');
-}
+    async getMalls() {
+        return this.request('/malls');
+    }
+
     async addMall(data) {
         return this.request('/malls', {
             method: 'POST',
