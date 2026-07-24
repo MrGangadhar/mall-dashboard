@@ -1,0 +1,645 @@
+[2026-02-16 22:28:09,450] INFO in app: [OK] Database initialized
+[2026-02-16 22:28:09,450] INFO in app: [OK] Login manager initialized
+[2026-02-16 22:28:09,809] INFO in app: [OK] SocketIO initialized
+[2026-02-16 22:28:09,814] INFO in app: [OK] Blueprints registered
+[2026-02-16 22:28:09,816] INFO in app: [OK] Application initialized successfully
+[2026-02-16 22:28:09,818] INFO in app: [OK] Database tables created/verified
+[2026-02-16 22:28:10,133] INFO in app: [OK] Database initialized
+[2026-02-16 22:28:10,133] INFO in app: [OK] Login manager initialized
+[2026-02-16 22:28:10,453] INFO in app: [OK] SocketIO initialized
+[2026-02-16 22:28:10,457] INFO in app: [OK] Blueprints registered
+[2026-02-16 22:28:10,458] INFO in app: [OK] Application initialized successfully
+[2026-02-16 22:28:10,460] INFO in app: [OK] Database tables created/verified
+[2026-02-16 22:29:02,268] INFO in app: [OK] Database initialized
+[2026-02-16 22:29:02,269] INFO in app: [OK] Login manager initialized
+[2026-02-16 22:29:02,569] INFO in app: [OK] SocketIO initialized
+[2026-02-16 22:29:02,573] INFO in app: [OK] Blueprints registered
+[2026-02-16 22:29:02,573] INFO in app: [OK] Application initialized successfully
+[2026-02-16 22:29:02,576] INFO in app: [OK] Database tables created/verified
+[2026-02-16 22:29:03,507] INFO in app: [OK] Database initialized
+[2026-02-16 22:29:03,507] INFO in app: [OK] Login manager initialized
+[2026-02-16 22:29:03,801] INFO in app: [OK] SocketIO initialized
+[2026-02-16 22:29:03,805] INFO in app: [OK] Blueprints registered
+[2026-02-16 22:29:03,806] INFO in app: [OK] Application initialized successfully
+[2026-02-16 22:29:03,808] INFO in app: [OK] Database tables created/verified
+[2026-02-16 23:04:46,872] INFO in app: [OK] Database initialized
+[2026-02-16 23:04:46,873] INFO in app: [OK] Login manager initialized
+[2026-02-16 23:04:47,192] INFO in app: [OK] SocketIO initialized
+[2026-02-16 23:22:25,904] INFO in app: [OK] Database initialized
+[2026-02-16 23:22:25,904] INFO in app: [OK] Login manager initialized
+[2026-02-16 23:22:26,223] INFO in app: [OK] SocketIO initialized
+[2026-02-16 23:23:29,686] INFO in app: [OK] Database initialized
+[2026-02-16 23:23:29,687] INFO in app: [OK] Login manager initialized
+[2026-02-16 23:23:30,001] INFO in app: [OK] SocketIO initialized
+[2026-02-16 23:26:05,662] INFO in app: [OK] Database initialized
+[2026-02-16 23:26:05,662] INFO in app: [OK] Login manager initialized
+[2026-02-16 23:26:05,971] INFO in app: [OK] SocketIO initialized
+[2026-02-16 23:26:05,975] INFO in app: [OK] Blueprints registered
+[2026-02-16 23:26:05,976] INFO in app: [OK] Application initialized successfully
+[2026-02-16 23:26:05,979] INFO in app: [OK] Database tables created/verified
+[2026-02-16 23:26:06,848] INFO in app: [OK] Database initialized
+[2026-02-16 23:26:06,848] INFO in app: [OK] Login manager initialized
+[2026-02-16 23:26:07,155] INFO in app: [OK] SocketIO initialized
+[2026-02-16 23:26:07,159] INFO in app: [OK] Blueprints registered
+[2026-02-16 23:26:07,160] INFO in app: [OK] Application initialized successfully
+[2026-02-16 23:26:07,162] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:12:29,375] INFO in app: [OK] Database initialized
+[2026-02-17 00:12:29,375] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:12:29,771] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:12:29,772] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:12:29,773] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:12:29,775] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:15:39,690] INFO in app: [OK] Database initialized
+[2026-02-17 00:15:39,690] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:15:40,091] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:15:40,091] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:15:40,092] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:15:40,095] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:20:18,518] INFO in app: [OK] Database initialized
+[2026-02-17 00:20:18,518] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:20:18,890] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:20:18,891] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:20:18,892] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:20:18,895] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:39:03,580] INFO in app: [OK] Database initialized
+[2026-02-17 00:39:03,581] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:39:03,947] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:39:03,952] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:39:03,953] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:39:03,975] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:43:07,143] INFO in app: [OK] Database initialized
+[2026-02-17 00:43:07,144] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:43:07,503] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:43:07,508] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:43:07,509] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:43:07,512] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:44:55,450] INFO in app: [OK] Database initialized
+[2026-02-17 00:44:55,450] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:44:55,952] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:44:55,957] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:44:55,958] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:44:55,961] INFO in app: [OK] Database tables created/verified
+[2026-02-17 00:44:57,264] INFO in app: [OK] Database initialized
+[2026-02-17 00:44:57,265] INFO in app: [OK] Login manager initialized
+[2026-02-17 00:44:57,657] INFO in app: [OK] SocketIO initialized
+[2026-02-17 00:44:57,662] INFO in app: [OK] Blueprints registered
+[2026-02-17 00:44:57,663] INFO in app: [OK] Application initialized successfully
+[2026-02-17 00:44:57,666] INFO in app: [OK] Database tables created/verified
+[2026-02-17 14:53:00,378] INFO in app: [OK] Database initialized
+[2026-02-17 14:53:00,380] INFO in app: [OK] Login manager initialized
+[2026-02-17 14:53:02,004] INFO in app: [OK] SocketIO initialized
+[2026-02-17 14:53:02,034] INFO in app: [OK] Blueprints registered
+[2026-02-17 14:53:02,037] INFO in app: [OK] Application initialized successfully
+[2026-02-17 14:53:02,068] INFO in app: [OK] Database tables created/verified
+[2026-02-17 14:53:06,110] INFO in app: [OK] Database initialized
+[2026-02-17 14:53:06,112] INFO in app: [OK] Login manager initialized
+[2026-02-17 14:53:07,345] INFO in app: [OK] SocketIO initialized
+[2026-02-17 14:53:07,379] INFO in app: [OK] Blueprints registered
+[2026-02-17 14:53:07,384] INFO in app: [OK] Application initialized successfully
+[2026-02-17 14:53:07,393] INFO in app: [OK] Database tables created/verified
+[2026-02-18 15:16:05,064] INFO in app: [OK] Database initialized
+[2026-02-18 15:16:05,065] INFO in app: [OK] Login manager initialized
+[2026-02-18 15:16:05,621] INFO in app: [OK] SocketIO initialized
+[2026-02-18 15:16:05,625] INFO in app: [OK] Blueprints registered
+[2026-02-18 15:16:05,626] INFO in app: [OK] Application initialized successfully
+[2026-02-18 15:16:05,639] INFO in app: [OK] Database tables created/verified
+[2026-02-18 15:16:06,727] INFO in app: [OK] Database initialized
+[2026-02-18 15:16:06,728] INFO in app: [OK] Login manager initialized
+[2026-02-18 15:16:07,175] INFO in app: [OK] SocketIO initialized
+[2026-02-18 15:16:07,181] INFO in app: [OK] Blueprints registered
+[2026-02-18 15:16:07,184] INFO in app: [OK] Application initialized successfully
+[2026-02-18 15:16:07,189] INFO in app: [OK] Database tables created/verified
+[2026-02-18 22:59:44,440] INFO in app: [OK] Database initialized
+[2026-02-18 22:59:44,441] INFO in app: [OK] Login manager initialized
+[2026-02-18 22:59:44,740] INFO in app: [OK] SocketIO initialized
+[2026-02-18 22:59:44,745] INFO in app: [OK] Blueprints registered
+[2026-02-18 22:59:44,745] INFO in app: [OK] Application initialized successfully
+[2026-02-18 22:59:44,749] INFO in app: [OK] Database tables created/verified
+[2026-02-18 22:59:45,666] INFO in app: [OK] Database initialized
+[2026-02-18 22:59:45,667] INFO in app: [OK] Login manager initialized
+[2026-02-18 22:59:45,955] INFO in app: [OK] SocketIO initialized
+[2026-02-18 22:59:45,960] INFO in app: [OK] Blueprints registered
+[2026-02-18 22:59:45,961] INFO in app: [OK] Application initialized successfully
+[2026-02-18 22:59:45,963] INFO in app: [OK] Database tables created/verified
+[2026-02-19 00:02:35,292] INFO in app: [OK] Database initialized
+[2026-02-19 00:02:35,292] INFO in app: [OK] Login manager initialized
+[2026-02-19 00:02:35,648] INFO in app: [OK] SocketIO initialized
+[2026-02-19 00:02:35,654] INFO in app: [OK] Blueprints registered
+[2026-02-19 00:02:35,654] INFO in app: [OK] Application initialized successfully
+[2026-02-19 00:02:35,658] INFO in app: [OK] Database tables created/verified
+[2026-02-19 00:02:36,603] INFO in app: [OK] Database initialized
+[2026-02-19 00:02:36,603] INFO in app: [OK] Login manager initialized
+[2026-02-19 00:02:36,933] INFO in app: [OK] SocketIO initialized
+[2026-02-19 00:02:36,938] INFO in app: [OK] Blueprints registered
+[2026-02-19 00:02:36,940] INFO in app: [OK] Application initialized successfully
+[2026-02-19 00:02:36,942] INFO in app: [OK] Database tables created/verified
+[2026-02-19 00:24:17,571] INFO in app: [OK] Database initialized
+[2026-02-19 00:24:17,572] INFO in app: [OK] Login manager initialized
+[2026-02-19 00:24:17,931] INFO in app: [OK] SocketIO initialized
+[2026-02-19 00:24:17,936] INFO in app: [OK] Blueprints registered
+[2026-02-19 00:24:17,936] INFO in app: [OK] Application initialized successfully
+[2026-02-19 00:24:17,940] INFO in app: [OK] Database tables created/verified
+[2026-02-19 00:24:18,859] INFO in app: [OK] Database initialized
+[2026-02-19 00:24:18,860] INFO in app: [OK] Login manager initialized
+[2026-02-19 00:24:19,176] INFO in app: [OK] SocketIO initialized
+[2026-02-19 00:24:19,181] INFO in app: [OK] Blueprints registered
+[2026-02-19 00:24:19,182] INFO in app: [OK] Application initialized successfully
+[2026-02-19 00:24:19,184] INFO in app: [OK] Database tables created/verified
+[2026-02-19 10:18:28,506] INFO in app: [OK] Database initialized
+[2026-02-19 10:18:28,507] INFO in app: [OK] Login manager initialized
+[2026-02-19 10:18:29,152] INFO in app: [OK] SocketIO initialized
+[2026-02-19 10:18:29,157] INFO in app: [OK] Blueprints registered
+[2026-02-19 10:18:29,158] INFO in app: [OK] Application initialized successfully
+[2026-02-19 10:18:29,173] INFO in app: [OK] Database tables created/verified
+[2026-02-19 10:18:30,370] INFO in app: [OK] Database initialized
+[2026-02-19 10:18:30,371] INFO in app: [OK] Login manager initialized
+[2026-02-19 10:18:30,793] INFO in app: [OK] SocketIO initialized
+[2026-02-19 10:18:30,798] INFO in app: [OK] Blueprints registered
+[2026-02-19 10:18:30,799] INFO in app: [OK] Application initialized successfully
+[2026-02-19 10:18:30,803] INFO in app: [OK] Database tables created/verified
+[2026-02-19 10:39:42,507] INFO in app: [OK] Database initialized
+[2026-02-19 10:39:42,507] INFO in app: [OK] Login manager initialized
+[2026-02-19 10:39:42,869] INFO in app: [OK] SocketIO initialized
+[2026-02-19 10:39:42,874] INFO in app: [OK] Blueprints registered
+[2026-02-19 10:39:42,875] INFO in app: [OK] Application initialized successfully
+[2026-02-19 10:39:42,878] INFO in app: [OK] Database tables created/verified
+[2026-02-19 10:39:43,997] INFO in app: [OK] Database initialized
+[2026-02-19 10:39:43,998] INFO in app: [OK] Login manager initialized
+[2026-02-19 10:39:44,339] INFO in app: [OK] SocketIO initialized
+[2026-02-19 10:39:44,344] INFO in app: [OK] Blueprints registered
+[2026-02-19 10:39:44,345] INFO in app: [OK] Application initialized successfully
+[2026-02-19 10:39:44,348] INFO in app: [OK] Database tables created/verified
+[2026-02-19 13:09:09,532] INFO in app: [OK] Database initialized
+[2026-02-19 13:09:09,534] INFO in app: [OK] Login manager initialized
+[2026-02-19 13:09:10,904] INFO in app: [OK] SocketIO initialized
+[2026-02-19 13:09:10,918] INFO in app: [OK] Blueprints registered
+[2026-02-19 13:09:10,921] INFO in app: [OK] Application initialized successfully
+[2026-02-19 13:09:10,928] INFO in app: [OK] Database tables created/verified
+[2026-02-20 21:27:03,327] INFO in app: [OK] Database initialized
+[2026-02-20 21:27:03,328] INFO in app: [OK] Login manager initialized
+[2026-02-20 21:27:03,913] INFO in app: [OK] SocketIO initialized
+[2026-02-20 21:27:03,918] INFO in app: [OK] Blueprints registered
+[2026-02-20 21:27:03,918] INFO in app: [OK] Application initialized successfully
+[2026-02-20 21:27:03,930] INFO in app: [OK] Database tables created/verified
+[2026-02-20 21:27:05,227] INFO in app: [OK] Database initialized
+[2026-02-20 21:27:05,227] INFO in app: [OK] Login manager initialized
+[2026-02-20 21:27:05,677] INFO in app: [OK] SocketIO initialized
+[2026-02-20 21:27:05,682] INFO in app: [OK] Blueprints registered
+[2026-02-20 21:27:05,684] INFO in app: [OK] Application initialized successfully
+[2026-02-20 21:27:05,691] INFO in app: [OK] Database tables created/verified
+[2026-02-20 22:17:28,891] INFO in app: [OK] Database initialized
+[2026-02-20 22:17:28,892] INFO in app: [OK] Login manager initialized
+[2026-02-20 22:17:29,276] INFO in app: [OK] SocketIO initialized
+[2026-02-20 22:17:29,281] INFO in app: [OK] Blueprints registered
+[2026-02-20 22:17:29,282] INFO in app: [OK] Application initialized successfully
+[2026-02-20 22:17:29,284] INFO in app: [OK] Database tables created/verified
+[2026-02-20 22:17:30,279] INFO in app: [OK] Database initialized
+[2026-02-20 22:17:30,279] INFO in app: [OK] Login manager initialized
+[2026-02-20 22:17:30,607] INFO in app: [OK] SocketIO initialized
+[2026-02-20 22:17:30,612] INFO in app: [OK] Blueprints registered
+[2026-02-20 22:17:30,614] INFO in app: [OK] Application initialized successfully
+[2026-02-20 22:17:30,617] INFO in app: [OK] Database tables created/verified
+[2026-02-21 00:10:07,332] INFO in app: [OK] Database initialized
+[2026-02-21 00:10:07,332] INFO in app: [OK] Login manager initialized
+[2026-02-21 00:10:07,753] INFO in app: [OK] SocketIO initialized
+[2026-02-21 00:10:07,759] INFO in app: [OK] Blueprints registered
+[2026-02-21 00:10:07,760] INFO in app: [OK] Application initialized successfully
+[2026-02-21 00:10:07,763] INFO in app: [OK] Database tables created/verified
+[2026-02-21 00:24:59,658] INFO in app: [OK] Database initialized
+[2026-02-21 00:24:59,659] INFO in app: [OK] Login manager initialized
+[2026-02-21 00:24:59,997] INFO in app: [OK] SocketIO initialized
+[2026-02-21 00:25:00,002] INFO in app: [OK] Blueprints registered
+[2026-02-21 00:25:00,003] INFO in app: [OK] Application initialized successfully
+[2026-02-21 00:25:00,009] INFO in app: [OK] Database tables created/verified
+[2026-02-21 12:50:59,353] INFO in app: [OK] Database initialized
+[2026-02-21 12:50:59,354] INFO in app: [OK] Login manager initialized
+[2026-02-21 12:50:59,901] INFO in app: [OK] SocketIO initialized
+[2026-02-21 12:50:59,906] INFO in app: [OK] Blueprints registered
+[2026-02-21 12:50:59,907] INFO in app: [OK] Application initialized successfully
+[2026-02-21 12:50:59,918] INFO in app: [OK] Database tables created/verified
+[2026-02-21 12:51:01,134] INFO in app: [OK] Database initialized
+[2026-02-21 12:51:01,135] INFO in app: [OK] Login manager initialized
+[2026-02-21 12:51:01,546] INFO in app: [OK] SocketIO initialized
+[2026-02-21 12:51:01,552] INFO in app: [OK] Blueprints registered
+[2026-02-21 12:51:01,553] INFO in app: [OK] Application initialized successfully
+[2026-02-21 12:51:01,558] INFO in app: [OK] Database tables created/verified
+[2026-02-23 20:54:56,172] INFO in app: [OK] Database initialized
+[2026-02-23 20:54:56,173] INFO in app: [OK] Login manager initialized
+[2026-02-23 20:54:56,743] INFO in app: [OK] SocketIO initialized
+[2026-02-23 20:54:56,749] INFO in app: [OK] Blueprints registered
+[2026-02-23 20:54:56,750] INFO in app: [OK] Application initialized successfully
+[2026-02-23 20:54:56,755] INFO in app: [OK] Database tables created/verified
+[2026-02-23 20:54:58,021] INFO in app: [OK] Database initialized
+[2026-02-23 20:54:58,022] INFO in app: [OK] Login manager initialized
+[2026-02-23 20:54:58,398] INFO in app: [OK] SocketIO initialized
+[2026-02-23 20:54:58,403] INFO in app: [OK] Blueprints registered
+[2026-02-23 20:54:58,404] INFO in app: [OK] Application initialized successfully
+[2026-02-23 20:54:58,407] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:08:56,177] INFO in app: [OK] Database initialized
+[2026-02-23 21:08:56,178] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:08:56,577] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:08:56,583] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:08:56,584] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:08:56,586] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:09:24,684] INFO in app: [OK] Database initialized
+[2026-02-23 21:09:24,684] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:09:25,085] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:09:25,090] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:09:25,092] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:09:25,095] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:10:51,188] INFO in app: [OK] Database initialized
+[2026-02-23 21:10:51,188] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:10:51,508] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:10:51,513] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:10:51,514] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:10:51,516] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:12:00,067] INFO in app: [OK] Database initialized
+[2026-02-23 21:12:00,068] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:12:00,476] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:12:00,483] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:12:00,484] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:12:00,487] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:25:49,573] INFO in app: [OK] Database initialized
+[2026-02-23 21:25:49,574] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:25:49,915] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:25:49,920] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:25:49,921] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:25:49,924] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:25:51,012] INFO in app: [OK] Database initialized
+[2026-02-23 21:25:51,013] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:25:51,396] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:25:51,402] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:25:51,403] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:25:51,405] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:28:01,599] INFO in app: [OK] Database initialized
+[2026-02-23 21:28:01,599] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:28:01,997] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:28:02,003] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:28:02,004] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:28:02,006] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:28:03,076] INFO in app: [OK] Database initialized
+[2026-02-23 21:28:03,077] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:28:03,460] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:28:03,465] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:28:03,466] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:28:03,469] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:29:31,577] INFO in app: [OK] Database initialized
+[2026-02-23 21:29:31,578] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:29:31,888] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:29:31,893] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:29:31,894] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:29:31,897] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:29:32,953] INFO in app: [OK] Database initialized
+[2026-02-23 21:29:32,954] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:29:33,266] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:29:33,272] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:29:33,272] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:29:33,276] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:36:33,746] INFO in app: [OK] Database initialized
+[2026-02-23 21:36:33,747] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:36:34,087] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:36:34,092] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:36:34,093] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:36:34,096] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:36:35,527] INFO in app: [OK] Database initialized
+[2026-02-23 21:36:35,528] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:36:35,910] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:36:35,915] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:36:35,916] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:36:35,920] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:49:23,204] INFO in app: [OK] Database initialized
+[2026-02-23 21:49:23,205] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:49:23,593] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:49:23,599] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:49:23,600] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:49:23,603] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:55:41,191] INFO in app: [OK] Database initialized
+[2026-02-23 21:55:41,191] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:55:41,575] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:55:41,581] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:55:41,582] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:55:41,586] INFO in app: [OK] Database tables created/verified
+[2026-02-23 21:55:56,077] INFO in app: [OK] Database initialized
+[2026-02-23 21:55:56,078] INFO in app: [OK] Login manager initialized
+[2026-02-23 21:55:56,487] INFO in app: [OK] SocketIO initialized
+[2026-02-23 21:55:56,492] INFO in app: [OK] Blueprints registered
+[2026-02-23 21:55:56,493] INFO in app: [OK] Application initialized successfully
+[2026-02-23 21:55:56,496] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:13:40,959] INFO in app: [OK] Database initialized
+[2026-02-23 22:13:40,960] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:13:41,408] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:13:41,416] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:13:41,418] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:13:41,425] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:18:30,898] INFO in app: [OK] Database initialized
+[2026-02-23 22:18:30,899] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:18:31,333] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:18:31,339] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:18:31,339] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:18:31,342] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:20:08,047] INFO in app: [OK] Database initialized
+[2026-02-23 22:20:08,047] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:20:08,423] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:20:08,428] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:20:08,429] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:20:08,431] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:20:09,488] INFO in app: [OK] Database initialized
+[2026-02-23 22:20:09,489] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:20:09,829] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:20:09,834] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:20:09,835] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:20:09,838] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:23:15,869] INFO in app: [OK] Database initialized
+[2026-02-23 22:23:15,870] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:23:16,328] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:23:16,334] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:23:16,335] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:23:16,337] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:23:17,434] INFO in app: [OK] Database initialized
+[2026-02-23 22:23:17,434] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:23:17,768] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:23:17,773] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:23:17,774] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:23:17,777] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:36:55,833] INFO in app: [OK] Database initialized
+[2026-02-23 22:36:55,834] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:36:57,379] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:36:57,397] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:36:57,402] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:36:57,412] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:37:58,134] INFO in app: [OK] Database initialized
+[2026-02-23 22:37:58,135] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:37:59,206] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:37:59,226] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:37:59,229] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:37:59,236] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:38:02,492] INFO in app: [OK] Database initialized
+[2026-02-23 22:38:02,493] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:38:03,566] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:38:03,587] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:38:03,591] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:38:03,601] INFO in app: [OK] Database tables created/verified
+[2026-02-23 22:46:15,683] INFO in app: [OK] Database initialized
+[2026-02-23 22:46:15,684] INFO in app: [OK] Login manager initialized
+[2026-02-23 22:46:16,837] INFO in app: [OK] SocketIO initialized
+[2026-02-23 22:46:16,854] INFO in app: [OK] Blueprints registered
+[2026-02-23 22:46:16,858] INFO in app: [OK] Application initialized successfully
+[2026-02-23 22:46:16,873] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:29:38,321] INFO in app: [OK] Database initialized
+[2026-03-01 22:29:38,321] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:29:38,859] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:29:38,859] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:29:38,860] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:29:38,869] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:29:39,896] INFO in app: [OK] Database initialized
+[2026-03-01 22:29:39,897] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:29:40,226] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:29:40,227] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:29:40,227] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:29:40,230] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:35:12,593] INFO in app: [OK] Database initialized
+[2026-03-01 22:35:12,593] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:35:12,908] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:35:12,909] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:35:12,909] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:35:12,912] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:38:40,029] INFO in app: [OK] Database initialized
+[2026-03-01 22:38:40,029] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:38:40,401] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:38:40,401] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:38:40,403] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:38:40,405] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:38:40,929] INFO in app: [OK] Database initialized
+[2026-03-01 22:38:40,929] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:38:41,201] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:38:41,202] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:38:41,203] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:38:41,205] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:41:22,231] INFO in app: [OK] Database initialized
+[2026-03-01 22:41:22,231] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:41:22,645] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:41:22,645] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:41:22,647] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:41:22,650] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:41:23,469] INFO in app: [OK] Database initialized
+[2026-03-01 22:41:23,470] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:41:23,955] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:41:23,956] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:41:23,957] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:41:23,960] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:43:44,162] INFO in app: [OK] Database initialized
+[2026-03-01 22:43:44,162] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:43:44,454] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:43:44,454] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:43:44,456] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:43:44,458] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:43:45,279] INFO in app: [OK] Database initialized
+[2026-03-01 22:43:45,280] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:43:45,590] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:43:45,590] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:43:45,591] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:43:45,594] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:46:06,904] INFO in app: [OK] Database initialized
+[2026-03-01 22:46:06,905] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:46:07,174] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:46:07,175] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:46:07,177] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:46:07,180] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:46:07,601] INFO in app: [OK] Database initialized
+[2026-03-01 22:46:07,602] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:46:07,935] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:46:07,936] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:46:07,936] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:46:07,939] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:47:21,725] INFO in app: [OK] Database initialized
+[2026-03-01 22:47:21,725] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:47:22,010] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:47:22,011] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:47:22,012] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:47:22,015] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:47:22,074] INFO in app: [OK] Database initialized
+[2026-03-01 22:47:22,074] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:47:22,388] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:47:22,388] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:47:22,389] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:47:22,391] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:48:30,453] INFO in app: [OK] Database initialized
+[2026-03-01 22:48:30,454] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:48:30,763] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:48:30,763] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:48:30,764] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:48:30,766] INFO in app: [OK] Database tables created/verified
+[2026-03-01 22:48:31,682] INFO in app: [OK] Database initialized
+[2026-03-01 22:48:31,682] INFO in app: [OK] Login manager initialized
+[2026-03-01 22:48:31,985] INFO in app: [OK] SocketIO initialized
+[2026-03-01 22:48:31,985] INFO in app: [OK] Blueprints registered
+[2026-03-01 22:48:31,986] INFO in app: [OK] Application initialized successfully
+[2026-03-01 22:48:31,989] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:01:27,108] INFO in app: [OK] Database initialized
+[2026-03-01 23:01:27,108] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:01:27,533] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:01:27,534] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:01:27,535] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:01:27,538] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:03:54,527] INFO in app: [OK] Database initialized
+[2026-03-01 23:03:54,528] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:03:54,841] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:03:54,842] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:03:54,844] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:03:54,846] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:03:55,359] INFO in app: [OK] Database initialized
+[2026-03-01 23:03:55,359] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:03:55,629] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:03:55,629] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:03:55,630] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:03:55,633] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:05:10,356] INFO in app: [OK] Database initialized
+[2026-03-01 23:05:10,356] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:05:10,643] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:05:10,643] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:05:10,644] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:05:10,646] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:05:11,510] INFO in app: [OK] Database initialized
+[2026-03-01 23:05:11,511] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:05:11,794] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:05:11,795] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:05:11,795] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:05:11,798] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:06:51,464] INFO in app: [OK] Database initialized
+[2026-03-01 23:06:51,464] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:06:51,842] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:06:51,843] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:06:51,844] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:06:51,847] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:06:52,899] INFO in app: [OK] Database initialized
+[2026-03-01 23:06:52,899] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:06:53,298] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:06:53,298] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:06:53,299] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:06:53,302] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:08:25,160] INFO in app: [OK] Database initialized
+[2026-03-01 23:08:25,160] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:08:25,594] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:08:25,594] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:08:25,595] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:08:25,598] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:08:26,817] INFO in app: [OK] Database initialized
+[2026-03-01 23:08:26,818] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:08:27,160] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:08:27,161] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:08:27,162] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:08:27,165] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:21:18,382] INFO in app: [OK] Database initialized
+[2026-03-01 23:21:18,383] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:21:19,479] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:21:19,480] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:21:19,482] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:21:19,489] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:21:22,784] INFO in app: [OK] Database initialized
+[2026-03-01 23:21:22,785] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:21:23,911] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:21:23,912] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:21:23,914] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:21:23,922] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:25:49,950] INFO in app: [OK] Database initialized
+[2026-03-01 23:25:49,951] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:25:51,196] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:25:51,215] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:25:51,218] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:25:51,225] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:27:59,091] INFO in app: [OK] Database initialized
+[2026-03-01 23:27:59,093] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:28:00,389] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:28:00,404] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:28:00,408] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:28:00,418] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:28:35,346] INFO in app: [OK] Database initialized
+[2026-03-01 23:28:35,347] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:28:36,384] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:28:36,399] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:28:36,401] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:28:36,409] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:28:39,759] INFO in app: [OK] Database initialized
+[2026-03-01 23:28:39,760] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:28:40,849] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:28:40,864] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:28:40,867] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:28:40,874] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:32:26,148] INFO in app: [OK] Database initialized
+[2026-03-01 23:32:26,149] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:32:27,314] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:32:27,329] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:32:27,333] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:32:27,344] INFO in app: [OK] Database tables created/verified
+[2026-03-01 23:32:31,030] INFO in app: [OK] Database initialized
+[2026-03-01 23:32:31,032] INFO in app: [OK] Login manager initialized
+[2026-03-01 23:32:32,227] INFO in app: [OK] SocketIO initialized
+[2026-03-01 23:32:32,242] INFO in app: [OK] Blueprints registered
+[2026-03-01 23:32:32,246] INFO in app: [OK] Application initialized successfully
+[2026-03-01 23:32:32,258] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:39:35,208] INFO in app: [OK] Database initialized
+[2026-03-29 18:39:35,209] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:39:35,789] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:39:35,794] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:39:35,795] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:39:35,804] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:39:36,943] INFO in app: [OK] Database initialized
+[2026-03-29 18:39:36,945] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:39:37,306] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:39:37,312] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:39:37,313] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:39:37,315] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:43:45,959] INFO in app: [OK] Database initialized
+[2026-03-29 18:43:45,959] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:43:46,421] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:43:46,427] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:43:46,428] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:43:46,430] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:53:17,984] INFO in app: [OK] Database initialized
+[2026-03-29 18:53:17,984] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:53:18,403] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:53:18,408] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:53:18,409] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:53:18,428] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:53:46,681] INFO in app: [OK] Database initialized
+[2026-03-29 18:53:46,682] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:53:47,087] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:53:47,094] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:53:47,095] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:53:47,098] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:55:13,011] INFO in app: [OK] Database initialized
+[2026-03-29 18:55:13,013] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:55:13,396] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:55:13,402] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:55:13,403] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:55:13,406] INFO in app: [OK] Database tables created/verified
+[2026-03-29 18:55:26,039] INFO in app: [OK] Database initialized
+[2026-03-29 18:55:26,040] INFO in app: [OK] Login manager initialized
+[2026-03-29 18:55:26,456] INFO in app: [OK] SocketIO initialized
+[2026-03-29 18:55:26,462] INFO in app: [OK] Blueprints registered
+[2026-03-29 18:55:26,464] INFO in app: [OK] Application initialized successfully
+[2026-03-29 18:55:26,467] INFO in app: [OK] Database tables created/verified
+[2026-03-29 19:07:31,039] INFO in app: [OK] Database initialized
+[2026-03-29 19:07:31,039] INFO in app: [OK] Login manager initialized
+[2026-03-29 19:07:31,418] INFO in app: [OK] SocketIO initialized
+[2026-03-29 19:07:31,423] INFO in app: [OK] Blueprints registered
+[2026-03-29 19:07:31,424] INFO in app: [OK] Application initialized successfully
+[2026-03-29 19:07:31,426] INFO in app: [OK] Database tables created/verified
+[2026-03-29 19:07:32,539] INFO in app: [OK] Database initialized
+[2026-03-29 19:07:32,539] INFO in app: [OK] Login manager initialized
+[2026-03-29 19:07:32,953] INFO in app: [OK] SocketIO initialized
+[2026-03-29 19:07:32,959] INFO in app: [OK] Blueprints registered
+[2026-03-29 19:07:32,961] INFO in app: [OK] Application initialized successfully
+[2026-03-29 19:07:32,964] INFO in app: [OK] Database tables created/verified
+[2026-07-24 12:04:08,976] INFO in app: [OK] Database initialized
+[2026-07-24 12:04:08,977] INFO in app: [OK] Login manager initialized
+[2026-07-24 12:04:09,569] INFO in app: [OK] SocketIO initialized
+[2026-07-24 12:04:09,574] INFO in app: [OK] Blueprints registered
+[2026-07-24 12:04:09,575] INFO in app: [OK] Application initialized successfully
+[2026-07-24 12:04:09,588] INFO in app: [OK] Database tables created/verified
+[2026-07-24 12:04:10,769] INFO in app: [OK] Database initialized
+[2026-07-24 12:04:10,769] INFO in app: [OK] Login manager initialized
+[2026-07-24 12:04:11,157] INFO in app: [OK] SocketIO initialized
+[2026-07-24 12:04:11,162] INFO in app: [OK] Blueprints registered
+[2026-07-24 12:04:11,163] INFO in app: [OK] Application initialized successfully
+[2026-07-24 12:04:11,166] INFO in app: [OK] Database tables created/verified

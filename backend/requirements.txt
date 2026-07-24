@@ -1,0 +1,27 @@
+# Core
+Flask==2.3.3
+Flask-CORS==4.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-SocketIO==5.3.4
+Flask-Login==0.6.2
+Flask-Bcrypt==1.0.1
+
+# Data Processing
+pandas==2.1.1
+numpy==1.24.3
+openpyxl==3.1.2
+xlrd==2.0.1
+
+# Database
+pymysql==1.1.0  # Use pymysql instead of mysqlclient for Windows
+SQLAlchemy==2.0.21
+
+# Utils
+python-dotenv==1.0.0
+redis==5.0.1  # Optional
+email-validator==2.0.0
+
+# Server
+gunicorn==21.2.0  # For Linux, optional on Windows
+eventlet==0.33.3
+werkzeug==2.3.7

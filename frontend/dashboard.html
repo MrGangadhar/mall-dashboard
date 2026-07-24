@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mall Analytics - Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Top Navigation -->
+        <nav class="top-navbar">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="#" class="navbar-brand">
+                    <i class="fas fa-store-alt"></i>
+                    <span>Mall Analytics</span>
+                    <small class="ms-3 text-muted" style="font-size: 14px; font-family: 'Times New Roman';">Retail Intelligence & Predictive Trends</small>
+                </a>
+                
+                <div class="user-info">
+                    <div class="text-end me-3">
+                        <div class="fw-bold" id="userFullName">Welcome, Admin</div>
+                        <small class="text-muted" id="userRole">Administrator</small>
+                    </div>
+                    <div class="user-avatar" id="userAvatar">
+                        <span id="userInitials">AD</span>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger btn-sm ms-3" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <div class="container-fluid px-4 py-4">
+            <!-- Insight Header -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="insight-header">
+                        <h4 class="mb-1">
+                            <i class="fas fa-chart-line text-primary me-2"></i>Retail Analytics & Predictive Insights
+                        </h4>
+                        <p class="mb-0">
+                            Leverage historical data to forecast footfall, sales trends, and tenant performance. 
+                            Stay ahead with AI-driven predictions.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mall Performance Overview with Action Buttons -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h3 class="fw-bold" style="font-family: 'Rubik', sans-serif;">
+                            <i class="fas fa-chart-bar me-2 text-primary"></i>
+                            Mall Performance Overview
+                        </h3>
+                        <div class="action-buttons">
+                            <button type="button" class="btn btn-outline-primary me-2" onclick="addNewMall()">
+                                <i class="fas fa-plus-circle"></i> Add Mall
+                            </button>
+                            <button type="button" class="btn btn-outline-success" onclick="addNewBrand()">
+                                <i class="fas fa-tag"></i> Add Brand
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="row g-4 mb-5">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold">
+                                <i class="fas fa-trend-up me-2 text-primary"></i>
+                                Mall Performance Comparison
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="mallPerformanceChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold">
+                                <i class="fas fa-pie-chart me-2 text-success"></i>
+                                Tenant Category Distribution
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="categoryDistributionChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards (6 cards) -->
+            <div class="row g-4 mb-5">
+                <!-- Total Malls -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <p class="stat-label mt-2">Total Malls</p>
+                        <h3 class="stat-value" id="totalMalls">0</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-primary">
+                                <i class="fas fa-arrow-up me-1"></i>Onboarded
+                            </span>
+                        </div>
+                        <a href="malls-detail.html" class="btn btn-sm btn-outline-primary mt-3 w-100">Click here</a>
+                    </div>
+                </div>
+                
+                <!-- Total Tenants -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <p class="stat-label mt-2">Total Tenants</p>
+                        <h3 class="stat-value" id="totalBrands">0</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i>Active
+                            </span>
+                        </div>
+                        <a href="brands-detail.html" class="btn btn-sm btn-outline-success mt-3 w-100">Click here</a>
+                    </div>
+                </div>
+                
+                <!-- Monthly Sales -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-rupee-sign"></i>
+                        </div>
+                        <p class="stat-label mt-2">Monthly Sales</p>
+                        <h3 class="stat-value" id="totalSales">₹0</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-info">This Month</span>
+                        </div>
+                        <a href="sales-detail.html" class="btn btn-sm btn-outline-info mt-3 w-100">Click here</a>
+                    </div>
+                </div>
+                
+                <!-- Rent Collected -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-file-invoice"></i>
+                        </div>
+                        <p class="stat-label mt-2">Rent Collected</p>
+                        <h3 class="stat-value" id="totalRent">₹0</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-warning text-dark">
+                                <i class="fas fa-clock me-1"></i>Collection Rate: <span id="collectionRate">0</span>%
+                            </span>
+                        </div>
+                        <a href="rent-detail.html" class="btn btn-sm btn-outline-warning mt-3 w-100">Click here</a>
+                    </div>
+                </div>
+
+                <!-- Walkin Data -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <p class="stat-label mt-2">Walkin Data</p>
+                        <h3 class="stat-value" id="totalWalkin">0</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-secondary">
+                                <i class="fas fa-clock me-1"></i>Today's Footfall
+                            </span>
+                        </div>
+                        <a href="walkin-detail.html" class="btn btn-sm btn-outline-secondary mt-3 w-100">Click here</a>
+                    </div>
+                </div>
+
+                <!-- Daily Updates -->
+                <div class="col-xl-2 col-md-4">
+                    <div class="stat-card text-center">
+                        <div class="stat-icon mx-auto">
+                            <i class="fas fa-calendar-day"></i>
+                        </div>
+                        <p class="stat-label mt-2">Daily Updates</p>
+                        <h3 class="stat-value" id="dailyUpdates">5</h3>
+                        <div class="mt-2">
+                            <span class="badge bg-info">
+                                <i class="fas fa-sync-alt me-1"></i>Pending: 2
+                            </span>
+                        </div>
+                       <a href="daily-updates-visualization.html" class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-chart-line me-1"></i>View Analytics
+                            </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Four Upload Cards -->
+            <div class="row g-4 mb-5">
+                <div class="col-12">
+                    <h4 class="fw-bold" style="font-family: 'Rubik', sans-serif;">
+                        <i class="fas fa-cloud-upload-alt me-2 text-info"></i>
+                        Data Upload Centers
+                    </h4>
+                </div>
+                <div class="col-md-3">
+                    <div class="upload-card" onclick="showUploadModal('walkin')">
+                        <div class="upload-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h5 class="upload-title">Walk-in Data</h5>
+                        <p class="upload-desc">Upload footfall & dwell time data</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-file-excel me-1"></i>Template
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-edit me-1"></i>Manual
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="upload-card" onclick="showUploadModal('sales')">
+                        <div class="upload-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h5 class="upload-title">Sales Data</h5>
+                        <p class="upload-desc">Upload daily/monthly sales</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-file-excel me-1"></i>Template
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-edit me-1"></i>Manual
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="upload-card" onclick="showUploadModal('rent')">
+                        <div class="upload-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <h5 class="upload-title">Rent Data</h5>
+                        <p class="upload-desc">Upload rent collection data</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-file-excel me-1"></i>Template
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-edit me-1"></i>Manual
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="upload-card" onclick="showUploadModal('brands')">
+                        <div class="upload-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <h5 class="upload-title">Bulk Brands</h5>
+                        <p class="upload-desc">Upload multiple brands at once</p>
+                        <div class="d-flex justify-content-center gap-2">
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-file-excel me-1"></i>Template
+                            </span>
+                            <span class="badge bg-light text-dark">
+                                <i class="fas fa-edit me-1"></i>Manual
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Daily Updates Card -->
+           <div class="row g-4 mb-5">
+    <div class="col-md-6 mx-auto">
+        <div class="upload-card" onclick="window.location.href='daily-updates.html'">
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h5 class="upload-title">Daily Operations Update</h5>
+            <p class="upload-desc">Record footfall, parking, utility usage and more</p>
+            <div class="d-flex justify-content-center">
+                <span class="badge bg-primary">
+                    <i class="fas fa-arrow-right me-1"></i>Go to Daily Updates
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Recent Uploads & Top Brands -->
+            <div class="row g-4">
+                <div class="col-lg-7">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 fw-bold">
+                                <i class="fas fa-history me-2 text-info"></i>
+                                Recent Upload History
+                            </h5>
+                            <span class="badge bg-info" id="uploadCount">0 Uploads</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Type</th>
+                                            <th>File</th>
+                                            <th>Status</th>
+                                            <th>Records</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="uploadHistoryTable">
+                                        <tr>
+                                            <td colspan="5" class="text-center text-muted py-4">
+                                                <i class="fas fa-inbox fa-2x mb-3 d-block"></i>
+                                                No upload history available
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-5">
+                    <div class="card shadow-sm">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 fw-bold">
+                                <i class="fas fa-trophy me-2 text-warning"></i>
+                                Top Performing Brands
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="topBrandsList" class="list-group list-group-flush">
+                                <!-- Dynamic content -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODALS ========== -->
+    <!-- Add Mall Modal -->
+    <div class="modal fade" id="addMallModal" tabindex="-1" aria-labelledby="addMallModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addMallModalLabel">
+                        <i class="fas fa-building me-2"></i>Add New Mall
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMallForm">
+                        <div class="mb-3">
+                            <label class="form-label">Mall Name *</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Location</label>
+                            <input type="text" class="form-control" name="location">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Total Area (sq ft)</label>
+                                <input type="number" class="form-control" name="total_area">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Parking Capacity</label>
+                                <input type="number" class="form-control" name="parking_capacity">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Contact Person</label>
+                            <input type="text" class="form-control" name="contact_person">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Contact Email</label>
+                                <input type="email" class="form-control" name="contact_email">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Contact Phone</label>
+                                <input type="tel" class="form-control" name="contact_phone">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNewMall()">Save Mall</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Brand Modal -->
+    <div class="modal fade" id="addBrandModal" tabindex="-1" aria-labelledby="addBrandModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addBrandModalLabel">
+                        <i class="fas fa-tag me-2"></i>Add New Brand
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addBrandForm">
+                        <!-- Mall Selection -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Select Mall <span class="text-danger">*</span></label>
+                            <select class="form-select" name="mall_id" required>
+                                <option value="">Choose Mall</option>
+                            </select>
+                        </div>
+
+                        <!-- Brand Name -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Brand Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="name" placeholder="Enter brand name" required>
+                        </div>
+
+                        <!-- Category and Sub Category -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Category</label>
+                                <select class="form-select" name="category">
+                                    <option value="">Select Category</option>
+                                    <option value="Fashion">Fashion</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Food & Beverage">Food & Beverage</option>
+                                    <option value="Entertainment">Entertainment</option>
+                                    <option value="Lifestyle">Lifestyle</option>
+                                    <option value="Beauty">Beauty</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Home & Decor">Home & Decor</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Sub Category</label>
+                                <input type="text" class="form-control" name="sub_category" placeholder="e.g., Men's Wear, Smartphones">
+                            </div>
+                        </div>
+
+                        <!-- Store Details -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Store Area (sq ft)</label>
+                                <input type="number" class="form-control" name="store_area" placeholder="e.g., 1500">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Monthly Rent (₹)</label>
+                                <input type="number" class="form-control" name="monthly_rent" placeholder="e.g., 200000">
+                            </div>
+                        </div>
+
+                        <!-- Revenue Share and Status -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Revenue Share %</label>
+                                <input type="number" step="0.01" class="form-control" name="revenue_share_percentage" placeholder="e.g., 5.0">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Status</label>
+                                <select class="form-select" name="status">
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Upcoming">Upcoming</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Lease Dates -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Lease Start Date</label>
+                                <input type="date" class="form-control" name="lease_start_date">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Lease End Date</label>
+                                <input type="date" class="form-control" name="lease_end_date">
+                            </div>
+                        </div>
+
+                        <!-- Contact Information -->
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Contact Person</label>
+                            <input type="text" class="form-control" name="contact_person" placeholder="Full name">
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Contact Email</label>
+                                <input type="email" class="form-control" name="contact_email" placeholder="email@example.com">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Contact Phone</label>
+                                <input type="tel" class="form-control" name="contact_phone" placeholder="10-digit mobile number">
+                            </div>
+                        </div>
+
+                        <!-- Form Note -->
+                        <div class="alert alert-info mt-3 mb-0">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Fields marked with <span class="text-danger">*</span> are required.
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i>Cancel
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="saveNewBrand()">
+                        <i class="fas fa-save me-1"></i>Save Brand
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Upload Modal -->
+    <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="uploadModalTitle">
+                        <i class="fas fa-cloud-upload-alt me-2"></i>
+                        Upload Data
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="uploadFormContent"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="uploadSubmitBtn">Upload</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Animation & Loading Spinner -->
+    <div id="successAnimation" style="display: none;" class="thumbs-up">
+        <i class="fas fa-thumbs-up"></i>
+    </div>
+    <div id="loadingSpinner" class="spinner-overlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts (order is critical) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="js/utils.js" defer></script>
+    <script src="js/auth.js" defer></script>                <!-- defines auth -->
+    <script src="js/shared/api.js" defer></script>          <!-- uses auth -->
+    <script src="js/app.js" defer></script>                  <!-- initializes app -->
+    <script src="js/dashboard.js" defer></script>            <!-- uses auth, api -->
+    <script src="js/upload.js" defer></script>
+</body>
+</html>
