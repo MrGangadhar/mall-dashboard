@@ -643,3 +643,15 @@
 [2026-07-24 12:04:11,162] INFO in app: [OK] Blueprints registered
 [2026-07-24 12:04:11,163] INFO in app: [OK] Application initialized successfully
 [2026-07-24 12:04:11,166] INFO in app: [OK] Database tables created/verified
+[2026-07-24 17:18:50,911] INFO in app: [OK] Database initialized
+[2026-07-24 17:18:50,912] INFO in app: [OK] Login manager initialized
+[2026-07-24 17:18:51,352] INFO in app: [OK] SocketIO initialized
+[2026-07-24 17:18:51,357] INFO in app: [OK] Blueprints registered
+[2026-07-24 17:18:51,359] INFO in app: [OK] Application initialized successfully
+[2026-07-24 17:18:51,370] INFO in app: [OK] Database tables created/verified
+[2026-07-24 17:18:52,410] INFO in app: [OK] Database initialized
+[2026-07-24 17:18:52,410] INFO in app: [OK] Login manager initialized
+[2026-07-24 17:18:52,738] INFO in app: [OK] SocketIO initialized
+[2026-07-24 17:18:52,743] INFO in app: [OK] Blueprints registered
+[2026-07-24 17:18:52,744] INFO in app: [OK] Application initialized successfully
+[2026-07-24 17:18:52,748] INFO in app: [OK] Database tables created/verified

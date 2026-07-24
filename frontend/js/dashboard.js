@@ -9,7 +9,7 @@ class Dashboard {
     async init() {
         // Check authentication
         if (!auth.isAuthenticated()) {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
         }
 

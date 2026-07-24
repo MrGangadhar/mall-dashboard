@@ -4,8 +4,10 @@ from flask_login import login_required, current_user
 from services.auth_service import AuthService, token_required
 from database.models import db, User
 from datetime import datetime
+import logging
 
 auth_bp = Blueprint('auth', __name__)
+logger = logging.getLogger(__name__)
 
 @auth_bp.route('/register', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -29,6 +31,7 @@ def register():
             return jsonify({'error': result}), 400
             
     except Exception as e:
+        logger.error(f"Register error: {e}")
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/login', methods=['POST'])
@@ -43,6 +46,7 @@ def login():
         if not username or not password:
             return jsonify({'error': 'Username and password required'}), 400
         
+        logger.info(f"Login attempt for user: {username}")
         success, result = AuthService.login_user(username, password)
         
         if success:
@@ -53,9 +57,11 @@ def login():
                 'user': result['user']
             }), 200
         else:
+            logger.warning(f"Login failed for {username}: {result}")
             return jsonify({'error': result}), 401
             
     except Exception as e:
+        logger.error(f"Login error: {e}")
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/logout', methods=['POST'])
@@ -67,6 +73,7 @@ def logout():
         success, message = AuthService.logout_user()
         return jsonify({'success': success, 'message': message}), 200
     except Exception as e:
+        logger.error(f"Logout error: {e}")
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/profile', methods=['GET'])
@@ -86,6 +93,7 @@ def get_profile():
             'last_login': user.last_login.isoformat() if user.last_login else None
         }), 200
     except Exception as e:
+        logger.error(f"Profile error: {e}")
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/verify-token', methods=['GET'])
@@ -116,6 +124,7 @@ def change_password():
             return jsonify({'error': message}), 400
             
     except Exception as e:
+        logger.error(f"Change password error: {e}")
         return jsonify({'error': str(e)}), 500
 
 @auth_bp.route('/check-auth', methods=['GET'])

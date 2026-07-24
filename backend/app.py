@@ -80,9 +80,11 @@ def create_app():
     app.logger.setLevel(logging.INFO)
 
     # ========== CORS Configuration ==========
+    # 👇 ADD YOUR NETLIFY DOMAIN HERE
     origins = [
         "http://localhost:8000",
-        "http://127.0.0.1:8000"
+        "http://127.0.0.1:8000",
+        "https://mall-dashboard.netlify.app"   # <-- ADD THIS LINE
     ]
     CORS(app,
          resources={r"/*": {
@@ -90,8 +92,7 @@ def create_app():
              "supports_credentials": True,
              "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],
              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-         }},
-         supports_credentials=True)
+         }})
 
     # Initialize database
     db.init_app(app)
