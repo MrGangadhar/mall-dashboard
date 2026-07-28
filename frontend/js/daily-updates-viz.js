@@ -197,6 +197,12 @@ class DailyUpdatesVisualization {
         if (applyDateRange) {
             applyDateRange.addEventListener('click', () => this.loadDetailedData());
         }
+        
+        // Show all rows toggle listener
+        const showAllRows = document.getElementById('showAllRows');
+        if (showAllRows) {
+            showAllRows.addEventListener('change', () => this.loadDetailedData());
+        }
     }
 
     async loadVisualization() {
@@ -625,16 +631,16 @@ class DailyUpdatesVisualization {
                 
                 tbody.innerHTML = rowsToShow.map(update => `
                     <tr>
-                        <td>${this.formatDate(update.update_date)}</td>
-                        <td>${update.mall_name || 'N/A'}</td>
-                        <td class="text-end">${this.formatNumber(update.mall_footfall)}</td>
-                        <td class="text-end">${this.formatNumber(update.cinema_walkin)}</td>
-                        <td class="text-end">${this.formatCurrency(update.parking_collection)}</td>
-                        <td class="text-end">${this.formatNumber(update.two_wheeler_count)}</td>
-                        <td class="text-end">${this.formatNumber(update.four_wheeler_count)}</td>
-                        <td class="text-end">${this.formatNumber(update.keb_usage_units)}</td>
-                        <td class="text-end">${this.formatNumber(update.water_consumption_kl)}</td>
-                        <td class="text-end">${this.formatNumber(update.diesel_consumption_ltr)}</td>
+                        <td data-label="Date"><strong>${this.formatDate(update.update_date)}</strong></td>
+                        <td data-label="Mall"><span class="badge bg-light text-dark border">${update.mall_name || 'N/A'}</span></td>
+                        <td data-label="Footfall" class="text-end">${this.formatNumber(update.mall_footfall)}</td>
+                        <td data-label="Cinema" class="text-end">${this.formatNumber(update.cinema_walkin)}</td>
+                        <td data-label="Parking (₹)" class="text-end">${this.formatCurrency(update.parking_collection)}</td>
+                        <td data-label="2W Count" class="text-end">${this.formatNumber(update.two_wheeler_count)}</td>
+                        <td data-label="4W Count" class="text-end">${this.formatNumber(update.four_wheeler_count)}</td>
+                        <td data-label="KEB Units" class="text-end">${this.formatNumber(update.keb_usage_units)}</td>
+                        <td data-label="Water (KL)" class="text-end">${this.formatNumber(update.water_consumption_kl)}</td>
+                        <td data-label="Diesel (L)" class="text-end">${this.formatNumber(update.diesel_consumption_ltr)}</td>
                     </tr>
                 `).join('');
                 

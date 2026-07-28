@@ -778,6 +778,61 @@
     .detail-controls .col-md-2 {
         margin-bottom: 10px;
     }
+
+    /* Single screen mobile alignment for detailed daily records */
+    #detailsTable, 
+    #detailsTable thead, 
+    #detailsTable tbody, 
+    #detailsTable th, 
+    #detailsTable td, 
+    #detailsTable tr {
+        display: block;
+        width: 100%;
+    }
+
+    #detailsTable thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    #detailsTable tbody tr {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        margin-bottom: 14px;
+        padding: 14px 16px;
+        border: 1px solid #e2e8f0;
+    }
+
+    #detailsTable td {
+        border: none !important;
+        position: relative;
+        padding: 6px 0 !important;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        text-align: right !important;
+    }
+
+    #detailsTable td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        color: #475569;
+        font-family: 'Rubik', sans-serif;
+        text-align: left;
+        padding-right: 12px;
+    }
+
+    #detailsTable td[data-label="Date"] {
+        font-weight: 700;
+        color: #1e293b;
+        border-bottom: 1px dashed #cbd5e1 !important;
+        padding-bottom: 8px !important;
+        margin-bottom: 6px;
+        font-size: 14px;
+    }
 }
 
 @media (max-width: 576px) {
