@@ -2,7 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1280, initial-scale=0.3, maximum-scale=5.0, user-scalable=yes">
+    <script>
+        (function() {
+            var setDesktopViewport = function() {
+                var screenWidth = window.screen.width || window.innerWidth;
+                if (screenWidth < 1280) {
+                    var scale = Math.max(0.25, screenWidth / 1280);
+                    var meta = document.querySelector('meta[name="viewport"]');
+                    if (meta) {
+                        meta.setAttribute('content', 'width=1280, initial-scale=' + scale + ', minimum-scale=' + (scale * 0.5) + ', maximum-scale=5.0, user-scalable=yes');
+                    }
+                }
+            };
+            setDesktopViewport();
+            window.addEventListener('resize', setDesktopViewport);
+        })();
+    </script>
     <title>Daily Updates - Mall Analytics</title>
     
     <!-- Bootstrap CSS -->
