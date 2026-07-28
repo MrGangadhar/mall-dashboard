@@ -16,9 +16,12 @@ class UploadModule {
         }
         
         // Setup upload submit button
-        document.getElementById('uploadSubmitBtn').addEventListener('click', () => {
-            this.submitUpload();
-        });
+        const submitBtn = document.getElementById('uploadSubmitBtn');
+        if (submitBtn) {
+            submitBtn.addEventListener('click', () => {
+                this.submitUpload();
+            });
+        }
     }
 
     showUploadModal(type) {
@@ -39,10 +42,8 @@ class UploadModule {
         // Generate form content
         formContent.innerHTML = this.generateUploadForm(type);
         
-        // Load malls dropdown if needed
-        if (type !== 'brands') {
-            this.loadMallsDropdown();
-        }
+        // Load malls dropdown
+        this.loadMallsDropdown();
         
         // Show modal
         const modal = new bootstrap.Modal(document.getElementById('uploadModal'));
@@ -259,10 +260,14 @@ class UploadModule {
             a.click();
             window.URL.revokeObjectURL(url);
             
-            window.dashboard.showNotification('Template downloaded successfully!', 'success');
+            if (window.dashboard) {
+                window.dashboard.showNotification('Template downloaded successfully!', 'success');
+            }
         } catch (error) {
             console.error('Error downloading template:', error);
-            window.dashboard.showNotification('Error downloading template', 'danger');
+            if (window.dashboard) {
+                window.dashboard.showNotification('Error downloading template', 'danger');
+            }
         }
     }
 
@@ -271,7 +276,7 @@ class UploadModule {
         const mallSelect = document.getElementById('uploadMallSelect');
         
         if (!this.currentUploadType) {
-            window.dashboard.showNotification('Invalid upload type', 'danger');
+            if (window.dashboard) window.dashboard.showNotification('Invalid upload type', 'danger');
             return;
         }
 
@@ -288,7 +293,9 @@ class UploadModule {
             }
         } catch (error) {
             console.error('Upload error:', error);
-            window.dashboard.showNotification(error.message || 'Upload failed', 'danger');
+            if (window.dashboard) {
+                window.dashboard.showNotification(error.message || 'Upload failed', 'danger');
+            }
         } finally {
             Utils.showLoading(false);
         }
@@ -300,7 +307,7 @@ class UploadModule {
         const month = document.getElementById('uploadMonth')?.value || new Date().toISOString().slice(0, 7);
         
         if (!mallSelect || !mallSelect.value) {
-            window.dashboard.showNotification('Please select a mall', 'warning');
+            if (window.dashboard) window.dashboard.showNotification('Please select a mall', 'warning');
             return;
         }
         
@@ -328,32 +335,26 @@ class UploadModule {
                 break;
         }
         
-        const response = await fetch(`http://localhost:5000/api${endpoint}`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${auth.getToken()}`
-            },
-            body: formData,
-            credentials: 'include'
-        });
-        
-        const result = await response.json();
+        // Use API class instead of hardcoded localhost
+        const result = await this.api.uploadFile(endpoint, formData);
         
         if (result.success) {
             // Show success animation
-            window.dashboard.showSuccessAnimation();
-            window.dashboard.showNotification(result.message, 'success');
+            if (window.dashboard) {
+                window.dashboard.showSuccessAnimation();
+                window.dashboard.showNotification(result.message || 'Upload successful!', 'success');
+            }
             
             // Close modal
-            bootstrap.Modal.getInstance(document.getElementById('uploadModal')).hide();
+            const modalEl = document.getElementById('uploadModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
             
             // Refresh dashboard
             setTimeout(() => {
-                window.dashboard.loadDashboardOverview();
-                window.dashboard.loadUploadHistory();
-                if (this.currentUploadType === 'sales') {
-                    // Redirect to sales dashboard
-                    window.location.href = 'sales-dashboard.html';
+                if (window.dashboard) {
+                    window.dashboard.loadDashboardOverview();
+                    window.dashboard.loadUploadHistory();
                 }
             }, 1500);
         } else {
@@ -362,15 +363,14 @@ class UploadModule {
             if (result.errors && result.errors.length > 0) {
                 errorMessage += '\n\nErrors:\n' + result.errors.slice(0, 5).join('\n');
             }
-            window.dashboard.showNotification(errorMessage, 'danger');
+            if (window.dashboard) window.dashboard.showNotification(errorMessage, 'danger');
         }
     }
 
     async submitManualEntry() {
+        const mallSelect = document.getElementById('uploadMallSelect');
         let data = {
-            mall_name: document.getElementById('uploadMallSelect')?.options[
-                document.getElementById('uploadMallSelect').selectedIndex
-            ]?.text
+            mall_name: mallSelect?.options[mallSelect.selectedIndex]?.text
         };
         
         switch(this.currentUploadType) {
@@ -388,7 +388,7 @@ class UploadModule {
                 const brandSelect = document.getElementById('manualBrandSelect');
                 data = {
                     ...data,
-                    brand_name: brandSelect.options[brandSelect.selectedIndex]?.text,
+                    brand_name: brandSelect?.options[brandSelect.selectedIndex]?.text,
                     date: document.getElementById('manualDate')?.value,
                     total_sales: document.getElementById('manualTotalSales')?.value,
                     transaction_count: document.getElementById('manualTransactions')?.value
@@ -399,7 +399,7 @@ class UploadModule {
                 const rentBrandSelect = document.getElementById('manualBrandSelect');
                 data = {
                     ...data,
-                    brand_name: rentBrandSelect.options[rentBrandSelect.selectedIndex]?.text,
+                    brand_name: rentBrandSelect?.options[rentBrandSelect.selectedIndex]?.text,
                     month: document.getElementById('manualMonth')?.value,
                     base_rent: document.getElementById('manualBaseRent')?.value,
                     maintenance_charges: document.getElementById('manualMaintenance')?.value,
@@ -416,7 +416,7 @@ class UploadModule {
             .map(([key]) => key);
         
         if (missingFields.length > 0) {
-            window.dashboard.showNotification(`Missing fields: ${missingFields.join(', ')}`, 'warning');
+            if (window.dashboard) window.dashboard.showNotification(`Missing fields: ${missingFields.join(', ')}`, 'warning');
             return;
         }
         
@@ -424,35 +424,35 @@ class UploadModule {
                         this.currentUploadType === 'walkin' ? '/upload/walkin' : 
                         '/upload/rent';
         
-        const response = await fetch(`http://localhost:5000/api${endpoint}`, {
+        // Use API class instead of hardcoded localhost
+        const result = await this.api.request(endpoint, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${auth.getToken()}`
-            },
-            body: JSON.stringify(data),
-            credentials: 'include'
+            body: JSON.stringify(data)
         });
         
-        const result = await response.json();
-        
         if (result.success) {
-            window.dashboard.showSuccessAnimation();
-            window.dashboard.showNotification('Data uploaded successfully!', 'success');
+            if (window.dashboard) {
+                window.dashboard.showSuccessAnimation();
+                window.dashboard.showNotification('Data uploaded successfully!', 'success');
+            }
             
-            bootstrap.Modal.getInstance(document.getElementById('uploadModal')).hide();
+            const modalEl = document.getElementById('uploadModal');
+            const modal = bootstrap.Modal.getInstance(modalEl);
+            if (modal) modal.hide();
             
             setTimeout(() => {
-                window.dashboard.loadDashboardOverview();
+                if (window.dashboard) {
+                    window.dashboard.loadDashboardOverview();
+                }
             }, 1500);
         } else {
-            window.dashboard.showNotification(result.error || 'Upload failed', 'danger');
+            if (window.dashboard) window.dashboard.showNotification(result.error || 'Upload failed', 'danger');
         }
     }
 
     resetUploadForm() {
         const formContent = document.getElementById('uploadFormContent');
-        formContent.innerHTML = '';
+        if (formContent) formContent.innerHTML = '';
         this.currentUploadType = null;
     }
 }

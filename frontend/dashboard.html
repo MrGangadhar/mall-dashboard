@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mall Analytics - Enterprise Retail Intelligence Platform. Track sales, rent, footfall and tenant performance.">
     <title>Mall Analytics - Dashboard</title>
     
     <!-- Bootstrap CSS -->
@@ -15,6 +16,7 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
     <div class="dashboard-wrapper">
@@ -24,18 +26,18 @@
                 <a href="#" class="navbar-brand">
                     <i class="fas fa-store-alt"></i>
                     <span>Mall Analytics</span>
-                    <small class="ms-3 text-muted" style="font-size: 14px; font-family: 'Times New Roman';">Retail Intelligence & Predictive Trends</small>
+                    <small class="ms-2 d-none d-lg-inline">Retail Intelligence & Predictive Trends</small>
                 </a>
                 
                 <div class="user-info">
-                    <div class="text-end me-3">
-                        <div class="fw-bold" id="userFullName">Welcome, Admin</div>
-                        <small class="text-muted" id="userRole">Administrator</small>
+                    <div class="text-end me-2 d-none d-sm-block">
+                        <div class="fw-bold" id="userFullName" style="font-size: 14px;">Welcome, Admin</div>
+                        <small class="text-muted" id="userRole" style="font-size: 12px;">Administrator</small>
                     </div>
                     <div class="user-avatar" id="userAvatar">
                         <span id="userInitials">AD</span>
                     </div>
-                    <button type="button" class="btn btn-outline-danger btn-sm ms-3" onclick="logout()">
+                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="logout()" title="Logout">
                         <i class="fas fa-sign-out-alt"></i>
                     </button>
                 </div>
@@ -43,9 +45,9 @@
         </nav>
 
         <!-- Main Content -->
-        <div class="container-fluid px-4 py-4">
+        <div class="container-fluid px-3 px-md-4 py-3 py-md-4">
             <!-- Insight Header -->
-            <div class="row mb-4">
+            <div class="row mb-3 mb-md-4">
                 <div class="col-12">
                     <div class="insight-header">
                         <h4 class="mb-1">
@@ -60,19 +62,19 @@
             </div>
 
             <!-- Mall Performance Overview with Action Buttons -->
-            <div class="row mb-4">
+            <div class="row mb-3 mb-md-4">
                 <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h3 class="fw-bold" style="font-family: 'Rubik', sans-serif;">
+                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
+                        <h3 class="fw-bold mb-0" style="font-family: 'Rubik', sans-serif; font-size: clamp(18px, 3vw, 24px);">
                             <i class="fas fa-chart-bar me-2 text-primary"></i>
                             Mall Performance Overview
                         </h3>
                         <div class="action-buttons">
-                            <button type="button" class="btn btn-outline-primary me-2" onclick="addNewMall()">
-                                <i class="fas fa-plus-circle"></i> Add Mall
+                            <button type="button" class="btn btn-outline-primary" onclick="addNewMall()">
+                                <i class="fas fa-plus-circle me-1"></i> Add Mall
                             </button>
                             <button type="button" class="btn btn-outline-success" onclick="addNewBrand()">
-                                <i class="fas fa-tag"></i> Add Brand
+                                <i class="fas fa-tag me-1"></i> Add Brand
                             </button>
                         </div>
                     </div>
@@ -80,12 +82,12 @@
             </div>
 
             <!-- Charts Row -->
-            <div class="row g-4 mb-5">
-                <div class="col-lg-8">
-                    <div class="card shadow-sm">
+            <div class="row g-3 g-md-4 mb-4 mb-md-5">
+                <div class="col-lg-8 col-12">
+                    <div class="card shadow-sm h-100">
                         <div class="card-header bg-white py-3">
-                            <h5 class="mb-0 fw-bold">
-                                <i class="fas fa-trend-up me-2 text-primary"></i>
+                            <h5 class="mb-0 fw-bold" style="font-size: clamp(14px, 2vw, 18px);">
+                                <i class="fas fa-chart-bar me-2 text-primary"></i>
                                 Mall Performance Comparison
                             </h5>
                         </div>
@@ -97,11 +99,11 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-4">
-                    <div class="card shadow-sm">
+                <div class="col-lg-4 col-12">
+                    <div class="card shadow-sm h-100">
                         <div class="card-header bg-white py-3">
-                            <h5 class="mb-0 fw-bold">
-                                <i class="fas fa-pie-chart me-2 text-success"></i>
+                            <h5 class="mb-0 fw-bold" style="font-size: clamp(14px, 2vw, 18px);">
+                                <i class="fas fa-chart-pie me-2 text-success"></i>
                                 Tenant Category Distribution
                             </h5>
                         </div>
@@ -114,10 +116,10 @@
                 </div>
             </div>
 
-            <!-- Stats Cards (6 cards) -->
-            <div class="row g-4 mb-5">
+            <!-- Stats Cards (6 cards) — Responsive grid -->
+            <div class="row g-3 g-md-4 mb-4 mb-md-5">
                 <!-- Total Malls -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-building"></i>
@@ -125,16 +127,16 @@
                         <p class="stat-label mt-2">Total Malls</p>
                         <h3 class="stat-value" id="totalMalls">0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-primary">
+                            <span class="badge bg-primary" style="font-size: 10px;">
                                 <i class="fas fa-arrow-up me-1"></i>Onboarded
                             </span>
                         </div>
-                        <a href="malls-detail.html" class="btn btn-sm btn-outline-primary mt-3 w-100">Click here</a>
+                        <a href="malls-detail.html" class="btn btn-sm btn-outline-primary mt-3 w-100">View Details</a>
                     </div>
                 </div>
                 
                 <!-- Total Tenants -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-store"></i>
@@ -142,16 +144,16 @@
                         <p class="stat-label mt-2">Total Tenants</p>
                         <h3 class="stat-value" id="totalBrands">0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-success">
+                            <span class="badge bg-success" style="font-size: 10px;">
                                 <i class="fas fa-check-circle me-1"></i>Active
                             </span>
                         </div>
-                        <a href="brands-detail.html" class="btn btn-sm btn-outline-success mt-3 w-100">Click here</a>
+                        <a href="brands-detail.html" class="btn btn-sm btn-outline-success mt-3 w-100">View Details</a>
                     </div>
                 </div>
                 
                 <!-- Monthly Sales -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-rupee-sign"></i>
@@ -159,14 +161,14 @@
                         <p class="stat-label mt-2">Monthly Sales</p>
                         <h3 class="stat-value" id="totalSales">₹0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-info">This Month</span>
+                            <span class="badge bg-info" style="font-size: 10px;">This Month</span>
                         </div>
-                        <a href="sales-detail.html" class="btn btn-sm btn-outline-info mt-3 w-100">Click here</a>
+                        <a href="sales-dashboard.html" class="btn btn-sm btn-outline-info mt-3 w-100">View Details</a>
                     </div>
                 </div>
                 
                 <!-- Rent Collected -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-file-invoice"></i>
@@ -174,16 +176,16 @@
                         <p class="stat-label mt-2">Rent Collected</p>
                         <h3 class="stat-value" id="totalRent">₹0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-warning text-dark">
-                                <i class="fas fa-clock me-1"></i>Collection Rate: <span id="collectionRate">0</span>%
+                            <span class="badge bg-warning text-dark" style="font-size: 10px;">
+                                <i class="fas fa-clock me-1"></i>Rate: <span id="collectionRate">0</span>%
                             </span>
                         </div>
-                        <a href="rent-detail.html" class="btn btn-sm btn-outline-warning mt-3 w-100">Click here</a>
+                        <a href="rent-dashboard.html" class="btn btn-sm btn-outline-warning mt-3 w-100">View Details</a>
                     </div>
                 </div>
 
                 <!-- Walkin Data -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-users"></i>
@@ -191,50 +193,50 @@
                         <p class="stat-label mt-2">Walkin Data</p>
                         <h3 class="stat-value" id="totalWalkin">0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-secondary">
+                            <span class="badge bg-secondary" style="font-size: 10px;">
                                 <i class="fas fa-clock me-1"></i>Today's Footfall
                             </span>
                         </div>
-                        <a href="walkin-detail.html" class="btn btn-sm btn-outline-secondary mt-3 w-100">Click here</a>
+                        <a href="walkin-dashboard.html" class="btn btn-sm btn-outline-secondary mt-3 w-100">View Details</a>
                     </div>
                 </div>
 
                 <!-- Daily Updates -->
-                <div class="col-xl-2 col-md-4">
+                <div class="col-6 col-md-4 col-xl-2">
                     <div class="stat-card text-center">
                         <div class="stat-icon mx-auto">
                             <i class="fas fa-calendar-day"></i>
                         </div>
                         <p class="stat-label mt-2">Daily Updates</p>
-                        <h3 class="stat-value" id="dailyUpdates">5</h3>
+                        <h3 class="stat-value" id="dailyUpdates">0</h3>
                         <div class="mt-2">
-                            <span class="badge bg-info">
-                                <i class="fas fa-sync-alt me-1"></i>Pending: 2
+                            <span class="badge bg-info" style="font-size: 10px;">
+                                <i class="fas fa-sync-alt me-1"></i>Total Records
                             </span>
                         </div>
-                       <a href="daily-updates-visualization.html" class="btn btn-sm btn-outline-primary">
-                                <i class="fas fa-chart-line me-1"></i>View Analytics
-                            </a>
+                        <a href="daily-updates-visualization.html" class="btn btn-sm btn-outline-primary mt-3 w-100">
+                            <i class="fas fa-chart-line me-1"></i>Analytics
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Four Upload Cards -->
-            <div class="row g-4 mb-5">
+            <div class="row g-3 g-md-4 mb-4 mb-md-5">
                 <div class="col-12">
-                    <h4 class="fw-bold" style="font-family: 'Rubik', sans-serif;">
+                    <h4 class="fw-bold" style="font-family: 'Rubik', sans-serif; font-size: clamp(16px, 2.5vw, 22px);">
                         <i class="fas fa-cloud-upload-alt me-2 text-info"></i>
                         Data Upload Centers
                     </h4>
                 </div>
-                <div class="col-md-3">
+                <div class="col-sm-6 col-lg-3">
                     <div class="upload-card" onclick="showUploadModal('walkin')">
                         <div class="upload-icon">
                             <i class="fas fa-users"></i>
                         </div>
                         <h5 class="upload-title">Walk-in Data</h5>
                         <p class="upload-desc">Upload footfall & dwell time data</p>
-                        <div class="d-flex justify-content-center gap-2">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-file-excel me-1"></i>Template
                             </span>
@@ -245,14 +247,14 @@
                     </div>
                 </div>
                 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-lg-3">
                     <div class="upload-card" onclick="showUploadModal('sales')">
                         <div class="upload-icon">
                             <i class="fas fa-shopping-cart"></i>
                         </div>
                         <h5 class="upload-title">Sales Data</h5>
                         <p class="upload-desc">Upload daily/monthly sales</p>
-                        <div class="d-flex justify-content-center gap-2">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-file-excel me-1"></i>Template
                             </span>
@@ -263,14 +265,14 @@
                     </div>
                 </div>
                 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-lg-3">
                     <div class="upload-card" onclick="showUploadModal('rent')">
                         <div class="upload-icon">
                             <i class="fas fa-building"></i>
                         </div>
                         <h5 class="upload-title">Rent Data</h5>
                         <p class="upload-desc">Upload rent collection data</p>
-                        <div class="d-flex justify-content-center gap-2">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-file-excel me-1"></i>Template
                             </span>
@@ -281,14 +283,14 @@
                     </div>
                 </div>
                 
-                <div class="col-md-3">
+                <div class="col-sm-6 col-lg-3">
                     <div class="upload-card" onclick="showUploadModal('brands')">
                         <div class="upload-icon">
                             <i class="fas fa-tag"></i>
                         </div>
                         <h5 class="upload-title">Bulk Brands</h5>
                         <p class="upload-desc">Upload multiple brands at once</p>
-                        <div class="d-flex justify-content-center gap-2">
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
                             <span class="badge bg-light text-dark">
                                 <i class="fas fa-file-excel me-1"></i>Template
                             </span>
@@ -301,37 +303,37 @@
             </div>
 
             <!-- Daily Updates Card -->
-           <div class="row g-4 mb-5">
-    <div class="col-md-6 mx-auto">
-        <div class="upload-card" onclick="window.location.href='daily-updates.html'">
-            <div class="upload-icon">
-                <i class="fas fa-cloud-upload-alt"></i>
+            <div class="row g-3 g-md-4 mb-4 mb-md-5">
+                <div class="col-md-8 col-lg-6 mx-auto">
+                    <div class="upload-card" onclick="window.location.href='daily-updates.html'">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h5 class="upload-title">Daily Operations Update</h5>
+                        <p class="upload-desc">Record footfall, parking, utility usage and more</p>
+                        <div class="d-flex justify-content-center">
+                            <span class="badge bg-primary">
+                                <i class="fas fa-arrow-right me-1"></i>Go to Daily Updates
+                            </span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <h5 class="upload-title">Daily Operations Update</h5>
-            <p class="upload-desc">Record footfall, parking, utility usage and more</p>
-            <div class="d-flex justify-content-center">
-                <span class="badge bg-primary">
-                    <i class="fas fa-arrow-right me-1"></i>Go to Daily Updates
-                </span>
-            </div>
-        </div>
-    </div>
-</div>
 
             <!-- Recent Uploads & Top Brands -->
-            <div class="row g-4">
-                <div class="col-lg-7">
+            <div class="row g-3 g-md-4">
+                <div class="col-lg-7 col-12">
                     <div class="card shadow-sm">
-                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0 fw-bold">
+                        <div class="card-header bg-white py-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                            <h5 class="mb-0 fw-bold" style="font-size: clamp(14px, 2vw, 18px);">
                                 <i class="fas fa-history me-2 text-info"></i>
                                 Recent Upload History
                             </h5>
                             <span class="badge bg-info" id="uploadCount">0 Uploads</span>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body p-0 p-sm-3">
                             <div class="table-responsive">
-                                <table class="table data-table">
+                                <table class="table data-table mb-0">
                                     <thead>
                                         <tr>
                                             <th>Date</th>
@@ -355,10 +357,10 @@
                     </div>
                 </div>
                 
-                <div class="col-lg-5">
+                <div class="col-lg-5 col-12">
                     <div class="card shadow-sm">
                         <div class="card-header bg-white py-3">
-                            <h5 class="mb-0 fw-bold">
+                            <h5 class="mb-0 fw-bold" style="font-size: clamp(14px, 2vw, 18px);">
                                 <i class="fas fa-trophy me-2 text-warning"></i>
                                 Top Performing Brands
                             </h5>

@@ -7,6 +7,26 @@ class Utils {
         }
     }
 
+    static showNotification(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `position-fixed top-0 end-0 m-3 alert alert-${type} shadow-lg`;
+        toast.style.zIndex = '9999';
+        toast.style.minWidth = '280px';
+        toast.style.fontFamily = "'Inter', 'Rubik', sans-serif";
+        toast.style.animation = 'slideInRight 0.4s ease-out';
+        toast.innerHTML = `
+            <div class="d-flex align-items-center">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'info' ? 'fa-info-circle' : 'fa-exclamation-circle'} me-2"></i>
+                <span>${message}</span>
+                <button type="button" class="btn-close ms-3" onclick="this.parentElement.parentElement.remove()"></button>
+            </div>
+        `;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+        }, 5000);
+    }
+
     static formatNumber(num) {
         if (num === undefined || num === null || isNaN(num)) return '0';
         return new Intl.NumberFormat('en-IN').format(num);
@@ -132,149 +152,6 @@ class Utils {
         a.download = filename;
         a.click();
         window.URL.revokeObjectURL(url);
-    }
-}
-
-// Legacy API helper
-class LegacyAPI {
-    constructor() {
-        this.baseURL = 'http://localhost:5000/api';
-    }
-
-    async request(endpoint, options = {}) {
-        const url = `${this.baseURL}${endpoint}`;
-        
-        const defaultHeaders = {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${auth.getToken()}`
-        };
-        
-        const config = {
-            ...options,
-            headers: {
-                ...defaultHeaders,
-                ...options.headers
-            },
-            credentials: 'include'
-        };
-        
-        try {
-            const response = await fetch(url, config);
-            
-            if (response.status === 401) {
-                // Unauthorized - redirect to login
-                auth.logout();
-                throw new Error('Session expired. Please login again.');
-            }
-            
-            const data = await response.json();
-            
-            if (!response.ok) {
-                throw new Error(data.error || 'API request failed');
-            }
-            
-            return data;
-        } catch (error) {
-            console.error('API Request Error:', error);
-            throw error;
-        }
-    }
-
-    // Auth endpoints
-    async login(username, password) {
-        return this.request('/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({ username, password })
-        });
-    }
-
-    async logout() {
-        return this.request('/auth/logout', { method: 'POST' });
-    }
-
-    async checkAuth() {
-        return this.request('/auth/check-auth');
-    }
-
-    // Dashboard endpoints
-    async getDashboardOverview() {
-        return this.request('/dashboard/overview');
-    }
-
-    async getMallPerformance(mallId = null, period = 'month') {
-        const query = new URLSearchParams();
-        if (mallId) query.append('mall_id', mallId);
-        query.append('period', period);
-        return this.request(`/dashboard/mall-performance?${query}`);
-    }
-
-    async getTenantPerformance(mallId = null, brandId = null) {
-        const query = new URLSearchParams();
-        if (mallId) query.append('mall_id', mallId);
-        if (brandId) query.append('brand_id', brandId);
-        return this.request(`/dashboard/tenant-performance?${query}`);
-    }
-
-    // Mall endpoints
-    async getMalls() {
-        return this.request('/malls');
-    }
-
-    async addMall(data) {
-        return this.request('/malls', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-    }
-
-    // Brand endpoints
-    async getBrands(mallId = null) {
-        const query = mallId ? `?mall_id=${mallId}` : '';
-        return this.request(`/brands${query}`);
-    }
-
-    async addBrand(data) {
-        return this.request('/brands', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-    }
-
-    async bulkAddBrands(brands) {
-        return this.request('/brands/bulk', {
-            method: 'POST',
-            body: JSON.stringify({ brands })
-        });
-    }
-
-    // Sales endpoints
-    async getSalesData(filters = {}) {
-        const query = new URLSearchParams(filters).toString();
-        return this.request(`/sales-data?${query}`);
-    }
-
-    // Upload endpoints
-    async downloadTemplate(type) {
-        const response = await fetch(`${this.baseURL}/templates/download/${type}`, {
-            headers: {
-                'Authorization': `Bearer ${auth.getToken()}`
-            },
-            credentials: 'include'
-        });
-        
-        if (!response.ok) {
-            throw new Error('Failed to download template');
-        }
-        
-        return response.blob();
-    }
-
-    // Upload history
-    async getUploadHistory(mallId = null, days = 30) {
-        const query = new URLSearchParams();
-        if (mallId) query.append('mall_id', mallId);
-        query.append('days', days);
-        return this.request(`/upload-history?${query}`);
     }
 }
 

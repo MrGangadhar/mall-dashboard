@@ -16,11 +16,11 @@ class App {
         // Check authentication
         const token = localStorage.getItem('auth_token');
         const currentPath = window.location.pathname;
-        const isLoginPage = currentPath.includes('login.html');
+        const isLoginPage = currentPath.endsWith('index.html') || currentPath === '/' || currentPath.endsWith('/');
         
         if (!token && !isLoginPage) {
             console.log('🔒 No token found, redirecting to login');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
         }
 
@@ -38,7 +38,7 @@ class App {
             console.error('❌ Error loading common data:', error);
         }
 
-        // Initialize current page
+        // Initialize current page — BUT skip Dashboard since dashboard.js handles it
         this.initPage();
     }
 
@@ -68,13 +68,9 @@ class App {
         console.log('📄 Current page:', path);
         
         try {
-            if (path.includes('dashboard.html')) {
-                if (typeof Dashboard === 'undefined') {
-                    console.error('❌ Dashboard class not found. Make sure dashboard.js is loaded.');
-                    return;
-                }
-                window.dashboard = new Dashboard();
-                console.log('✅ Dashboard initialized');
+            // Dashboard is initialized by dashboard.js itself — skip here to avoid double init
+            if (path.includes('dashboard.html') && !path.includes('sales-dashboard') && !path.includes('walkin-dashboard') && !path.includes('rent-dashboard') && !path.includes('comparison-dashboard')) {
+                console.log('📊 Main dashboard — will be initialized by dashboard.js');
             } else if (path.includes('sales-dashboard.html')) {
                 if (typeof SalesDashboard === 'undefined') {
                     console.error('❌ SalesDashboard class not found.');

@@ -33,16 +33,22 @@ class Dashboard {
     loadUserInfo() {
         const user = auth.getUser();
         if (user) {
-            document.getElementById('userFullName').textContent = `Welcome, ${user.full_name || user.username}`;
-            document.getElementById('userRole').textContent = user.role || 'Administrator';
+            const nameEl = document.getElementById('userFullName');
+            const roleEl = document.getElementById('userRole');
+            const initialsEl = document.getElementById('userInitials');
+
+            if (nameEl) nameEl.textContent = `Welcome, ${user.full_name || user.username}`;
+            if (roleEl) roleEl.textContent = user.role || 'Administrator';
             
             // Set avatar initials
-            const initials = (user.full_name || user.username).split(' ')
-                .map(n => n[0])
-                .join('')
-                .toUpperCase()
-                .substring(0, 2);
-            document.getElementById('userInitials').textContent = initials;
+            if (initialsEl) {
+                const initials = (user.full_name || user.username).split(' ')
+                    .map(n => n[0])
+                    .join('')
+                    .toUpperCase()
+                    .substring(0, 2);
+                initialsEl.textContent = initials;
+            }
         }
     }
 
@@ -50,19 +56,24 @@ class Dashboard {
         try {
             const data = await this.api.getDashboardOverview();
             
-            document.getElementById('totalMalls').textContent = this.formatNumber(data.total_malls || 0);
-            document.getElementById('totalBrands').textContent = this.formatNumber(data.total_brands || 0);
-            document.getElementById('totalSales').textContent = this.formatCurrency(data.total_sales || 0);
-            document.getElementById('totalRent').textContent = this.formatCurrency(data.total_rent || 0);
+            const mallsEl = document.getElementById('totalMalls');
+            const brandsEl = document.getElementById('totalBrands');
+            const salesEl = document.getElementById('totalSales');
+            const rentEl = document.getElementById('totalRent');
+
+            if (mallsEl) mallsEl.textContent = this.formatNumber(data.total_malls || 0);
+            if (brandsEl) brandsEl.textContent = this.formatNumber(data.total_brands || 0);
+            if (salesEl) salesEl.textContent = this.formatCurrency(data.total_sales || 0);
+            if (rentEl) rentEl.textContent = this.formatCurrency(data.total_rent || 0);
             
             // Calculate collection rate
             const collectionRate = data.total_rent > 0 
                 ? ((data.collected_rent || 0) / data.total_rent * 100).toFixed(1)
                 : 0;
             
-            const collectionBadge = document.querySelector('.badge.bg-warning');
-            if (collectionBadge) {
-                collectionBadge.innerHTML = `<i class="fas fa-clock me-1"></i>Collection Rate: ${collectionRate}%`;
+            const collectionEl = document.getElementById('collectionRate');
+            if (collectionEl) {
+                collectionEl.textContent = collectionRate;
             }
             
         } catch (error) {
@@ -74,7 +85,7 @@ class Dashboard {
     async loadAdditionalStats() {
         try {
             const summary = await this.api.getDailyUpdatesSummary();
-            const totalUpdates = summary.reduce((sum, item) => sum + (item.total_updates || 0), 0);
+            const totalUpdates = summary.reduce((sum, item) => sum + (item.total_records || 0), 0);
             const totalFootfall = summary.reduce((sum, item) => sum + (item.total_footfall || 0), 0);
 
             const walkinEl = document.getElementById('totalWalkin');
@@ -89,8 +100,10 @@ class Dashboard {
 
         } catch (error) {
             console.error('Error loading additional stats:', error);
-            document.getElementById('totalWalkin') && (document.getElementById('totalWalkin').textContent = '0');
-            document.getElementById('dailyUpdates') && (document.getElementById('dailyUpdates').textContent = '0');
+            const walkinEl = document.getElementById('totalWalkin');
+            const dailyEl = document.getElementById('dailyUpdates');
+            if (walkinEl) walkinEl.textContent = '0';
+            if (dailyEl) dailyEl.textContent = '0';
         }
     }
 
@@ -153,7 +166,7 @@ class Dashboard {
                         legend: { 
                             position: 'top', 
                             labels: { 
-                                font: { family: 'Rubik', size: 12 } 
+                                font: { family: "'Inter', 'Rubik', sans-serif", size: 12 } 
                             } 
                         },
                         tooltip: {
@@ -231,7 +244,7 @@ class Dashboard {
                         legend: {
                             position: 'bottom',
                             labels: { 
-                                font: { family: 'Times New Roman', size: 12 } 
+                                font: { family: "'Inter', 'Rubik', sans-serif", size: 12 } 
                             }
                         }
                     }
@@ -250,7 +263,8 @@ class Dashboard {
             
             if (!tbody) return;
             
-            document.getElementById('uploadCount').textContent = `${history.length} Uploads`;
+            const countEl = document.getElementById('uploadCount');
+            if (countEl) countEl.textContent = `${history.length} Uploads`;
             
             if (history.length === 0) {
                 tbody.innerHTML = `
@@ -319,7 +333,8 @@ class Dashboard {
     initWebSocket() {
         if (typeof io !== 'undefined') {
             try {
-                const socket = io('http://localhost:5000');
+                const wsUrl = this.api.baseURL.replace('/api', '');
+                const socket = io(wsUrl);
                 socket.on('connect', () => {
                     console.log('WebSocket connected');
                     socket.emit('join_dashboard', { dashboard: 'main' });
@@ -367,17 +382,21 @@ class Dashboard {
         toast.className = `position-fixed top-0 end-0 m-3 alert alert-${type} shadow-lg`;
         toast.style.zIndex = '9999';
         toast.style.minWidth = '300px';
-        toast.style.fontFamily = 'Times New Roman';
+        toast.style.fontFamily = "'Inter', 'Rubik', sans-serif";
+        toast.style.animation = 'slideInRight 0.4s ease-out';
         toast.innerHTML = `
             <div class="d-flex align-items-center">
-                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} me-2"></i>
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'info' ? 'fa-info-circle' : 'fa-exclamation-circle'} me-2"></i>
                 <span>${message}</span>
                 <button type="button" class="btn-close ms-3" onclick="this.parentElement.parentElement.remove()"></button>
             </div>
         `;
         document.body.appendChild(toast);
         
-        setTimeout(() => toast.remove(), 5000);
+        setTimeout(() => {
+            toast.style.animation = 'slideOutRight 0.3s ease-in forwards';
+            setTimeout(() => toast.remove(), 300);
+        }, 5000);
     }
 
     formatNumber(num) {
@@ -464,7 +483,7 @@ async function saveNewMall() {
     
     // Validate required fields
     if (!data.name) {
-        window.dashboard.showNotification('Mall name is required', 'warning');
+        if (window.dashboard) window.dashboard.showNotification('Mall name is required', 'warning');
         return;
     }
     
@@ -583,11 +602,11 @@ async function saveNewBrand() {
     
     // Validate required fields
     if (!data.mall_id) {
-        window.dashboard.showNotification('Please select a mall', 'warning');
+        if (window.dashboard) window.dashboard.showNotification('Please select a mall', 'warning');
         return;
     }
     if (!data.name) {
-        window.dashboard.showNotification('Brand name is required', 'warning');
+        if (window.dashboard) window.dashboard.showNotification('Brand name is required', 'warning');
         return;
     }
     
@@ -626,7 +645,7 @@ async function saveNewBrand() {
     }
 }
 
-// Initialize dashboard
+// Initialize dashboard — single initialization point
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM Content Loaded - Initializing Dashboard');
     window.dashboard = new Dashboard();

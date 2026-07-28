@@ -6,22 +6,34 @@ class WebSocketService {
     }
 
     connect() {
-        this.socket = io('http://localhost:5000');
+        // Use API base URL to derive WebSocket URL (remove /api suffix)
+        const apiBase = window.API_BASE_URL || 'https://mall-dashboard.onrender.com/api';
+        const wsUrl = apiBase.replace('/api', '');
 
-        this.socket.on('connect', () => {
-            console.log('✅ WebSocket connected');
-        });
+        try {
+            this.socket = io(wsUrl);
 
-        this.socket.on('data_update', (data) => {
-            console.log('📡 Update received:', data);
-            const callbacks = this.callbacks.get('data_update') || [];
-            callbacks.forEach(cb => cb(data));
-        });
+            this.socket.on('connect', () => {
+                console.log('✅ WebSocket connected');
+            });
 
-        this.socket.on('disconnect', () => {
-            console.log('❌ WebSocket disconnected');
-            setTimeout(() => this.connect(), 3000);
-        });
+            this.socket.on('data_update', (data) => {
+                console.log('📡 Update received:', data);
+                const callbacks = this.callbacks.get('data_update') || [];
+                callbacks.forEach(cb => cb(data));
+            });
+
+            this.socket.on('disconnect', () => {
+                console.log('❌ WebSocket disconnected');
+                setTimeout(() => this.connect(), 5000);
+            });
+
+            this.socket.on('connect_error', (err) => {
+                console.warn('⚠️ WebSocket connection error:', err.message);
+            });
+        } catch (e) {
+            console.warn('⚠️ WebSocket initialization failed:', e);
+        }
     }
 
     on(event, callback) {

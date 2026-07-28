@@ -1,18 +1,25 @@
-/* Dashboard Specific Styles */
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+/* Dashboard Specific Styles — extends style.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rubik:wght@300;400;500;600;700&display=swap');
 
 :root {
     --primary: #4e73df;
+    --primary-dark: #224abe;
     --success: #1cc88a;
     --info: #36b9cc;
     --warning: #f6c23e;
     --danger: #e74a3b;
     --dark: #5a5c69;
     --light: #f8f9fc;
+    --font-heading: 'Rubik', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --card-shadow: 0 4px 24px rgba(78, 115, 223, 0.08);
+    --card-shadow-hover: 0 12px 36px rgba(78, 115, 223, 0.18);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --border-radius: 16px;
 }
 
 body {
-    font-family: 'Rubik', 'Times New Roman', serif;
+    font-family: var(--font-body);
     background: var(--light);
 }
 
@@ -25,207 +32,213 @@ body {
 /* ========== INSIGHT HEADER ========== */
 .insight-header {
     background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-bottom: 30px;
+    border-radius: var(--border-radius);
+    padding: 20px 24px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 24px;
     text-align: center;
 }
 
 .insight-header h4 {
-    font-family: 'Rubik', sans-serif;
+    font-family: var(--font-heading);
     color: var(--primary);
-    margin-bottom: 5px;
-    text-align: center;   
+    margin-bottom: 6px;
 }
 
 .insight-header p {
-    font-family: 'Times New Roman', serif;
+    font-family: var(--font-body);
     color: #6c757d;
     margin-bottom: 0;
-    font-size: 16px;
-    text-align: center;   /* centers all child text */
+    font-size: 14px;
 }
 
 /* ========== STAT CARDS ========== */
 .stat-card {
     background: white;
-    border-radius: 15px;
+    border-radius: var(--border-radius);
     padding: 20px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    transition: transform 0.3s;
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;                /* Equal height in flex column */
-    height: 100%;                   /* Fallback */
-    text-align: center;             /* Center text inside */
+    flex: 1 1 auto;
+    height: 100%;
+    text-align: center;
 }
 
 .stat-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .stat-icon {
-    width: 50px;
-    height: 50px;
-    background: rgba(78, 115, 223, 0.1);
-    border-radius: 10px;
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(78, 115, 223, 0.1), rgba(54, 185, 204, 0.1));
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--primary);
-    font-size: 24px;
-    margin: 0 auto 10px;            /* Center icon horizontally */
+    font-size: 22px;
+    margin: 0 auto 8px;
+    transition: var(--transition);
+}
+
+.stat-card:hover .stat-icon {
+    background: linear-gradient(135deg, var(--primary), var(--info));
+    color: white;
+    transform: scale(1.08);
 }
 
 .stat-value {
-    font-size: 28px;
-    font-weight: 600;
-    margin: 10px 0 5px;
+    font-size: 26px;
+    font-weight: 700;
+    margin: 8px 0 4px;
+    font-family: var(--font-heading);
+    color: #2c3e50;
 }
 
 .stat-label {
     color: #858796;
-    font-size: 14px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
     margin: 0;
+    font-family: var(--font-heading);
+    font-weight: 500;
 }
 
 .stat-card .btn {
-    margin-top: auto;               /* Push button to bottom */
+    margin-top: auto;
     border-radius: 8px;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: var(--transition);
+    font-family: var(--font-heading);
+    font-size: 12px;
 }
 
-/* Button variants (reuse existing Bootstrap overrides) */
-.stat-card .btn-outline-primary {
-    color: var(--primary);
-    border-color: var(--primary);
-}
-.stat-card .btn-outline-primary:hover {
-    background-color: var(--primary);
-    color: white;
-}
-.stat-card .btn-outline-success {
-    color: var(--success);
-    border-color: var(--success);
-}
-.stat-card .btn-outline-success:hover {
-    background-color: var(--success);
-    color: white;
-}
-.stat-card .btn-outline-info {
-    color: var(--info);
-    border-color: var(--info);
-}
-.stat-card .btn-outline-info:hover {
-    background-color: var(--info);
-    color: white;
-}
-.stat-card .btn-outline-warning {
-    color: var(--warning);
-    border-color: var(--warning);
-}
-.stat-card .btn-outline-warning:hover {
-    background-color: var(--warning);
-    color: white;
-}
-.stat-card .btn-outline-secondary {
-    color: var(--dark);
-    border-color: var(--dark);
-}
-.stat-card .btn-outline-secondary:hover {
-    background-color: var(--dark);
-    color: white;
-}
+/* Button variants */
+.stat-card .btn-outline-primary { color: var(--primary); border-color: var(--primary); }
+.stat-card .btn-outline-primary:hover { background-color: var(--primary); color: white; }
+.stat-card .btn-outline-success { color: var(--success); border-color: var(--success); }
+.stat-card .btn-outline-success:hover { background-color: var(--success); color: white; }
+.stat-card .btn-outline-info { color: var(--info); border-color: var(--info); }
+.stat-card .btn-outline-info:hover { background-color: var(--info); color: white; }
+.stat-card .btn-outline-warning { color: var(--warning); border-color: var(--warning); }
+.stat-card .btn-outline-warning:hover { background-color: var(--warning); color: white; }
+.stat-card .btn-outline-secondary { color: var(--dark); border-color: var(--dark); }
+.stat-card .btn-outline-secondary:hover { background-color: var(--dark); color: white; }
 
 /* ========== UPLOAD CARDS ========== */
 .upload-card {
     background: white;
-    border-radius: 15px;
-    padding: 30px;
+    border-radius: var(--border-radius);
+    padding: 28px 20px;
     text-align: center;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: var(--transition);
     border: 2px solid transparent;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;                 /* Equal height in flex row */
-    height: 100%;                    /* Ensure full column height */
+    flex: 1 1 auto;
+    height: 100%;
 }
 
 .upload-card:hover {
     border-color: var(--primary);
-    transform: translateY(-5px);
+    transform: translateY(-6px);
+    box-shadow: var(--card-shadow-hover);
 }
 
 .upload-icon {
-    width: 70px;
-    height: 70px;
-    background: rgba(78, 115, 223, 0.1);
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg, rgba(78, 115, 223, 0.1), rgba(54, 185, 204, 0.1));
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 30px;
+    font-size: 28px;
     color: var(--primary);
-    margin: 0 auto 15px;
+    margin: 0 auto 14px;
+    transition: var(--transition);
+}
+
+.upload-card:hover .upload-icon {
+    background: linear-gradient(135deg, var(--primary), var(--info));
+    color: white;
+    transform: scale(1.1);
 }
 
 .upload-title {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     color: #2c3e50;
-    font-family: 'Rubik', sans-serif;
+    font-family: var(--font-heading);
 }
 
 .upload-desc {
     color: #858796;
-    font-size: 14px;
-    margin-bottom: 20px;
+    font-size: 13px;
+    margin-bottom: 16px;
+    font-family: var(--font-body);
 }
 
-/* ========== ADD MALL / ADD BRAND BUTTONS ========== */
+/* ========== ACTION BUTTONS ========== */
 .action-buttons {
     display: flex;
     gap: 10px;
     justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .action-buttons .btn {
-    padding: 8px 20px;
+    padding: 8px 18px;
     border-radius: 8px;
     font-weight: 500;
+    font-family: var(--font-heading);
+    font-size: 13px;
 }
 
 /* ========== CHARTS ========== */
 .chart-container {
     position: relative;
-    height: 300px;
-    margin: 20px 0;
+    height: 320px;
+    margin: 16px 0;
 }
 
 /* ========== TABLES ========== */
 .data-table {
     width: 100%;
     background: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: var(--card-shadow);
 }
 
 .data-table th {
-    background: #f8f9fc;
-    padding: 15px;
+    background: linear-gradient(135deg, #f8f9fc, #e9ecef);
+    padding: 14px 16px;
     font-weight: 600;
     text-align: left;
+    font-family: var(--font-heading);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #495057;
 }
 
 .data-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #e3e6f0;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f0f2f5;
+    font-family: var(--font-body);
+    font-size: 13px;
+}
+
+.data-table tr {
+    transition: var(--transition);
 }
 
 .data-table tr:hover {
@@ -234,35 +247,69 @@ body {
 
 /* ========== NAVIGATION ========== */
 .navbar {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    padding: 15px 30px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 1px 12px rgba(0, 0, 0, 0.06);
+    padding: 12px 24px;
 }
 
 .navbar-brand {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 22px;
+    font-weight: 700;
     color: var(--primary);
+    font-family: var(--font-heading);
 }
 
 .navbar-brand small {
-    font-size: 14px;
+    font-size: 13px;
     color: #6c757d;
-    font-family: 'Times New Roman', serif;
+    font-family: var(--font-body);
+    font-weight: 400;
 }
 
 /* ========== RESPONSIVE ========== */
+@media (max-width: 992px) {
+    .action-buttons {
+        justify-content: center;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .chart-container {
+        height: 280px;
+    }
+}
+
 @media (max-width: 768px) {
     .stat-card {
-        margin-bottom: 15px;
+        margin-bottom: 12px;
     }
     
     .chart-container {
-        height: 250px;
+        height: 240px;
     }
     
     .action-buttons {
         justify-content: center;
-        margin-top: 15px;
+        width: 100%;
+    }
+
+    .action-buttons .btn {
+        flex: 1;
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stat-value {
+        font-size: 18px;
+    }
+
+    .upload-title {
+        font-size: 14px;
     }
 }

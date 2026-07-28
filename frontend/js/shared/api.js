@@ -54,7 +54,7 @@ class API {
                 } else {
                     // Refresh failed – clear tokens and redirect
                     this._clearTokens();
-                    window.location.href = '/index.html';
+                    window.location.href = 'index.html';
                     throw new Error('Session expired. Please log in again.');
                 }
             }
@@ -141,7 +141,7 @@ class API {
             await this.request('/auth/logout', { method: 'POST' });
         } finally {
             this._clearTokens();
-            window.location.href = '/login.html';
+            window.location.href = 'index.html';
         }
     }
 
@@ -188,46 +188,83 @@ class API {
         });
     }
 
-    // ========== UPLOADS ==========
-    async uploadWalkinData(formData) {
+    // ========== SALES DATA ==========
+    async getSalesData(filters = {}) {
+        const query = new URLSearchParams(filters).toString();
+        return this.request(`/sales-data?${query}`);
+    }
+
+    // ========== WALKIN DATA ==========
+    async getWalkinData(filters = {}) {
+        const query = new URLSearchParams(filters).toString();
+        return this.request(`/walkin-data?${query}`);
+    }
+
+    // ========== RENT DATA ==========
+    async getRentData(filters = {}) {
+        const query = new URLSearchParams(filters).toString();
+        return this.request(`/rent-data?${query}`);
+    }
+
+    // ========== UPLOAD HISTORY ==========
+    async getUploadHistory(mallId = null, days = 30) {
+        const query = new URLSearchParams();
+        if (mallId) query.append('mall_id', mallId);
+        query.append('days', days);
+        return this.request(`/upload-history?${query}`);
+    }
+
+    // ========== TEMPLATE DOWNLOAD ==========
+    async downloadTemplate(type) {
         const token = this._getToken();
-        const response = await fetch(`${this.baseURL}/upload/walkin`, {
+        const response = await fetch(`${this.baseURL}/templates/download/${type}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to download template');
+        }
+
+        return response.blob();
+    }
+
+    // ========== UPLOADS ==========
+    async uploadFile(endpoint, formData) {
+        const token = this._getToken();
+        const response = await fetch(`${this.baseURL}${endpoint}`, {
             method: 'POST',
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData,
             credentials: 'include'
         });
         return this._handleUploadResponse(response);
+    }
+
+    async uploadWalkinData(formData) {
+        return this.uploadFile('/upload/walkin', formData);
     }
 
     async uploadSalesData(formData) {
-        const token = this._getToken();
-        const response = await fetch(`${this.baseURL}/upload/sales`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` },
-            body: formData,
-            credentials: 'include'
-        });
-        return this._handleUploadResponse(response);
+        return this.uploadFile('/upload/sales', formData);
     }
 
     async uploadRentData(formData) {
-        const token = this._getToken();
-        const response = await fetch(`${this.baseURL}/upload/rent`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${token}` },
-            body: formData,
-            credentials: 'include'
-        });
-        return this._handleUploadResponse(response);
+        return this.uploadFile('/upload/rent', formData);
+    }
+
+    async uploadBulkBrands(formData) {
+        return this.uploadFile('/brands/bulk', formData);
     }
 
     async _handleUploadResponse(response) {
+        const data = await response.json();
         if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Upload failed: ${errorText}`);
+            throw new Error(data.error || `Upload failed (HTTP ${response.status})`);
         }
-        return response.json();
+        return data;
     }
 }
 
