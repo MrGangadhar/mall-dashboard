@@ -304,12 +304,52 @@ body {
     }
 }
 
-@media (max-width: 480px) {
-    .stat-value {
-        font-size: 18px;
-    }
+/* FORCED DESKTOP MODE ENFORCEMENT FOR DASHBOARD */
+html, body {
+    min-width: 1280px !important;
+    overflow-x: auto !important;
+}
 
-    .upload-title {
-        font-size: 14px;
-    }
+.dashboard-wrapper {
+    min-width: 1280px !important;
+}
+
+/* Top Navbar Navigation Menu Styling */
+.top-navbar .nav-pills .nav-link {
+    color: #4e73df;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.top-navbar .nav-pills .nav-link:hover {
+    background-color: rgba(78, 115, 223, 0.1);
+    color: #224abe;
+}
+
+.top-navbar .nav-pills .nav-link.active {
+    background: linear-gradient(135deg, #4e73df, #224abe);
+    color: white;
+    box-shadow: 0 4px 12px rgba(78, 115, 223, 0.3);
+}
+
+.top-navbar .dropdown-menu {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    padding: 8px;
+}
+
+.top-navbar .dropdown-item {
+    font-size: 13px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.top-navbar .dropdown-item:hover {
+    background-color: #f8f9fc;
+    color: #4e73df;
 }

@@ -37,18 +37,23 @@ class Dashboard {
             const roleEl = document.getElementById('userRole');
             const initialsEl = document.getElementById('userInitials');
 
-            if (nameEl) nameEl.textContent = `Welcome, ${user.full_name || user.username}`;
-            if (roleEl) roleEl.textContent = user.role || 'Administrator';
-            
-            // Set avatar initials
-            if (initialsEl) {
-                const initials = (user.full_name || user.username).split(' ')
-                    .map(n => n[0])
-                    .join('')
-                    .toUpperCase()
-                    .substring(0, 2);
-                initialsEl.textContent = initials;
-            }
+            const profileNameEl = document.getElementById('profileFullName');
+            const profileRoleEl = document.getElementById('profileRole');
+            const profileInitialsEl = document.getElementById('profileInitials');
+            const profileEmailEl = document.getElementById('profileEmail');
+
+            const fullName = user.full_name || user.username || 'Admin User';
+            const role = user.role || 'Administrator';
+            const initials = fullName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2) || 'AD';
+
+            if (nameEl) nameEl.textContent = `Welcome, ${fullName}`;
+            if (roleEl) roleEl.textContent = role;
+            if (initialsEl) initialsEl.textContent = initials;
+
+            if (profileNameEl) profileNameEl.textContent = fullName;
+            if (profileRoleEl) profileRoleEl.textContent = role;
+            if (profileInitialsEl) profileInitialsEl.textContent = initials;
+            if (profileEmailEl) profileEmailEl.textContent = user.email || `${user.username || 'admin'}@mallanalytics.com`;
         }
     }
 
@@ -644,6 +649,15 @@ async function saveNewBrand() {
         }
     }
 }
+
+// Global Profile Modal Trigger
+window.showProfileModal = function() {
+    const modalEl = document.getElementById('profileModal');
+    if (modalEl && typeof bootstrap !== 'undefined') {
+        const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+};
 
 // Initialize dashboard — single initialization point
 document.addEventListener('DOMContentLoaded', () => {
