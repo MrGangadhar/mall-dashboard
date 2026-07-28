@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,17 +23,17 @@
             background: white;
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
             transition: all 0.3s;
             height: 100%;
-            border: 1px solid rgba(0,0,0,0.03);
+            border: 1px solid rgba(0, 0, 0, 0.03);
         }
-        
+
         .total-metric-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(78, 115, 223, 0.1);
         }
-        
+
         .total-icon {
             width: 60px;
             height: 60px;
@@ -43,19 +44,19 @@
             color: white;
             font-size: 28px;
         }
-        
+
         .bg-primary-gradient {
             background: linear-gradient(135deg, #4e73df, #224abe);
         }
-        
+
         .bg-danger-gradient {
             background: linear-gradient(135deg, #e74a3b, #c23321);
         }
-        
+
         .bg-success-gradient {
             background: linear-gradient(135deg, #1cc88a, #169b6b);
         }
-        
+
         .total-label {
             font-size: 13px;
             color: #858796;
@@ -63,14 +64,14 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        
+
         .total-value {
             font-size: 28px;
             font-weight: 700;
             color: #2c3e50;
             font-family: 'Rubik', sans-serif;
         }
-        
+
         .calculation-badge {
             background: #f8f9fc;
             color: #4e73df;
@@ -79,33 +80,50 @@
             border-radius: 30px;
             border: 1px solid #e3e6f0;
         }
-        
+
         .trend-indicator {
             font-size: 12px;
             color: #858796;
         }
-        
-        .trend-indicator .fa-arrow-up { color: #1cc88a; }
-        .trend-indicator .fa-arrow-down { color: #e74a3b; }
-        
+
+        .trend-indicator .fa-arrow-up {
+            color: #1cc88a;
+        }
+
+        .trend-indicator .fa-arrow-down {
+            color: #e74a3b;
+        }
+
         .progress {
             background-color: #eaecf4;
             border-radius: 10px;
             overflow: hidden;
         }
-        
+
         .detail-controls {
             background: #f8f9fc;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 15px;
         }
-        
-        .badge-success { background: #1cc88a; color: white; }
-        .badge-info { background: #36b9cc; color: white; }
-        .badge-warning { background: #f6c23e; color: white; }
+
+        .badge-success {
+            background: #1cc88a;
+            color: white;
+        }
+
+        .badge-info {
+            background: #36b9cc;
+            color: white;
+        }
+
+        .badge-warning {
+            background: #f6c23e;
+            color: white;
+        }
     </style>
 </head>
+
 <body>
     <div class="dashboard-wrapper">
         <!-- Top Navigation -->
@@ -116,7 +134,7 @@
                     <span>Mall Analytics</span>
                     <small class="ms-3 text-muted">Daily Analytics</small>
                 </a>
-                
+
                 <div class="user-info">
                     <div class="text-end me-3">
                         <div class="fw-bold" id="userFullName">Welcome, Admin</div>
@@ -138,7 +156,7 @@
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="page-header">
-                        <h2><i class="fas fa-chart-line me-2"></i>Daily Operations Analytics</h2>
+                        <h2><i class="fas fa-chart-line me-2 text-primary"></i>Daily Operations Analytics</h2>
                         <p class="text-muted">Compare and analyze daily mall operations data</p>
                     </div>
                 </div>
@@ -188,16 +206,16 @@
             <div class="row g-4 mb-4">
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="stat-label">Avg Daily Footfall</p>
-                                <h3 class="stat-value" id="avgFootfall">0</h3>
+                                <h3 class="stat-value mb-0" id="avgFootfall">0</h3>
                             </div>
-                            <div class="stat-icon">
+                            <div class="stat-icon bg-primary-gradient text-white">
                                 <i class="fas fa-users"></i>
                             </div>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <span class="badge bg-info" id="footfallTrend">
                                 <i class="fas fa-minus"></i> vs previous day
                             </span>
@@ -206,16 +224,16 @@
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="stat-label">Avg Cinema Walk-in</p>
-                                <h3 class="stat-value" id="avgCinema">0</h3>
+                                <h3 class="stat-value mb-0" id="avgCinema">0</h3>
                             </div>
-                            <div class="stat-icon">
+                            <div class="stat-icon bg-danger-gradient text-white">
                                 <i class="fas fa-film"></i>
                             </div>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <span class="badge bg-info" id="cinemaTrend">
                                 <i class="fas fa-minus"></i> vs previous day
                             </span>
@@ -224,16 +242,16 @@
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="stat-label">Avg Parking Collection</p>
-                                <h3 class="stat-value" id="avgParking">₹0</h3>
+                                <h3 class="stat-value mb-0" id="avgParking">₹0</h3>
                             </div>
-                            <div class="stat-icon">
+                            <div class="stat-icon bg-success-gradient text-white">
                                 <i class="fas fa-parking"></i>
                             </div>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <span class="badge bg-info" id="parkingTrend">
                                 <i class="fas fa-minus"></i> vs previous day
                             </span>
@@ -242,16 +260,16 @@
                 </div>
                 <div class="col-xl-3 col-md-6">
                     <div class="stat-card">
-                        <div class="d-flex justify-content-between">
+                        <div class="d-flex justify-content-between align-items-center">
                             <div>
                                 <p class="stat-label">Total Updates</p>
-                                <h3 class="stat-value" id="totalUpdates">0</h3>
+                                <h3 class="stat-value mb-0" id="totalUpdates">0</h3>
                             </div>
-                            <div class="stat-icon">
+                            <div class="stat-icon bg-info-gradient text-white">
                                 <i class="fas fa-calendar-check"></i>
                             </div>
                         </div>
-                        <div class="mt-2">
+                        <div class="mt-3">
                             <span class="badge bg-success" id="updatesBadge">
                                 <i class="fas fa-check-circle"></i> Records
                             </span>
@@ -271,9 +289,6 @@
                             <div class="ms-3 flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="total-label">Total Mall Walk-in</span>
-                                    <span class="calculation-badge">
-                                        <i class="fas fa-calculator me-1"></i>Sum of all malls
-                                    </span>
                                 </div>
                                 <div class="d-flex align-items-baseline">
                                     <h3 class="total-value mb-0" id="totalMallWalkin">0</h3>
@@ -286,7 +301,8 @@
                         </div>
                         <div class="card-footer bg-transparent border-0 p-0 mt-2">
                             <div class="progress" style="height: 4px;">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" id="mallWalkinProgress"></div>
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 0%"
+                                    id="mallWalkinProgress"></div>
                             </div>
                         </div>
                     </div>
@@ -301,9 +317,6 @@
                             <div class="ms-3 flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="total-label">Total Cinema Walk-in</span>
-                                    <span class="calculation-badge">
-                                        <i class="fas fa-calculator me-1"></i>Sum of all malls
-                                    </span>
                                 </div>
                                 <div class="d-flex align-items-baseline">
                                     <h3 class="total-value mb-0" id="totalCinemaWalkin">0</h3>
@@ -316,7 +329,8 @@
                         </div>
                         <div class="card-footer bg-transparent border-0 p-0 mt-2">
                             <div class="progress" style="height: 4px;">
-                                <div class="progress-bar bg-danger" role="progressbar" style="width: 0%" id="cinemaWalkinProgress"></div>
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"
+                                    id="cinemaWalkinProgress"></div>
                             </div>
                         </div>
                     </div>
@@ -331,9 +345,6 @@
                             <div class="ms-3 flex-grow-1">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="total-label">Total Parking Collection</span>
-                                    <span class="calculation-badge">
-                                        <i class="fas fa-calculator me-1"></i>Sum of all malls
-                                    </span>
                                 </div>
                                 <div class="d-flex align-items-baseline">
                                     <h3 class="total-value mb-0" id="totalParkingCollection">₹0</h3>
@@ -346,7 +357,8 @@
                         </div>
                         <div class="card-footer bg-transparent border-0 p-0 mt-2">
                             <div class="progress" style="height: 4px;">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%" id="parkingProgress"></div>
+                                <div class="progress-bar bg-success" role="progressbar" style="width: 0%"
+                                    id="parkingProgress"></div>
                             </div>
                         </div>
                     </div>
@@ -360,7 +372,7 @@
                         <div class="card-header bg-white py-3">
                             <h5 class="mb-0 fw-bold">
                                 <i class="fas fa-table me-2"></i>
-                                Mall Performance Summary (Last Month vs Current Month)
+                                Mall Performance Summary
                             </h5>
                         </div>
                         <div class="card-body">
@@ -368,11 +380,11 @@
                                 <table class="table table-bordered table-hover" id="performanceTable">
                                     <thead class="table-light">
                                         <tr>
-                                            <th>Location</th>
-                                            <th>Last Month</th>
-                                            <th>Current Month</th>
-                                            <th>Variance</th>
-                                            <th>% of Growth</th>
+                                            <th>Mall Name</th>
+                                            <th class="text-end">Total Updates</th>
+                                            <th class="text-end">Total Footfall</th>
+                                            <th class="text-end">Cinema Walk-in</th>
+                                            <th class="text-end">Parking Collection (₹)</th>
                                         </tr>
                                     </thead>
                                     <tbody id="performanceTableBody">
@@ -393,11 +405,12 @@
                     <div class="card shadow-sm">
                         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">
-                                <i class="fas fa-chart-bar me-2"></i>
+                                <i class="fas fa-chart-bar me-2 text-success"></i>
                                 <span id="chartTitle">Daily Comparison: Mall Footfall vs Cinema Walk-in</span>
                             </h5>
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="exportChartData()">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                    onclick="exportChartData()">
                                     <i class="fas fa-download me-1"></i>Export
                                 </button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary" onclick="printChart()">
@@ -420,7 +433,7 @@
                     <div class="card shadow-sm">
                         <div class="card-header bg-white py-3">
                             <h6 class="mb-0 fw-bold">
-                                <i class="fas fa-chart-pie me-2"></i>
+                                <i class="fas fa-chart-pie me-2 text-warning"></i>
                                 Vehicle Distribution
                             </h6>
                         </div>
@@ -435,7 +448,7 @@
                     <div class="card shadow-sm">
                         <div class="card-header bg-white py-3">
                             <h6 class="mb-0 fw-bold">
-                                <i class="fas fa-chart-line me-2"></i>
+                                <i class="fas fa-chart-line me-2 text-info"></i>
                                 Utility Usage Trend
                             </h6>
                         </div>
@@ -452,16 +465,18 @@
             <div class="row mt-4 mb-4">
                 <div class="col-12">
                     <div class="card shadow-sm">
-                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <div
+                            class="card-header bg-white py-3 d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <h5 class="mb-0 fw-bold">
-                                <i class="fas fa-chart-bar me-2"></i>
+                                <i class="fas fa-chart-bar me-2 text-primary"></i>
                                 Multi-Metric Histogram
                             </h5>
                             <div class="d-flex flex-wrap gap-3 align-items-center">
                                 <!-- Mall Filter for Histogram -->
                                 <div class="d-flex align-items-center gap-2">
                                     <label class="text-nowrap small fw-bold">Mall:</label>
-                                    <select class="form-select form-select-sm" id="histogramMallFilter" style="width: 150px;">
+                                    <select class="form-select form-select-sm" id="histogramMallFilter"
+                                        style="width: 150px;">
                                         <option value="">All Malls</option>
                                     </select>
                                 </div>
@@ -477,7 +492,8 @@
                                     </div>
                                 </div>
                                 <!-- Metric Selection Dropdown -->
-                                <select class="form-select form-select-sm" id="histogramMetricSelect" style="width: 180px;">
+                                <select class="form-select form-select-sm" id="histogramMetricSelect"
+                                    style="width: 180px;">
                                     <option value="all">All Metrics</option>
                                     <option value="mall_footfall">Mall Footfall</option>
                                     <option value="cinema_walkin">Cinema Walk-in</option>
@@ -489,7 +505,8 @@
                                     <option value="water_consumption">Water Consumption</option>
                                     <option value="diesel_consumption">Diesel Consumption</option>
                                 </select>
-                                <button type="button" class="btn btn-sm btn-primary" onclick="window.dailyViz.loadHistogram()">
+                                <button type="button" class="btn btn-sm btn-primary"
+                                    onclick="window.dailyViz.loadHistogram()">
                                     <i class="fas fa-sync-alt me-1"></i>Update
                                 </button>
                             </div>
@@ -507,7 +524,8 @@
                             <div class="row mt-3" id="histogramStats">
                                 <div class="col-md-12">
                                     <div class="alert alert-info d-flex justify-content-between align-items-center">
-                                        <span><i class="fas fa-info-circle me-2"></i>Hover over bars to see exact values</span>
+                                        <span><i class="fas fa-info-circle me-2"></i>Hover over bars to see exact
+                                            values</span>
                                         <span class="fw-bold" id="totalRecords">Total Records: 0</span>
                                     </div>
                                 </div>
@@ -523,12 +541,13 @@
                     <div class="card shadow-sm">
                         <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
                             <h5 class="mb-0 fw-bold">
-                                <i class="fas fa-list me-2"></i>
+                                <i class="fas fa-list me-2 text-secondary"></i>
                                 Detailed Daily Records
                             </h5>
                             <div>
                                 <span class="badge bg-info me-2" id="rowCount">Showing 5 records</span>
-                                <button type="button" class="btn btn-sm btn-outline-primary" onclick="exportChartData()">
+                                <button type="button" class="btn btn-sm btn-outline-primary"
+                                    onclick="exportChartData()">
                                     <i class="fas fa-download"></i> Export
                                 </button>
                             </div>
@@ -556,7 +575,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="table-responsive">
                                 <table class="table table-striped" id="detailsTable">
                                     <thead>
@@ -602,13 +621,13 @@
     <script src="js/daily-updates-viz.js"></script>
     <script>
         // Global functions
-        window.loadVisualization = function() {
+        window.loadVisualization = function () {
             if (window.dailyViz) {
                 window.dailyViz.loadVisualization();
             }
         };
 
-        window.exportChartData = function() {
+        window.exportChartData = function () {
             if (window.dailyViz) {
                 window.dailyViz.exportData();
             } else {
@@ -616,7 +635,7 @@
             }
         };
 
-        window.printChart = function() {
+        window.printChart = function () {
             if (window.dailyViz) {
                 window.dailyViz.printData();
             } else {
@@ -625,7 +644,7 @@
         };
 
         // Global logout
-        window.logout = function() {
+        window.logout = function () {
             if (auth && typeof auth.logout === 'function') {
                 auth.logout();
             } else {
@@ -636,12 +655,12 @@
         };
 
         // Initialize select2
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#mallFilter').select2({
                 placeholder: 'Select Mall',
                 width: '100%'
             });
-            
+
             $('#histogramMallFilter').select2({
                 placeholder: 'Select Mall',
                 width: '100%'
@@ -649,4 +668,5 @@
         });
     </script>
 </body>
+
 </html>

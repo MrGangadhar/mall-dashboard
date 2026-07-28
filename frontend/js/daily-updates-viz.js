@@ -20,7 +20,7 @@ class DailyUpdatesVisualization {
 
         // Load main malls dropdown
         await this.loadMalls();
-        
+
         // Load histogram malls dropdown
         await this.loadHistogramMalls();
 
@@ -29,10 +29,10 @@ class DailyUpdatesVisualization {
 
         // Load initial data
         await this.loadVisualization();
-        
+
         // Load total metrics (across all malls)
         await this.updateTotalMetrics();
-        
+
         // Load histogram
         await this.loadHistogram();
 
@@ -45,19 +45,19 @@ class DailyUpdatesVisualization {
         if (user) {
             document.getElementById('userFullName').textContent = `Welcome, ${user.full_name || user.username}`;
             document.getElementById('userRole').textContent = user.role || 'Administrator';
-            
+
             const initials = (user.full_name || user.username).split(' ')
                 .map(n => n[0])
                 .join('')
                 .toUpperCase()
                 .substring(0, 2);
             document.getElementById('userInitials').textContent = initials;
-            
+
             // Sidebar user info if exists
             const sidebarUserName = document.getElementById('sidebarUserName');
             const sidebarUserRole = document.getElementById('sidebarUserRole');
             const sidebarUserAvatar = document.getElementById('sidebarUserAvatar');
-            
+
             if (sidebarUserName) sidebarUserName.textContent = user.full_name || user.username;
             if (sidebarUserRole) sidebarUserRole.textContent = user.role || 'Administrator';
             if (sidebarUserAvatar) {
@@ -70,11 +70,11 @@ class DailyUpdatesVisualization {
         try {
             const malls = await this.api.getMalls();
             const select = document.getElementById('mallFilter');
-            
+
             if (!select) return;
-            
+
             select.innerHTML = '<option value="">All Malls</option>';
-            
+
             if (malls && malls.length > 0) {
                 malls.forEach(mall => {
                     const option = document.createElement('option');
@@ -99,16 +99,16 @@ class DailyUpdatesVisualization {
     }
 
     // ==================== HISTOGRAM MALLS METHODS ====================
-    
+
     async loadHistogramMalls() {
         try {
             const malls = await this.api.getMalls();
             const select = document.getElementById('histogramMallFilter');
-            
+
             if (!select) return;
-            
+
             select.innerHTML = '<option value="">All Malls</option>';
-            
+
             if (malls && malls.length > 0) {
                 malls.forEach(mall => {
                     const option = document.createElement('option');
@@ -142,7 +142,7 @@ class DailyUpdatesVisualization {
         const exportBtn = document.getElementById('exportDataBtn');
         const printBtn = document.getElementById('printDataBtn');
         const applyDateRange = document.getElementById('applyDateRange');
-        
+
         if (periodFilter) {
             periodFilter.addEventListener('change', () => {
                 this.loadVisualization();
@@ -150,11 +150,11 @@ class DailyUpdatesVisualization {
                 this.loadHistogram();
             });
         }
-        
+
         if (chartTypeFilter) {
             chartTypeFilter.addEventListener('change', () => this.updateChartType());
         }
-        
+
         if (mallFilter) {
             mallFilter.addEventListener('change', () => {
                 this.loadVisualization();
@@ -166,7 +166,7 @@ class DailyUpdatesVisualization {
         if (histogramMallFilter) {
             histogramMallFilter.addEventListener('change', () => this.loadHistogram());
         }
-        
+
         if (histogramStartDate) {
             histogramStartDate.addEventListener('change', () => {
                 if (histogramEndDate?.value) {
@@ -184,7 +184,7 @@ class DailyUpdatesVisualization {
         if (histogramMetricSelect) {
             histogramMetricSelect.addEventListener('change', () => this.loadHistogram());
         }
-        
+
         // Export and print buttons
         if (exportBtn) {
             exportBtn.addEventListener('click', () => this.exportData());
@@ -192,16 +192,10 @@ class DailyUpdatesVisualization {
         if (printBtn) {
             printBtn.addEventListener('click', () => this.printData());
         }
-        
+
         // Apply date range for detailed data
         if (applyDateRange) {
             applyDateRange.addEventListener('click', () => this.loadDetailedData());
-        }
-        
-        // Show all rows toggle listener
-        const showAllRows = document.getElementById('showAllRows');
-        if (showAllRows) {
-            showAllRows.addEventListener('change', () => this.loadDetailedData());
         }
     }
 
@@ -217,19 +211,19 @@ class DailyUpdatesVisualization {
                 mall_id: mallId,
                 period: period
             });
-            
+
             // Update metrics (now with day-over-day comparison)
             this.updateMetrics();
             await this.updateSummaryCards(mallId);
-            
+
             // Update performance table with real data
             await this.updatePerformanceTable();
-            
+
             // Update charts (default to bar chart)
             this.updateMainChart();
             this.updateVehicleChart();
             this.updateUtilityChart();
-            
+
             // Load detailed data
             await this.loadDetailedData();
 
@@ -257,7 +251,7 @@ class DailyUpdatesVisualization {
         const avgCinemaEl = document.getElementById('avgCinema');
         const avgParkingEl = document.getElementById('avgParking');
         const totalUpdatesEl = document.getElementById('totalUpdates');
-        
+
         if (avgFootfallEl) avgFootfallEl.textContent = this.formatNumber(Math.round(avgFootfall));
         if (avgCinemaEl) avgCinemaEl.textContent = this.formatNumber(Math.round(avgCinema));
         if (avgParkingEl) avgParkingEl.textContent = this.formatCurrency(avgParking);
@@ -268,24 +262,24 @@ class DailyUpdatesVisualization {
             // Get the two most recent days
             const currentDayFootfall = footfall[footfall.length - 1] || 0;
             const previousDayFootfall = footfall[footfall.length - 2] || 0;
-            
+
             const currentDayCinema = cinema[cinema.length - 1] || 0;
             const previousDayCinema = cinema[cinema.length - 2] || 0;
-            
+
             const currentDayParking = parking[parking.length - 1] || 0;
             const previousDayParking = parking[parking.length - 2] || 0;
-            
+
             // Calculate differences
             const footfallDiff = currentDayFootfall - previousDayFootfall;
             const cinemaDiff = currentDayCinema - previousDayCinema;
             const parkingDiff = currentDayParking - previousDayParking;
-            
+
             // Update footfall trend
             this.updateDayOverDayIndicator('footfallTrend', footfallDiff, previousDayFootfall, 'Footfall');
-            
+
             // Update cinema trend
             this.updateDayOverDayIndicator('cinemaTrend', cinemaDiff, previousDayCinema, 'Cinema');
-            
+
             // Update parking trend
             this.updateDayOverDayIndicator('parkingTrend', parkingDiff, previousDayParking, 'Parking');
         }
@@ -294,14 +288,14 @@ class DailyUpdatesVisualization {
     updateDayOverDayIndicator(elementId, diff, previousValue, metricName) {
         const element = document.getElementById(elementId);
         if (!element) return;
-        
+
         const previousDay = previousValue || 0;
         const percentChange = previousDay > 0 ? ((diff / previousDay) * 100).toFixed(1) : '0';
-        
+
         let icon = 'fa-minus';
         let color = '#858796';
         let text = 'no change';
-        
+
         if (diff > 0) {
             icon = 'fa-arrow-up';
             color = '#1cc88a';
@@ -313,7 +307,7 @@ class DailyUpdatesVisualization {
         } else {
             text = `0 (no change)`;
         }
-        
+
         element.innerHTML = `<i class="fas ${icon}" style="color: ${color};"></i> ${text} vs previous day`;
     }
 
@@ -365,11 +359,11 @@ class DailyUpdatesVisualization {
             tbody.innerHTML = summary.map(item => {
                 return `
                     <tr>
-                        <td><strong>${item.mall_name || 'Unknown Mall'}</strong></td>
-                        <td class="text-end">${this.formatNumber(item.total_updates)}</td>
-                        <td class="text-end">${this.formatNumber(item.total_footfall)}</td>
-                        <td class="text-end">${this.formatNumber(item.total_cinema)}</td>
-                        <td class="text-end">${this.formatCurrency(item.total_parking)}</td>
+                        <td data-label="Mall Name"><strong>${item.mall_name || 'Unknown Mall'}</strong></td>
+                        <td data-label="Total Updates" class="text-end">${this.formatNumber(item.total_updates)}</td>
+                        <td data-label="Total Footfall" class="text-end">${this.formatNumber(item.total_footfall)}</td>
+                        <td data-label="Cinema Walk-in" class="text-end">${this.formatNumber(item.total_cinema)}</td>
+                        <td data-label="Parking Collection" class="text-end">${this.formatCurrency(item.total_parking)}</td>
                     </tr>
                 `;
             }).join('');
@@ -388,17 +382,17 @@ class DailyUpdatesVisualization {
 
         const canvas = document.getElementById('mainChart');
         if (!canvas) return;
-        
+
         const ctx = canvas.getContext('2d');
         const chartType = 'bar'; // Default to bar chart as requested
-        
+
         // Destroy existing chart
         if (this.charts.main) {
             this.charts.main.destroy();
         }
 
         const dates = this.currentData.dates.map(d => this.formatDate(d));
-        
+
         this.charts.main = new Chart(ctx, {
             type: chartType,
             data: {
@@ -456,9 +450,9 @@ class DailyUpdatesVisualization {
 
         const canvas = document.getElementById('vehicleChart');
         if (!canvas) return;
-        
+
         const ctx = canvas.getContext('2d');
-        
+
         if (this.charts.vehicle) {
             this.charts.vehicle.destroy();
         }
@@ -471,7 +465,7 @@ class DailyUpdatesVisualization {
             ctx.font = '14px Times New Roman';
             ctx.fillStyle = '#858796';
             ctx.textAlign = 'center';
-            ctx.fillText('No vehicle data available', canvas.width/2, canvas.height/2);
+            ctx.fillText('No vehicle data available', canvas.width / 2, canvas.height / 2);
             return;
         }
 
@@ -516,9 +510,9 @@ class DailyUpdatesVisualization {
 
         const canvas = document.getElementById('utilityChart');
         if (!canvas) return;
-        
+
         const ctx = canvas.getContext('2d');
-        
+
         if (this.charts.utility) {
             this.charts.utility.destroy();
         }
@@ -614,36 +608,36 @@ class DailyUpdatesVisualization {
             const mallId = document.getElementById('mallFilter')?.value || '';
             const startDate = document.getElementById('detailStartDate')?.value;
             const endDate = document.getElementById('detailEndDate')?.value;
-            
+
             const filters = { limit: 50 };
             if (mallId) filters.mall_id = mallId;
             if (startDate) filters.start_date = startDate;
             if (endDate) filters.end_date = endDate;
-            
+
             const updates = await this.api.getDailyUpdates(filters);
             const tbody = document.getElementById('detailsTableBody');
             if (!tbody) return;
-            
+
             if (updates && updates.length > 0) {
                 // Show only first 5 rows as default
                 const showAll = document.getElementById('showAllRows')?.checked;
                 const rowsToShow = showAll ? updates : updates.slice(0, 5);
-                
+
                 tbody.innerHTML = rowsToShow.map(update => `
                     <tr>
-                        <td data-label="Date"><strong>${this.formatDate(update.update_date)}</strong></td>
-                        <td data-label="Mall"><span class="badge bg-light text-dark border">${update.mall_name || 'N/A'}</span></td>
-                        <td data-label="Footfall" class="text-end">${this.formatNumber(update.mall_footfall)}</td>
-                        <td data-label="Cinema" class="text-end">${this.formatNumber(update.cinema_walkin)}</td>
-                        <td data-label="Parking (₹)" class="text-end">${this.formatCurrency(update.parking_collection)}</td>
-                        <td data-label="2W Count" class="text-end">${this.formatNumber(update.two_wheeler_count)}</td>
-                        <td data-label="4W Count" class="text-end">${this.formatNumber(update.four_wheeler_count)}</td>
-                        <td data-label="KEB Units" class="text-end">${this.formatNumber(update.keb_usage_units)}</td>
-                        <td data-label="Water (KL)" class="text-end">${this.formatNumber(update.water_consumption_kl)}</td>
-                        <td data-label="Diesel (L)" class="text-end">${this.formatNumber(update.diesel_consumption_ltr)}</td>
+                        <td>${this.formatDate(update.update_date)}</td>
+                        <td>${update.mall_name || 'N/A'}</td>
+                        <td class="text-end">${this.formatNumber(update.mall_footfall)}</td>
+                        <td class="text-end">${this.formatNumber(update.cinema_walkin)}</td>
+                        <td class="text-end">${this.formatCurrency(update.parking_collection)}</td>
+                        <td class="text-end">${this.formatNumber(update.two_wheeler_count)}</td>
+                        <td class="text-end">${this.formatNumber(update.four_wheeler_count)}</td>
+                        <td class="text-end">${this.formatNumber(update.keb_usage_units)}</td>
+                        <td class="text-end">${this.formatNumber(update.water_consumption_kl)}</td>
+                        <td class="text-end">${this.formatNumber(update.diesel_consumption_ltr)}</td>
                     </tr>
                 `).join('');
-                
+
                 // Add row count indicator
                 const rowCountEl = document.getElementById('rowCount');
                 if (rowCountEl) {
@@ -673,9 +667,9 @@ class DailyUpdatesVisualization {
 
     formatLargeNumber(num) {
         if (num === undefined || num === null || num === 0) return '0';
-        
+
         const absNum = Math.abs(num);
-        
+
         if (absNum >= 1000000) {
             return (num / 1000000).toFixed(1) + 'M';
         } else if (absNum >= 1000) {
@@ -689,9 +683,9 @@ class DailyUpdatesVisualization {
         try {
             const mallId = document.getElementById('mallFilter')?.value || null;
             const summary = await this.api.getDailyUpdatesSummary(mallId);
-            
+
             if (!summary || summary.length === 0) return;
-            
+
             const totalMallWalkin = summary.reduce((sum, item) => sum + (item.total_footfall || 0), 0);
             const totalCinemaWalkin = summary.reduce((sum, item) => sum + (item.total_cinema || 0), 0);
             const totalParkingCollection = summary.reduce((sum, item) => sum + (item.total_parking || 0), 0);
@@ -714,30 +708,30 @@ class DailyUpdatesVisualization {
 
     async loadHistogram() {
         this.showLoading(true);
-        
+
         try {
             const mallId = document.getElementById('histogramMallFilter')?.value || '';
             const period = document.getElementById('periodFilter')?.value || 'daily';
             const startDate = document.getElementById('histogramStartDate')?.value;
             const endDate = document.getElementById('histogramEndDate')?.value;
             const selectedMetric = document.getElementById('histogramMetricSelect')?.value || 'all';
-            
+
             const filters = { period: period };
             if (mallId) filters.mall_id = mallId;
             if (startDate) filters.start_date = startDate;
             if (endDate) filters.end_date = endDate;
-            
+
             const data = await this.api.getDailyUpdatesComparison(filters);
-            
+
             let filteredData = this.filterByDateRange(data, startDate, endDate);
-            
+
             const totalRecords = document.getElementById('totalRecords');
             if (totalRecords) {
                 totalRecords.textContent = `Total Records: ${filteredData.dates.length}`;
             }
-            
+
             this.createHistogram(filteredData, selectedMetric);
-            
+
         } catch (error) {
             console.error('Error loading histogram:', error);
             this.showNotification('Failed to load histogram data', 'danger');
@@ -748,7 +742,7 @@ class DailyUpdatesVisualization {
 
     filterByDateRange(data, startDate, endDate) {
         if (!startDate && !endDate) return data;
-        
+
         const filtered = {
             dates: [],
             mall_footfall: [],
@@ -761,13 +755,13 @@ class DailyUpdatesVisualization {
             water_consumption: [],
             diesel_consumption: []
         };
-        
+
         for (let i = 0; i < data.dates.length; i++) {
             const currentDate = new Date(data.dates[i]);
-            
+
             if (startDate && new Date(startDate) > currentDate) continue;
             if (endDate && new Date(endDate) < currentDate) continue;
-            
+
             filtered.dates.push(data.dates[i]);
             filtered.mall_footfall.push(data.mall_footfall[i] || 0);
             filtered.cinema_walkin.push(data.cinema_walkin[i] || 0);
@@ -779,20 +773,20 @@ class DailyUpdatesVisualization {
             filtered.water_consumption.push(data.water_consumption[i] || 0);
             filtered.diesel_consumption.push(data.diesel_consumption[i] || 0);
         }
-        
+
         return filtered;
     }
 
     createHistogram(data, selectedMetric) {
         const canvas = document.getElementById('histogramChart');
         if (!canvas) return;
-        
+
         const ctx = canvas.getContext('2d');
-        
+
         if (this.charts.histogram) {
             this.charts.histogram.destroy();
         }
-        
+
         const colorMap = {
             'mall_footfall': { bg: 'rgba(78, 115, 223, 0.7)', border: '#4e73df' },
             'cinema_walkin': { bg: 'rgba(231, 76, 60, 0.7)', border: '#e74a3b' },
@@ -804,9 +798,9 @@ class DailyUpdatesVisualization {
             'water_consumption': { bg: 'rgba(58, 123, 213, 0.7)', border: '#3a7bd5' },
             'diesel_consumption': { bg: 'rgba(44, 62, 80, 0.7)', border: '#2c3e50' }
         };
-        
+
         let datasets = [];
-        
+
         if (selectedMetric === 'all') {
             datasets = [
                 {
@@ -882,7 +876,7 @@ class DailyUpdatesVisualization {
                 borderWidth: 1
             }];
         }
-        
+
         this.charts.histogram = new Chart(ctx, {
             type: 'bar',
             data: {
@@ -895,8 +889,8 @@ class DailyUpdatesVisualization {
                 plugins: {
                     title: {
                         display: true,
-                        text: selectedMetric === 'all' ? 
-                            'All Metrics Distribution' : 
+                        text: selectedMetric === 'all' ?
+                            'All Metrics Distribution' :
                             `${this.getMetricLabel(selectedMetric)} Distribution`,
                         font: { family: 'Rubik', size: 14 }
                     },
@@ -916,7 +910,7 @@ class DailyUpdatesVisualization {
                             label: (context) => {
                                 let label = context.dataset.label || '';
                                 let value = context.raw;
-                                
+
                                 if (label.includes('Parking') || label.includes('₹')) {
                                     return `${label}: ₹${this.formatNumber(value)}`;
                                 } else if (label.includes('Units') || label.includes('KL') || label.includes('L')) {
@@ -977,10 +971,10 @@ class DailyUpdatesVisualization {
         const today = new Date();
         const thirtyDaysAgo = new Date(today);
         thirtyDaysAgo.setDate(today.getDate() - 30);
-        
+
         const startDateInput = document.getElementById('histogramStartDate');
         const endDateInput = document.getElementById('histogramEndDate');
-        
+
         if (startDateInput) {
             startDateInput.value = thirtyDaysAgo.toISOString().split('T')[0];
         }
@@ -992,7 +986,7 @@ class DailyUpdatesVisualization {
     updateHistogramLegend(selectedMetric) {
         const legendContainer = document.getElementById('histogramLegend');
         if (!legendContainer) return;
-        
+
         const colorMap = {
             'mall_footfall': { bg: '#4e73df', label: 'Mall Footfall' },
             'cinema_walkin': { bg: '#e74a3b', label: 'Cinema Walk-in' },
@@ -1004,15 +998,15 @@ class DailyUpdatesVisualization {
             'water_consumption': { bg: '#3a7bd5', label: 'Water Consumption' },
             'diesel_consumption': { bg: '#2c3e50', label: 'Diesel Consumption' }
         };
-        
+
         if (selectedMetric === 'all') {
-            legendContainer.innerHTML = Object.values(colorMap).map(item => 
+            legendContainer.innerHTML = Object.values(colorMap).map(item =>
                 `<span class="badge" style="background-color: ${item.bg}; color: white; padding: 8px 15px; border-radius: 20px;">${item.label}</span>`
             ).join('');
         } else {
             const metric = colorMap[selectedMetric];
             if (metric) {
-                legendContainer.innerHTML = 
+                legendContainer.innerHTML =
                     `<span class="badge" style="background-color: ${metric.bg}; color: white; padding: 8px 15px; border-radius: 20px;">${metric.label}</span>`;
             }
         }
@@ -1025,24 +1019,24 @@ class DailyUpdatesVisualization {
             const mallId = document.getElementById('mallFilter')?.value || 'all';
             const startDate = document.getElementById('detailStartDate')?.value;
             const endDate = document.getElementById('detailEndDate')?.value;
-            
+
             // Get table data
             const table = document.getElementById('detailsTable');
             if (!table) {
                 this.showNotification('No data to export', 'warning');
                 return;
             }
-            
+
             // Convert table to CSV
             const rows = [];
             const headers = [];
-            
+
             // Get headers
             table.querySelectorAll('thead th').forEach(th => {
                 headers.push(th.textContent);
             });
             rows.push(headers.join(','));
-            
+
             // Get data rows
             table.querySelectorAll('tbody tr').forEach(tr => {
                 const row = [];
@@ -1053,7 +1047,7 @@ class DailyUpdatesVisualization {
                     rows.push(row.join(','));
                 }
             });
-            
+
             // Create CSV file
             const csvContent = rows.join('\n');
             const blob = new Blob(['\uFEFF' + csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1065,7 +1059,7 @@ class DailyUpdatesVisualization {
             a.click();
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
-            
+
             this.showNotification('Data exported successfully', 'success');
         } catch (error) {
             console.error('Export error:', error);
@@ -1089,7 +1083,7 @@ class DailyUpdatesVisualization {
     showNotification(message, type = 'success') {
         const existingToasts = document.querySelectorAll('.notification-toast');
         existingToasts.forEach(toast => toast.remove());
-        
+
         const toast = document.createElement('div');
         toast.className = `position-fixed top-0 end-0 m-3 alert alert-${type} shadow-lg notification-toast`;
         toast.style.zIndex = '9999';
@@ -1103,7 +1097,7 @@ class DailyUpdatesVisualization {
             </div>
         `;
         document.body.appendChild(toast);
-        
+
         setTimeout(() => {
             if (toast.parentNode) {
                 toast.style.animation = 'slideOut 0.3s ease-out';
@@ -1142,13 +1136,13 @@ class DailyUpdatesVisualization {
 }
 
 // Global functions
-window.loadVisualization = function() {
+window.loadVisualization = function () {
     if (window.dailyViz) {
         window.dailyViz.loadVisualization();
     }
 };
 
-window.exportChartData = function() {
+window.exportChartData = function () {
     if (window.dailyViz) {
         window.dailyViz.exportData();
     } else {
@@ -1156,7 +1150,7 @@ window.exportChartData = function() {
     }
 };
 
-window.printChart = function() {
+window.printChart = function () {
     if (window.dailyViz) {
         window.dailyViz.printData();
     } else {
