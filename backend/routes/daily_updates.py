@@ -91,8 +91,8 @@ def get_daily_updates():
         end_date = request.args.get('end_date')
         limit = request.args.get('limit', 100, type=int)
 
-        # Base query with explicit join
-        query = db.session.query(DailyUpdate).join(
+        # Base query with explicit outerjoin to avoid excluding records if mall link fails
+        query = db.session.query(DailyUpdate).outerjoin(
             Mall, DailyUpdate.mall_id == Mall.id
         ).order_by(DailyUpdate.update_date.desc())
 
@@ -100,14 +100,23 @@ def get_daily_updates():
             query = query.filter(DailyUpdate.mall_id == mall_id)
 
         if start_date:
-            start = datetime.strptime(start_date, '%Y-%m-%d').date()
-            query = query.filter(DailyUpdate.update_date >= start)
+            try:
+                start = datetime.strptime(start_date, '%Y-%m-%d').date()
+                query = query.filter(DailyUpdate.update_date >= start)
+            except ValueError:
+                pass
 
         if end_date:
-            end = datetime.strptime(end_date, '%Y-%m-%d').date()
-            query = query.filter(DailyUpdate.update_date <= end)
+            try:
+                end = datetime.strptime(end_date, '%Y-%m-%d').date()
+                query = query.filter(DailyUpdate.update_date <= end)
+            except ValueError:
+                pass
 
-        updates = query.limit(limit).all()
+        if limit and limit > 0:
+            query = query.limit(limit)
+
+        updates = query.all()
 
         # Convert to list of dicts (safe fallback if to_dict missing)
         result = []
@@ -156,23 +165,50 @@ def get_comparison_data():
     try:
         mall_id = request.args.get('mall_id', type=int)
         period = request.args.get('period', 'daily')
+        start_date_param = request.args.get('start_date')
+        end_date_param = request.args.get('end_date')
 
-        today = datetime.now().date()
-
-        # Determine start date based on period
-        if period == 'daily':
-            start_date = today - timedelta(days=7)
-        elif period == 'weekly':
-            start_date = today - timedelta(weeks=8)
-        elif period == 'monthly':
-            start_date = today - timedelta(days=365)
-        else:
-            start_date = today - timedelta(days=30)
-
-        query = DailyUpdate.query.filter(DailyUpdate.update_date >= start_date)
+        query = DailyUpdate.query
 
         if mall_id:
             query = query.filter(DailyUpdate.mall_id == mall_id)
+
+        # Handle explicit date range params if provided
+        if start_date_param or end_date_param:
+            if start_date_param:
+                try:
+                    start = datetime.strptime(start_date_param, '%Y-%m-%d').date()
+                    query = query.filter(DailyUpdate.update_date >= start)
+                except ValueError:
+                    pass
+            if end_date_param:
+                try:
+                    end = datetime.strptime(end_date_param, '%Y-%m-%d').date()
+                    query = query.filter(DailyUpdate.update_date <= end)
+                except ValueError:
+                    pass
+        elif period == 'all':
+            # No date filter - return all records
+            pass
+        else:
+            today = datetime.now().date()
+            if period == 'daily':
+                start_date = today - timedelta(days=7)
+            elif period == 'weekly':
+                start_date = today - timedelta(weeks=8)
+            elif period == 'monthly':
+                start_date = today - timedelta(days=365)
+            else:
+                start_date = today - timedelta(days=30)
+
+            # Check if records exist in this relative window
+            period_query = query.filter(DailyUpdate.update_date >= start_date)
+            if period_query.count() > 0:
+                query = period_query
+            else:
+                # Fallback: if no records exist in the recent window (e.g. system date vs data date mismatch),
+                # return available records so visual analytics are displayed
+                logger.info("No records in recent window, returning available records as fallback")
 
         updates = query.order_by(DailyUpdate.update_date).all()
 
@@ -191,15 +227,15 @@ def get_comparison_data():
 
         for u in updates:
             result['dates'].append(u.update_date.strftime('%Y-%m-%d'))
-            result['mall_footfall'].append(u.mall_footfall)
-            result['cinema_walkin'].append(u.cinema_walkin)
-            result['parking_collection'].append(float(u.parking_collection))
-            result['two_wheelers'].append(u.two_wheeler_count)
-            result['four_wheelers'].append(u.four_wheeler_count)
-            result['keb_usage'].append(float(u.keb_usage_units))
-            result['dg_usage'].append(float(u.dg_usage_units))
-            result['water_consumption'].append(float(u.water_consumption_kl))
-            result['diesel_consumption'].append(float(u.diesel_consumption_ltr))
+            result['mall_footfall'].append(u.mall_footfall or 0)
+            result['cinema_walkin'].append(u.cinema_walkin or 0)
+            result['parking_collection'].append(float(u.parking_collection or 0))
+            result['two_wheelers'].append(u.two_wheeler_count or 0)
+            result['four_wheelers'].append(u.four_wheeler_count or 0)
+            result['keb_usage'].append(float(u.keb_usage_units or 0))
+            result['dg_usage'].append(float(u.dg_usage_units or 0))
+            result['water_consumption'].append(float(u.water_consumption_kl or 0))
+            result['diesel_consumption'].append(float(u.diesel_consumption_ltr or 0))
 
         return jsonify(result), 200
 
@@ -216,6 +252,8 @@ def get_mall_summary():
     try:
         from sqlalchemy import func
         mall_id = request.args.get('mall_id', type=int)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
 
         query = db.session.query(
             Mall.id,
@@ -230,6 +268,20 @@ def get_mall_summary():
 
         if mall_id:
             query = query.filter(Mall.id == mall_id)
+
+        if start_date:
+            try:
+                start = datetime.strptime(start_date, '%Y-%m-%d').date()
+                query = query.filter(DailyUpdate.update_date >= start)
+            except ValueError:
+                pass
+
+        if end_date:
+            try:
+                end = datetime.strptime(end_date, '%Y-%m-%d').date()
+                query = query.filter(DailyUpdate.update_date <= end)
+            except ValueError:
+                pass
 
         query = query.group_by(Mall.id)
 

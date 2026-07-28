@@ -206,17 +206,7 @@ class DailyUpdates {
         }
         
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/daily/daily-updates?limit=10', {
-                headers: {
-                    'Authorization': `Bearer ${auth.getToken()}`
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            const updates = await response.json();
+            const updates = await this.api.getDailyUpdates({ limit: 10 });
             
             if (updates && updates.length > 0) {
                 tbody.innerHTML = updates.map(update => `
@@ -270,17 +260,7 @@ class DailyUpdates {
         }
         
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/daily/daily-updates?limit=1', {
-                headers: {
-                    'Authorization': `Bearer ${auth.getToken()}`
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            const updates = await response.json();
+            const updates = await this.api.getDailyUpdates({ limit: 1 });
             
             if (updates && updates.length > 0) {
                 const update = updates[0];
@@ -344,17 +324,7 @@ class DailyUpdates {
         const lastUploadEl = document.getElementById('lastUploadTime');
         
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/daily/daily-updates?limit=100', {
-                headers: {
-                    'Authorization': `Bearer ${auth.getToken()}`
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error(`HTTP error ${response.status}`);
-            }
-            
-            const updates = await response.json();
+            const updates = await this.api.getDailyUpdates({ limit: 100 });
             
             // Yesterday's uploads
             const yesterday = new Date();
@@ -440,16 +410,10 @@ class DailyUpdates {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/daily/daily-updates', {
+            const result = await this.api.request('/daily/daily-updates', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${auth.getToken()}`
-                },
                 body: JSON.stringify(data)
             });
-
-            const result = await response.json();
 
             if (result.success) {
                 this.showSuccessAnimation();
@@ -586,7 +550,7 @@ class DailyUpdates {
                 throw new Error('No authentication token found');
             }
             
-            const url = 'http://127.0.0.1:5000/api/upload/excel/daily-updates';
+            const url = `${this.api.baseURL}/upload/excel/daily-updates`;
             console.log('Uploading to:', url);
             
             const response = await fetch(url, {

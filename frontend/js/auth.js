@@ -1,8 +1,8 @@
 // Authentication Module
 class Auth {
     constructor() {
-        // Use the same API base URL as api.js (fallback to Render URL)
-        this.baseURL = window.API_BASE_URL || 'https://mall-dashboard.onrender.com/api';
+        const isLocalHost = typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost');
+        this.baseURL = window.API_BASE_URL || (isLocalHost ? 'http://127.0.0.1:5000/api' : 'https://mall-dashboard.onrender.com/api');
         this.token = localStorage.getItem('auth_token');
         try {
             this.user = JSON.parse(localStorage.getItem('user') || 'null');

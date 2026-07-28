@@ -6,9 +6,8 @@ class API {
         // Replace with your Render or PythonAnywhere URL:
         // example: https://your-app-name.onrender.com/api
         // ============================================================
-       this.baseURL = window.API_BASE_URL || 'https://mall-dashboard.onrender.com/api';
-        // For local development, you can set window.API_BASE_URL = 'http://127.0.0.1:5000/api';
-        // before loading this script, or change the fallback above.
+        const isLocalHost = typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost');
+        this.baseURL = window.API_BASE_URL || (isLocalHost ? 'http://127.0.0.1:5000/api' : 'https://mall-dashboard.onrender.com/api');
         
         this.refreshToken = localStorage.getItem('refresh_token');
     }
@@ -161,6 +160,28 @@ class API {
     async getDailyUpdatesSummary(mallId = null) {
         const query = mallId ? `?mall_id=${mallId}` : '';
         return this.request(`/daily/daily-updates/summary${query}`);
+    }
+
+    async getDailyUpdates(filters = {}) {
+        const queryParams = new URLSearchParams();
+        Object.keys(filters).forEach(key => {
+            if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
+                queryParams.append(key, filters[key]);
+            }
+        });
+        const query = queryParams.toString();
+        return this.request(`/daily/daily-updates${query ? '?' + query : ''}`);
+    }
+
+    async getDailyUpdatesComparison(filters = {}) {
+        const queryParams = new URLSearchParams();
+        Object.keys(filters).forEach(key => {
+            if (filters[key] !== null && filters[key] !== undefined && filters[key] !== '') {
+                queryParams.append(key, filters[key]);
+            }
+        });
+        const query = queryParams.toString();
+        return this.request(`/daily/daily-updates/comparison${query ? '?' + query : ''}`);
     }
 
     // ========== MALLS ==========

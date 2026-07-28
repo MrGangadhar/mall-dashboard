@@ -206,21 +206,11 @@ class DailyUpdatesVisualization {
             const mallId = document.getElementById('mallFilter')?.value || '';
             const period = document.getElementById('periodFilter')?.value || 'daily';
 
-            // Fetch comparison data
-            const response = await fetch(
-                `http://127.0.0.1:5000/api/daily/daily-updates/comparison?mall_id=${mallId}&period=${period}`,
-                {
-                    headers: {
-                        'Authorization': `Bearer ${auth.getToken()}`
-                    }
-                }
-            );
-            
-            if (!response.ok) {
-                throw new Error(`Comparison request failed with status ${response.status}`);
-            }
-
-            this.currentData = await response.json();
+            // Fetch comparison data using API helper
+            this.currentData = await this.api.getDailyUpdatesComparison({
+                mall_id: mallId,
+                period: period
+            });
             
             // Update metrics (now with day-over-day comparison)
             this.updateMetrics();
@@ -619,19 +609,12 @@ class DailyUpdatesVisualization {
             const startDate = document.getElementById('detailStartDate')?.value;
             const endDate = document.getElementById('detailEndDate')?.value;
             
-            let url = `http://127.0.0.1:5000/api/daily/daily-updates?mall_id=${mallId}&limit=50`;
+            const filters = { limit: 50 };
+            if (mallId) filters.mall_id = mallId;
+            if (startDate) filters.start_date = startDate;
+            if (endDate) filters.end_date = endDate;
             
-            if (startDate && endDate) {
-                url += `&start_date=${startDate}&end_date=${endDate}`;
-            }
-            
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `Bearer ${auth.getToken()}`
-                }
-            });
-            
-            const updates = await response.json();
+            const updates = await this.api.getDailyUpdates(filters);
             const tbody = document.getElementById('detailsTableBody');
             if (!tbody) return;
             
@@ -733,14 +716,12 @@ class DailyUpdatesVisualization {
             const endDate = document.getElementById('histogramEndDate')?.value;
             const selectedMetric = document.getElementById('histogramMetricSelect')?.value || 'all';
             
-            let url = `http://127.0.0.1:5000/api/daily/daily-updates/comparison?period=${period}`;
-            if (mallId) url += `&mall_id=${mallId}`;
+            const filters = { period: period };
+            if (mallId) filters.mall_id = mallId;
+            if (startDate) filters.start_date = startDate;
+            if (endDate) filters.end_date = endDate;
             
-            const response = await fetch(url, {
-                headers: { 'Authorization': `Bearer ${auth.getToken()}` }
-            });
-            
-            const data = await response.json();
+            const data = await this.api.getDailyUpdatesComparison(filters);
             
             let filteredData = this.filterByDateRange(data, startDate, endDate);
             
