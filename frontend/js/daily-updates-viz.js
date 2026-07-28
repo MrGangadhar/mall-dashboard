@@ -462,7 +462,7 @@ class DailyUpdatesVisualization {
 
         if (twoWheelers === 0 && fourWheelers === 0) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.font = '14px Times New Roman';
+            ctx.font = '14px Rubik, sans-serif';
             ctx.fillStyle = '#858796';
             ctx.textAlign = 'center';
             ctx.fillText('No vehicle data available', canvas.width / 2, canvas.height / 2);
@@ -475,7 +475,7 @@ class DailyUpdatesVisualization {
                 labels: ['2-Wheelers', '4-Wheelers'],
                 datasets: [{
                     data: [twoWheelers, fourWheelers],
-                    backgroundColor: ['#36b9cc', '#1cc88a'],
+                    backgroundColor: ['#4e73df', '#1cc88a'],
                     borderWidth: 0
                 }]
             },
@@ -486,7 +486,7 @@ class DailyUpdatesVisualization {
                     legend: {
                         position: 'bottom',
                         labels: {
-                            font: { family: 'Times New Roman', size: 12 }
+                            font: { family: 'Rubik, sans-serif', size: 12 }
                         }
                     },
                     tooltip: {
