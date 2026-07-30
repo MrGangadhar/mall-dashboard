@@ -16,12 +16,13 @@ class Dashboard {
         // Load user info
         this.loadUserInfo();
 
-        // Load dashboard data
         await this.loadDashboardOverview();
         await this.loadMallPerformance();
         await this.loadUploadHistory();
         await this.loadTopBrands();
         await this.loadAdditionalStats();
+        await this.loadAdvancedComparisons();
+        await this.loadMissingDates();
 
         // Initialize real-time updates
         this.initWebSocket();
@@ -332,6 +333,153 @@ class Dashboard {
             
         } catch (error) {
             console.error('Error loading top brands:', error);
+        }
+    }
+
+    async loadAdvancedComparisons() {
+        try {
+            const data = await this.api.getDashboardComparisons();
+            if (!data) return;
+
+            const formatChange = (current, previous) => {
+                if (!previous || previous === 0) return current > 0 ? '+100%' : '0%';
+                const change = ((current - previous) / previous) * 100;
+                const sign = change > 0 ? '+' : '';
+                const color = change > 0 ? 'text-success' : (change < 0 ? 'text-danger' : 'text-muted');
+                const icon = change > 0 ? 'fa-arrow-up' : (change < 0 ? 'fa-arrow-down' : 'fa-minus');
+                return `<span class="${color} fw-bold"><i class="fas ${icon} me-1"></i>${change.toFixed(1)}%</span>`;
+            };
+
+            const renderMetric = (title, current, previous, isCurrency = false) => {
+                const val = isCurrency ? this.formatCurrency(current) : this.formatNumber(current);
+                return `
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <span class="small text-muted">${title}</span>
+                        <span class="fw-bold">${val}</span>
+                    </div>
+                    <div class="text-end small">${formatChange(current, previous)} vs prev</div>
+                `;
+            };
+
+            const dodEl = document.getElementById('dodMetrics');
+            if (dodEl) {
+                dodEl.innerHTML = `
+                    ${renderMetric('Footfall', data.today?.footfall, data.yesterday?.footfall)}
+                    <hr class="my-1">
+                    ${renderMetric('Parking', data.today?.parking, data.yesterday?.parking, true)}
+                `;
+            }
+
+            const momEl = document.getElementById('momMetrics');
+            if (momEl) {
+                momEl.innerHTML = `
+                    ${renderMetric('Footfall', data.this_month?.footfall, data.last_month?.footfall)}
+                    <hr class="my-1">
+                    ${renderMetric('Parking', data.this_month?.parking, data.last_month?.parking, true)}
+                `;
+            }
+
+            const yoyEl = document.getElementById('yoyMetrics');
+            if (yoyEl) {
+                yoyEl.innerHTML = `
+                    ${renderMetric('Footfall', data.this_year?.footfall, data.last_year?.footfall)}
+                    <hr class="my-1">
+                    ${renderMetric('Parking', data.this_year?.parking, data.last_year?.parking, true)}
+                `;
+            }
+
+            const yomEl = document.getElementById('yomMetrics');
+            if (yomEl) {
+                yomEl.innerHTML = `
+                    ${renderMetric('Footfall', data.this_month?.footfall, data.last_year_this_month?.footfall)}
+                    <hr class="my-1">
+                    ${renderMetric('Parking', data.this_month?.parking, data.last_year_this_month?.parking, true)}
+                `;
+            }
+
+            // Render Chart
+            const ctx = document.getElementById('trendComparisonChart');
+            if (ctx) {
+                if (this.charts.trendComparison) {
+                    this.charts.trendComparison.destroy();
+                }
+                
+                this.charts.trendComparison = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Today vs Yday', 'This Mo vs Last Mo', 'This Yr vs Last Yr', 'This Mo vs Last Yr Mo'],
+                        datasets: [
+                            {
+                                label: 'Current Period Footfall',
+                                data: [data.today?.footfall || 0, data.this_month?.footfall || 0, data.this_year?.footfall || 0, data.this_month?.footfall || 0],
+                                backgroundColor: 'rgba(78, 115, 223, 0.8)',
+                                borderRadius: 4
+                            },
+                            {
+                                label: 'Previous Period Footfall',
+                                data: [data.yesterday?.footfall || 0, data.last_month?.footfall || 0, data.last_year?.footfall || 0, data.last_year_this_month?.footfall || 0],
+                                backgroundColor: 'rgba(133, 135, 150, 0.5)',
+                                borderRadius: 4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { position: 'top' }
+                        }
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.error('Error loading advanced comparisons:', error);
+        }
+    }
+
+    async loadMissingDates() {
+        try {
+            const monthInput = document.getElementById('missingDatesMonth');
+            let month = monthInput ? monthInput.value : null;
+            if (!month) {
+                const now = new Date();
+                month = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+                if (monthInput) monthInput.value = month;
+            }
+
+            const data = await this.api.getMissingDates(month);
+            const tbody = document.getElementById('missingDatesTableBody');
+            const totalCountEl = document.getElementById('totalMissingCount');
+            
+            if (!tbody) return;
+
+            if (!data || data.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" class="text-center text-success py-4"><i class="fas fa-check-circle fa-2x mb-2 d-block"></i>No missing dates for this month!</td></tr>`;
+                if (totalCountEl) totalCountEl.textContent = '0';
+                return;
+            }
+
+            let totalMissing = 0;
+            const rows = data.map(mall => {
+                totalMissing += mall.missing_dates.length;
+                const badges = mall.missing_dates.map(d => `<span class="badge bg-danger me-1 mb-1">${d}</span>`).join('');
+                return `
+                    <tr>
+                        <td class="fw-bold">#${mall.mall_id}</td>
+                        <td class="fw-bold text-primary">${mall.mall_name}</td>
+                        <td>${badges}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            tbody.innerHTML = rows;
+            if (totalCountEl) totalCountEl.textContent = totalMissing;
+
+        } catch (error) {
+            console.error('Error loading missing dates:', error);
+            const tbody = document.getElementById('missingDatesTableBody');
+            if (tbody) tbody.innerHTML = `<tr><td colspan="3" class="text-center text-danger py-4">Error loading data.</td></tr>`;
         }
     }
 

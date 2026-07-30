@@ -184,6 +184,15 @@ class API {
         return this.request(`/daily/daily-updates/comparison${query ? '?' + query : ''}`);
     }
 
+    async getMissingDates(month = null) {
+        const query = month ? `?month=${month}` : '';
+        return this.request(`/daily/missing-dates${query}`);
+    }
+
+    async getDashboardComparisons() {
+        return this.request('/daily/dashboard/comparisons');
+    }
+
     // ========== MALLS ==========
     async getMalls() {
         return this.request('/malls');

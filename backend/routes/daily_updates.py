@@ -191,24 +191,24 @@ def get_comparison_data():
             # No date filter - return all records
             pass
         else:
-            today = datetime.now().date()
-            if period == 'daily':
-                start_date = today - timedelta(days=7)
-            elif period == 'weekly':
-                start_date = today - timedelta(weeks=8)
-            elif period == 'monthly':
-                start_date = today - timedelta(days=365)
+            from sqlalchemy import func
+            latest_date = query.with_entities(func.max(DailyUpdate.update_date)).scalar()
+            
+            if latest_date:
+                reference_date = latest_date
             else:
-                start_date = today - timedelta(days=30)
+                reference_date = datetime.now().date()
 
-            # Check if records exist in this relative window
-            period_query = query.filter(DailyUpdate.update_date >= start_date)
-            if period_query.count() > 0:
-                query = period_query
+            if period == 'daily':
+                start_date = reference_date - timedelta(days=7)
+            elif period == 'weekly':
+                start_date = reference_date - timedelta(weeks=8)
+            elif period == 'monthly':
+                start_date = reference_date - timedelta(days=365)
             else:
-                # Fallback: if no records exist in the recent window (e.g. system date vs data date mismatch),
-                # return available records so visual analytics are displayed
-                logger.info("No records in recent window, returning available records as fallback")
+                start_date = reference_date - timedelta(days=30)
+
+            query = query.filter(DailyUpdate.update_date >= start_date)
 
         updates = query.order_by(DailyUpdate.update_date).all()
 
@@ -303,4 +303,113 @@ def get_mall_summary():
 
     except Exception as e:
         logger.error(f"Error in get_mall_summary: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+
+@daily_updates_bp.route('/missing-dates', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_missing_dates():
+    """Get missing daily update dates for a given month"""
+    try:
+        import calendar
+        month_str = request.args.get('month')
+        if not month_str:
+            month_str = datetime.now().strftime('%Y-%m')
+        
+        try:
+            year, month = map(int, month_str.split('-'))
+        except ValueError:
+            return jsonify({'error': 'Invalid month format. Use YYYY-MM'}), 400
+            
+        num_days = calendar.monthrange(year, month)[1]
+        today = datetime.now().date()
+        
+        all_days = []
+        for d in range(1, num_days + 1):
+            check_date = datetime(year, month, d).date()
+            if check_date <= today:
+                all_days.append(check_date)
+                
+        malls = Mall.query.all()
+        results = []
+        
+        for mall in malls:
+            existing_records = DailyUpdate.query.filter(
+                DailyUpdate.mall_id == mall.id,
+                db.extract('year', DailyUpdate.update_date) == year,
+                db.extract('month', DailyUpdate.update_date) == month
+            ).with_entities(DailyUpdate.update_date).all()
+            
+            existing_dates = set([r[0] for r in existing_records])
+            
+            missing_dates = []
+            for d in all_days:
+                if d not in existing_dates:
+                    missing_dates.append(d.strftime('%Y-%m-%d'))
+                    
+            if missing_dates:
+                results.append({
+                    'mall_id': mall.id,
+                    'mall_name': mall.name,
+                    'missing_dates': missing_dates
+                })
+                
+        return jsonify(results), 200
+    except Exception as e:
+        logger.error(f"Error in get_missing_dates: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+
+@daily_updates_bp.route('/dashboard/comparisons', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_dashboard_comparisons():
+    """Get comparison metrics for dashboard"""
+    try:
+        import calendar
+        today = datetime.now().date()
+        
+        # Ranges
+        today_start = today
+        yesterday_start = today - timedelta(days=1)
+        
+        this_month_start = today.replace(day=1)
+        last_month_end = this_month_start - timedelta(days=1)
+        last_month_start = last_month_end.replace(day=1)
+        
+        this_year_start = today.replace(month=1, day=1)
+        last_year_end = this_year_start - timedelta(days=1)
+        last_year_start = last_year_end.replace(month=1, day=1)
+        
+        try:
+            last_year_this_month_start = this_month_start.replace(year=this_month_start.year - 1)
+        except ValueError:
+            last_year_this_month_start = this_month_start.replace(year=this_month_start.year - 1, day=28)
+            
+        last_year_this_month_end = last_year_this_month_start.replace(day=calendar.monthrange(last_year_this_month_start.year, last_year_this_month_start.month)[1])
+            
+        def get_agg_for_range(start_d, end_d):
+            res = db.session.query(
+                db.func.sum(DailyUpdate.mall_footfall).label('footfall'),
+                db.func.sum(DailyUpdate.cinema_walkin).label('cinema'),
+                db.func.sum(DailyUpdate.parking_collection).label('parking')
+            ).filter(DailyUpdate.update_date >= start_d, DailyUpdate.update_date <= end_d).first()
+            return {
+                'footfall': int(res.footfall or 0),
+                'cinema': int(res.cinema or 0),
+                'parking': float(res.parking or 0)
+            }
+            
+        return jsonify({
+            'today': get_agg_for_range(today_start, today),
+            'yesterday': get_agg_for_range(yesterday_start, yesterday_start),
+            'this_month': get_agg_for_range(this_month_start, today),
+            'last_month': get_agg_for_range(last_month_start, last_month_end),
+            'this_year': get_agg_for_range(this_year_start, today),
+            'last_year': get_agg_for_range(last_year_start, last_year_end),
+            'last_year_this_month': get_agg_for_range(last_year_this_month_start, last_year_this_month_end)
+        }), 200
+    except Exception as e:
+        logger.error(f"Error in dashboard comparisons: {e}", exc_info=True)
         return jsonify({'error': str(e)}), 500
