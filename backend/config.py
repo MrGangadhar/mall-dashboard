@@ -9,11 +9,19 @@ class Config:
     # Get the absolute path of the backend directory
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     
-    # Database - Use SQLite for initial testing if MySQL not available
-    SQLALCHEMY_DATABASE_URI = os.getenv(
+    # Database - Use Neon PostgreSQL if DATABASE_URL is set, else fallback to local SQLite
+    _db_url = os.getenv(
         'DATABASE_URL', 
         f'sqlite:///{os.path.join(BASE_DIR, "app.db")}'
     )
+    # SQLAlchemy requires 'postgresql+psycopg2://' not 'postgresql://'
+    if _db_url.startswith('postgresql://'):
+        _db_url = _db_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+    SQLALCHEMY_DATABASE_URI = _db_url
+    # SSL required for Neon
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'connect_args': {'sslmode': 'require'} if 'neon.tech' in _db_url else {}
+    }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # File Upload

@@ -155,7 +155,7 @@ class RentData(db.Model):
     maintenance_charges = db.Column(Numeric(15, 2))
     other_charges = db.Column(Numeric(15, 2), default=0)
     total_rent = db.Column(Numeric(15, 2))
-    payment_status = db.Column(Enum('Paid', 'Pending', 'Overdue', 'Partial'), default='Pending')
+    payment_status = db.Column(Enum('Paid', 'Pending', 'Overdue', 'Partial', name='payment_status_enum'), default='Pending')
     payment_date = db.Column(db.Date)
     payment_method = db.Column(db.String(50))
     invoice_number = db.Column(db.String(50))
