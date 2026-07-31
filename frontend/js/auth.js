@@ -1,7 +1,11 @@
 // Authentication Module
 class Auth {
     constructor() {
-        const isLocalHost = typeof window !== 'undefined' && (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost');
+        const isLocalHost = typeof window !== 'undefined' && (
+            window.location.hostname === '127.0.0.1' || 
+            window.location.hostname === 'localhost' ||
+            window.location.protocol === 'file:'
+        );
         this.baseURL = window.API_BASE_URL || (isLocalHost ? 'http://127.0.0.1:5000/api' : 'https://mall-dashboard.onrender.com/api');
         this.token = localStorage.getItem('auth_token');
         try {

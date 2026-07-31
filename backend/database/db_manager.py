@@ -74,12 +74,20 @@ class DatabaseManager:
                 query = query.filter(Mall.id == mall_id)
             
             if period == 'month':
-                current_month = datetime.now().strftime('%Y-%m')
+                current_year = datetime.now().year
+                current_month = datetime.now().month
+                current_month_str = datetime.now().strftime('%Y-%m')
                 query = query.filter(
                     or_(
-                        SalesData.date.like(f"{current_month}-%"),
-                        WalkinData.date.like(f"{current_month}-%"),
-                        RentData.month == current_month
+                        and_(
+                            extract('year', SalesData.date) == current_year,
+                            extract('month', SalesData.date) == current_month
+                        ),
+                        and_(
+                            extract('year', WalkinData.date) == current_year,
+                            extract('month', WalkinData.date) == current_month
+                        ),
+                        RentData.month == current_month_str
                     )
                 )
             elif period == 'week':
