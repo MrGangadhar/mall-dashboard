@@ -22,7 +22,7 @@ def allowed_file(filename):
 
 @upload_bp.route('/walkin', methods=['POST'])
 @cross_origin()
-@login_required
+@token_required
 def upload_walkin_data():
     """Upload walk-in data"""
     try:
@@ -103,7 +103,7 @@ def upload_walkin_data():
                     existing.footfall = int(row['Footfall'])
                     existing.peak_hour_visitors = int(row.get('Peak Hour Visitors', 0))
                     existing.average_dwell_time = int(row.get('Average Dwell Time', 0))
-                    existing.created_by = current_user.id
+                    existing.created_by = request.current_user.id
                 else:
                     # Insert
                     walkin_data = WalkinData(
@@ -112,7 +112,7 @@ def upload_walkin_data():
                         footfall=int(row['Footfall']),
                         peak_hour_visitors=int(row.get('Peak Hour Visitors', 0)),
                         average_dwell_time=int(row.get('Average Dwell Time', 0)),
-                        created_by=current_user.id
+                        created_by=request.current_user.id
                     )
                     db.session.add(walkin_data)
                 
@@ -139,7 +139,7 @@ def upload_walkin_data():
             error_log='\n'.join(error_log[:20]),
             status='Completed' if error_count == 0 else 'Partial',
             uploaded_at=datetime.utcnow(),
-            uploaded_by=current_user.id,
+            uploaded_by=request.current_user.id,
             completion_time=datetime.utcnow()
         )
         db.session.add(upload_history)
@@ -167,7 +167,7 @@ def upload_walkin_data():
 
 @upload_bp.route('/sales', methods=['POST'])
 @cross_origin()
-@login_required
+@token_required
 def upload_sales_data():
     """Upload sales data"""
     try:
@@ -278,7 +278,7 @@ def upload_sales_data():
                     existing.returns_amount = returns
                     existing.discount_amount = discounts
                     existing.net_sales = net_sales
-                    existing.created_by = current_user.id
+                    existing.created_by = request.current_user.id
                 else:
                     sales_data = SalesData(
                         mall_id=mall_id,
@@ -291,7 +291,7 @@ def upload_sales_data():
                         returns_amount=returns,
                         discount_amount=discounts,
                         net_sales=net_sales,
-                        created_by=current_user.id
+                        created_by=request.current_user.id
                     )
                     db.session.add(sales_data)
                 
@@ -319,7 +319,7 @@ def upload_sales_data():
             error_log='\n'.join(error_log[:20]),
             status='Completed' if error_count == 0 else 'Partial',
             uploaded_at=datetime.utcnow(),
-            uploaded_by=current_user.id,
+            uploaded_by=request.current_user.id,
             completion_time=datetime.utcnow()
         )
         db.session.add(upload_history)
@@ -347,7 +347,7 @@ def upload_sales_data():
 
 @upload_bp.route('/rent', methods=['POST'])
 @cross_origin()
-@login_required
+@token_required
 def upload_rent_data():
     """Upload rent data"""
     try:
@@ -451,7 +451,7 @@ def upload_rent_data():
                     existing.total_rent = total_rent
                     existing.payment_status = row.get('Payment Status', 'Pending')
                     existing.payment_date = pd.to_datetime(row.get('Payment Date')).date() if not pd.isna(row.get('Payment Date')) else None
-                    existing.created_by = current_user.id
+                    existing.created_by = request.current_user.id
                 else:
                     rent_data = RentData(
                         mall_id=mall_id,
@@ -463,7 +463,7 @@ def upload_rent_data():
                         total_rent=total_rent,
                         payment_status=row.get('Payment Status', 'Pending'),
                         payment_date=pd.to_datetime(row.get('Payment Date')).date() if not pd.isna(row.get('Payment Date')) else None,
-                        created_by=current_user.id
+                        created_by=request.current_user.id
                     )
                     db.session.add(rent_data)
                 
@@ -491,7 +491,7 @@ def upload_rent_data():
             error_log='\n'.join(error_log[:20]),
             status='Completed' if error_count == 0 else 'Partial',
             uploaded_at=datetime.utcnow(),
-            uploaded_by=current_user.id,
+            uploaded_by=request.current_user.id,
             completion_time=datetime.utcnow()
         )
         db.session.add(upload_history)
@@ -519,7 +519,7 @@ def upload_rent_data():
 
 @upload_bp.route('/check-status/<int:upload_id>', methods=['GET'])
 @cross_origin()
-@login_required
+@token_required
 def check_upload_status(upload_id):
     """Check upload status"""
     try:

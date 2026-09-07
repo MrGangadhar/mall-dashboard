@@ -5,22 +5,36 @@ from dotenv import load_dotenv
 # Load environment variables
 load_dotenv()
 
+import urllib.parse
+
 class Config:
     # Get the absolute path of the backend directory
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     
-    # Database - Use Neon PostgreSQL if DATABASE_URL is set, else fallback to local SQLite
-    _db_url = os.getenv(
-        'DATABASE_URL', 
-        f'sqlite:///{os.path.join(BASE_DIR, "app.db")}'
-    )
-    # SQLAlchemy requires 'postgresql+psycopg2://' not 'postgresql://'
-    if _db_url.startswith('postgresql://'):
-        _db_url = _db_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
-    SQLALCHEMY_DATABASE_URI = _db_url
-    # SSL required for Neon
+    # Database - Use MySQL if DB_* env vars are present, or DATABASE_URL, or fallback to SQLite
+    db_user = os.getenv('DB_USER')
+    db_password = os.getenv('DB_PASSWORD')
+    db_host = os.getenv('DB_HOST', 'localhost')
+    db_port = os.getenv('DB_PORT', '3306')
+    db_name = os.getenv('DB_NAME')
+    
+    database_url_env = os.getenv('DATABASE_URL')
+    
+    if database_url_env and database_url_env.startswith('mysql'):
+        SQLALCHEMY_DATABASE_URI = database_url_env
+    elif db_user and db_password and db_name:
+        encoded_password = urllib.parse.quote_plus(db_password)
+        SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{db_user}:{encoded_password}@{db_host}:{db_port}/{db_name}"
+    elif database_url_env:
+        _db_url = database_url_env
+        if _db_url.startswith('postgresql://'):
+            _db_url = _db_url.replace('postgresql://', 'postgresql+psycopg2://', 1)
+        SQLALCHEMY_DATABASE_URI = _db_url
+    else:
+        SQLALCHEMY_DATABASE_URI = f'sqlite:///{os.path.join(BASE_DIR, "app.db")}'
+        
     SQLALCHEMY_ENGINE_OPTIONS = {
-        'connect_args': {'sslmode': 'require'} if 'neon.tech' in _db_url else {}
+        'connect_args': {'sslmode': 'require'} if 'neon.tech' in SQLALCHEMY_DATABASE_URI else {}
     }
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     

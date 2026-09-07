@@ -188,7 +188,7 @@ with app.app_context():
         db.create_all()
         app.logger.info("[OK] Database tables created/verified")
 
-        from database.models import User
+        from database.models import User, TemplateMaster
         admin = User.query.filter_by(username='admin').first()
         if not admin:
             admin = User(
@@ -201,6 +201,41 @@ with app.app_context():
             db.session.add(admin)
             db.session.commit()
             app.logger.info("[OK] Default admin user created")
+
+        if TemplateMaster.query.count() == 0:
+            templates = [
+                TemplateMaster(
+                    template_type='walkin',
+                    template_name='Walk-in Data Template',
+                    column_mapping={"mall_name": "Mall Name", "date": "Date", "footfall": "Footfall", "peak_hour_visitors": "Peak Hour Visitors", "average_dwell_time": "Average Dwell Time"},
+                    required_columns=["Mall Name", "Date", "Footfall"],
+                    sample_data={"Mall Name": "Gopalan Signature Tower", "Date": "2024-03-15", "Footfall": 5000, "Peak Hour Visitors": 1200, "Average Dwell Time": 45}
+                ),
+                TemplateMaster(
+                    template_type='sales',
+                    template_name='Sales Data Template',
+                    column_mapping={"mall_name": "Mall Name", "brand_name": "Brand Name", "date": "Date", "total_sales": "Total Sales", "transaction_count": "Transaction Count", "customer_count": "Customer Count", "returns_amount": "Returns Amount", "discount_amount": "Discount Amount"},
+                    required_columns=["Mall Name", "Brand Name", "Date", "Total Sales", "Transaction Count"],
+                    sample_data={"Mall Name": "Gopalan Signature Tower", "Brand Name": "Nike", "Date": "2024-03-15", "Total Sales": 150000, "Transaction Count": 75, "Customer Count": 68}
+                ),
+                TemplateMaster(
+                    template_type='rent',
+                    template_name='Rent Data Template',
+                    column_mapping={"mall_name": "Mall Name", "brand_name": "Brand Name", "month": "Month", "base_rent": "Base Rent", "maintenance_charges": "Maintenance Charges", "total_rent": "Total Rent", "payment_status": "Payment Status"},
+                    required_columns=["Mall Name", "Brand Name", "Month", "Base Rent", "Total Rent"],
+                    sample_data={"Mall Name": "Gopalan Signature Tower", "Brand Name": "Nike", "Month": "2024-03", "Base Rent": 250000, "Maintenance Charges": 25000, "Total Rent": 275000, "Payment Status": "Pending"}
+                ),
+                TemplateMaster(
+                    template_type='brands',
+                    template_name='Bulk Brand Onboarding Template',
+                    column_mapping={"mall_name": "Mall Name", "brand_name": "Brand Name", "category": "Category", "sub_category": "Sub Category", "store_area": "Store Area (sq ft)", "lease_start_date": "Lease Start Date", "lease_end_date": "Lease End Date", "monthly_rent": "Monthly Rent", "revenue_share_percentage": "Revenue Share %"},
+                    required_columns=["Mall Name", "Brand Name", "Category", "Monthly Rent"],
+                    sample_data={"Mall Name": "Gopalan Signature Tower", "Brand Name": "New Brand", "Category": "Fashion", "Store Area": 1500, "Lease Start Date": "2024-04-01", "Monthly Rent": 200000}
+                )
+            ]
+            db.session.add_all(templates)
+            db.session.commit()
+            app.logger.info("[OK] Default template master records seeded")
     except Exception as e:
         app.logger.error(f"[ERROR] Database initialization error: {e}")
 
