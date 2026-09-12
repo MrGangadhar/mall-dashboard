@@ -48,18 +48,20 @@ class API {
             const response = await fetch(url, config);
             console.log(`📥 ${options.method || 'GET'} ${endpoint} → ${response.status}`);
 
-            // If 401 and we have a refresh token, try refresh
-            if (response.status === 401 && this.refreshToken) {
-                const refreshed = await this._refreshAccessToken();
-                if (refreshed) {
-                    // Retry with new token
-                    return this.request(endpoint, options);
-                } else {
-                    // Refresh failed – clear tokens and redirect
-                    this._clearTokens();
-                    window.location.href = 'index.html';
-                    throw new Error('Session expired. Please log in again.');
+            // Handle 401 Unauthorized
+            if (response.status === 401) {
+                if (this.refreshToken) {
+                    const refreshed = await this._refreshAccessToken();
+                    if (refreshed) {
+                        return this.request(endpoint, options);
+                    }
                 }
+                this._clearTokens();
+                const isLoginPage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+                if (!isLoginPage) {
+                    window.location.href = 'index.html';
+                }
+                throw new Error('Session expired. Please log in again.');
             }
 
             // Handle non-JSON responses

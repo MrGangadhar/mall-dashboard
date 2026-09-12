@@ -17,7 +17,7 @@ from sqlalchemy import text
 try:
     from config import Config
 except ImportError:
-    print("⚠️  Config file not found. Using default configuration.")
+    print("[WARNING] Config file not found. Using default configuration.")
     class Config:
         SECRET_KEY = 'dev-key'
         SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
@@ -35,7 +35,7 @@ try:
     from routes.daily_updates import daily_updates_bp
     # from routes.clear_data import clear_data_bp   # Commented out if not needed
 except ImportError as e:
-    print(f"⚠️  Some route imports failed: {e}")
+    print(f"[WARNING] Some route imports failed: {e}")
     from flask import Blueprint
     auth_bp = Blueprint('auth', __name__)
     api_bp = Blueprint('api', __name__)
@@ -48,7 +48,7 @@ try:
     from services.auth_service import login_manager
     from services.websocket import socketio
 except ImportError as e:
-    print(f"⚠️  Some service imports failed: {e}")
+    print(f"[WARNING] Some service imports failed: {e}")
     login_manager = LoginManager()
     socketio = SocketIO()
 
@@ -80,15 +80,9 @@ def create_app():
     app.logger.setLevel(logging.INFO)
 
     # ========== CORS Configuration ==========
-    # 👇 ADD YOUR NETLIFY DOMAIN HERE
-    origins = [
-        "http://localhost:8000",
-        "http://127.0.0.1:8000",
-        "https://mall-dashboard.netlify.app"   # <-- ADD THIS LINE
-    ]
     CORS(app,
          resources={r"/*": {
-             "origins": origins,
+             "origins": "*",
              "supports_credentials": True,
              "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"],
              "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
@@ -240,26 +234,28 @@ with app.app_context():
         app.logger.error(f"[ERROR] Database initialization error: {e}")
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5000))
+    host = os.environ.get('HOST', '0.0.0.0')
     print("\n" + "="*60)
     print("MALL ANALYTICS API SERVER")
     print("="*60)
-    print(f"📍 Server:    http://127.0.0.1:5000")
-    print(f"📊 Health:    http://127.0.0.1:5000/health")
-    print(f"🔑 Login:     http://127.0.0.1:5000/api/auth/login")
-    print(f"📁 Upload:    http://127.0.0.1:5000/api/upload")
-    print(f"📅 Daily:     http://127.0.0.1:5000/api/daily")
+    print(f"[INFO] Server:    http://{host}:{port}")
+    print(f"[INFO] Health:    http://{host}:{port}/health")
+    print(f"[INFO] Login:     http://{host}:{port}/api/auth/login")
+    print(f"[INFO] Upload:    http://{host}:{port}/api/upload")
+    print(f"[INFO] Daily:     http://{host}:{port}/api/daily")
     print("="*60)
     print("Press CTRL+C to quit\n")
 
     try:
         socketio.run(
             app,
-            debug=True,
-            host='127.0.0.1',
-            port=5000
+            debug=os.environ.get('FLASK_DEBUG', 'False').lower() == 'true',
+            host=host,
+            port=port
         )
     except KeyboardInterrupt:
-        print("\n👋 Server stopped by user")
+        print("\n[INFO] Server stopped by user")
     except Exception as e:
-        print(f"\n❌ Server error: {e}")
-        print("💡 Tip: Try running with: python app.py")
+        print(f"\n[ERROR] Server error: {e}")
+        print("Tip: Try running with: python app.py")
