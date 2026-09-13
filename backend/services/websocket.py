@@ -2,7 +2,7 @@ from flask_socketio import SocketIO, emit, join_room, leave_room
 from flask import request
 from datetime import datetime
 
-socketio = SocketIO(cors_allowed_origins="*")
+socketio = SocketIO(cors_allowed_origins="*", async_mode='eventlet', ping_timeout=60, ping_interval=25)
 
 clients = {}
 

@@ -1,5 +1,13 @@
 import os
 import sys
+
+# Monkey-patch early for eventlet worker class compatibility with Gunicorn
+try:
+    import eventlet
+    eventlet.monkey_patch()
+except Exception:
+    pass
+
 import logging
 from datetime import datetime
 from logging.handlers import RotatingFileHandler
@@ -97,7 +105,7 @@ def create_app():
     app.logger.info("[OK] Login manager initialized")
 
     # Initialize socketio
-    socketio.init_app(app, cors_allowed_origins="*")
+    socketio.init_app(app, cors_allowed_origins="*", async_mode='eventlet', ping_timeout=60, ping_interval=25)
     app.logger.info("[OK] SocketIO initialized")
 
     # ========== REGISTER BLUEPRINTS ==========

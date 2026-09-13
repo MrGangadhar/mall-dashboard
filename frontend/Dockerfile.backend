@@ -27,4 +27,4 @@ RUN mkdir -p /app/uploads /app/logs /app/templates
 EXPOSE 5000
 
 # Run the application
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--worker-class", "eventlet", "-w", "1", "--timeout", "120", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "--worker-class", "eventlet", "-w", "1", "--timeout", "120", "--keep-alive", "5", "app:app"]
