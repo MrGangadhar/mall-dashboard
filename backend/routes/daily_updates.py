@@ -60,6 +60,22 @@ def create_daily_update():
             created_by=user_id
         )
         db.session.add(update)
+        
+        # Also sync to WalkinData if footfall provided
+        footfall_val = int(data.get('mall_footfall', 0))
+        if footfall_val > 0:
+            from database.models import WalkinData
+            w_existing = WalkinData.query.filter_by(mall_id=data['mall_id'], date=update_date).first()
+            if w_existing:
+                w_existing.footfall = footfall_val
+            else:
+                db.session.add(WalkinData(
+                    mall_id=data['mall_id'],
+                    date=update_date,
+                    footfall=footfall_val,
+                    created_by=user_id
+                ))
+
         db.session.commit()
 
         # Return the new record (using to_dict if available)

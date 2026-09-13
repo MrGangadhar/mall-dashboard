@@ -8,6 +8,7 @@ class DataValidator:
     @staticmethod
     def validate_walkin_data(df):
         """Validate walk-in data dataframe"""
+        df.columns = [str(c).strip() for c in df.columns]
         errors = []
         warnings = []
         valid_rows = []
@@ -76,6 +77,7 @@ class DataValidator:
     @staticmethod
     def validate_sales_data(df):
         """Validate sales data dataframe"""
+        df.columns = [str(c).strip() for c in df.columns]
         errors = []
         warnings = []
         valid_rows = []
@@ -150,6 +152,7 @@ class DataValidator:
     @staticmethod
     def validate_rent_data(df):
         """Validate rent data dataframe"""
+        df.columns = [str(c).strip() for c in df.columns]
         errors = []
         warnings = []
         valid_rows = []

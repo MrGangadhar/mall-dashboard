@@ -1,40 +1,32 @@
 from sqlalchemy import func, and_, or_, desc, extract
 from datetime import datetime, timedelta
-from .models import db, User, Mall, Brand, SalesData, WalkinData, RentData, UploadHistory
+from .models import db, User, Mall, Brand, SalesData, WalkinData, RentData, UploadHistory, DailyUpdate
 import pandas as pd
 import numpy as np
-from sqlalchemy.sql import case
 
 class DatabaseManager:
     
     @staticmethod
     def get_dashboard_overview():
-        """Get overall dashboard statistics"""
+        """Get overall dashboard statistics combining all data sources"""
         try:
-            # Get total malls count
             total_malls = Mall.query.count()
-            
-            # Get total brands count
             total_brands = Brand.query.count()
-            
-            # Get active brands count
             active_brands = Brand.query.filter_by(status='Active').count()
             
-            # Get total sales (sum of all sales)
+            # Total sales from SalesData
             total_sales = db.session.query(func.sum(SalesData.total_sales)).scalar() or 0
             
-            # Get total footfall (sum of all walk-in footfall)
-            total_footfall = db.session.query(func.sum(WalkinData.footfall)).scalar() or 0
+            # Total footfall from both WalkinData and DailyUpdate
+            walkin_footfall = db.session.query(func.sum(WalkinData.footfall)).scalar() or 0
+            daily_footfall = db.session.query(func.sum(DailyUpdate.mall_footfall)).scalar() or 0
+            total_footfall = max(walkin_footfall, daily_footfall) or (walkin_footfall + daily_footfall)
             
-            # Get total rent (sum of all rent)
+            # Rent calculations
             total_rent = db.session.query(func.sum(RentData.total_rent)).scalar() or 0
-            
-            # Get pending rent (Pending or Overdue)
             pending_rent = db.session.query(func.sum(RentData.total_rent))\
                 .filter(RentData.payment_status.in_(['Pending', 'Overdue']))\
                 .scalar() or 0
-            
-            # Get collected rent (Paid)
             collected_rent = db.session.query(func.sum(RentData.total_rent))\
                 .filter(RentData.payment_status == 'Paid')\
                 .scalar() or 0
@@ -56,62 +48,55 @@ class DatabaseManager:
     
     @staticmethod
     def get_mall_performance(mall_id=None, period='month'):
-        """Get performance metrics for malls"""
+        """Get performance metrics for malls cleanly without Cartesian product joins"""
         try:
-            query = db.session.query(
-                Mall.id,
-                Mall.name,
-                func.count(func.distinct(Brand.id)).label('total_brands'),
-                func.coalesce(func.sum(SalesData.total_sales), 0).label('total_sales'),
-                func.coalesce(func.sum(WalkinData.footfall), 0).label('total_footfall'),
-                func.coalesce(func.sum(RentData.total_rent), 0).label('total_rent')
-            ).outerjoin(Brand, Mall.id == Brand.mall_id)\
-             .outerjoin(SalesData, Mall.id == SalesData.mall_id)\
-             .outerjoin(WalkinData, Mall.id == WalkinData.mall_id)\
-             .outerjoin(RentData, Mall.id == RentData.mall_id)
-            
+            malls_query = Mall.query
             if mall_id:
-                query = query.filter(Mall.id == mall_id)
-            
-            if period == 'month':
-                current_year = datetime.now().year
-                current_month = datetime.now().month
-                current_month_str = datetime.now().strftime('%Y-%m')
-                query = query.filter(
-                    or_(
-                        and_(
-                            extract('year', SalesData.date) == current_year,
-                            extract('month', SalesData.date) == current_month
-                        ),
-                        and_(
-                            extract('year', WalkinData.date) == current_year,
-                            extract('month', WalkinData.date) == current_month
-                        ),
-                        RentData.month == current_month_str
-                    )
-                )
-            elif period == 'week':
-                current_week_start = datetime.now() - timedelta(days=datetime.now().weekday())
-                current_week_end = current_week_start + timedelta(days=6)
-                query = query.filter(
-                    or_(
-                        SalesData.date.between(current_week_start, current_week_end),
-                        WalkinData.date.between(current_week_start, current_week_end)
-                    )
-                )
-            
-            query = query.group_by(Mall.id)
-            results = query.all()
+                malls_query = malls_query.filter(Mall.id == mall_id)
+            malls = malls_query.all()
             
             performance = []
-            for r in results:
+            current_year = datetime.now().year
+            current_month = datetime.now().month
+            current_month_str = datetime.now().strftime('%Y-%m')
+            
+            current_week_start = datetime.now().date() - timedelta(days=datetime.now().weekday())
+            current_week_end = current_week_start + timedelta(days=6)
+
+            for mall in malls:
+                total_brands = Brand.query.filter_by(mall_id=mall.id).count()
+                
+                # Sales query
+                sales_q = db.session.query(func.sum(SalesData.total_sales)).filter(SalesData.mall_id == mall.id)
+                # Footfall queries
+                walkin_q = db.session.query(func.sum(WalkinData.footfall)).filter(WalkinData.mall_id == mall.id)
+                daily_q = db.session.query(func.sum(DailyUpdate.mall_footfall)).filter(DailyUpdate.mall_id == mall.id)
+                # Rent query
+                rent_q = db.session.query(func.sum(RentData.total_rent)).filter(RentData.mall_id == mall.id)
+                
+                if period == 'month':
+                    sales_q = sales_q.filter(extract('year', SalesData.date) == current_year, extract('month', SalesData.date) == current_month)
+                    walkin_q = walkin_q.filter(extract('year', WalkinData.date) == current_year, extract('month', WalkinData.date) == current_month)
+                    daily_q = daily_q.filter(extract('year', DailyUpdate.update_date) == current_year, extract('month', DailyUpdate.update_date) == current_month)
+                    rent_q = rent_q.filter(RentData.month == current_month_str)
+                elif period == 'week':
+                    sales_q = sales_q.filter(SalesData.date.between(current_week_start, current_week_end))
+                    walkin_q = walkin_q.filter(WalkinData.date.between(current_week_start, current_week_end))
+                    daily_q = daily_q.filter(DailyUpdate.update_date.between(current_week_start, current_week_end))
+                
+                t_sales = float(sales_q.scalar() or 0)
+                w_footfall = int(walkin_q.scalar() or 0)
+                d_footfall = int(daily_q.scalar() or 0)
+                t_footfall = max(w_footfall, d_footfall) or (w_footfall + d_footfall)
+                t_rent = float(rent_q.scalar() or 0)
+                
                 performance.append({
-                    'mall_id': r[0],
-                    'mall_name': r[1],
-                    'total_brands': r[2] or 0,
-                    'total_sales': float(r[3] or 0),
-                    'total_footfall': int(r[4] or 0),
-                    'total_rent': float(r[5] or 0)
+                    'mall_id': mall.id,
+                    'mall_name': mall.name,
+                    'total_brands': total_brands,
+                    'total_sales': t_sales,
+                    'total_footfall': t_footfall,
+                    'total_rent': t_rent
                 })
             
             return performance
@@ -161,18 +146,27 @@ class DatabaseManager:
 
     @staticmethod
     def validate_mall_brand(mall_name, brand_name):
-        """Validate if mall and brand exist and are onboarded"""
+        """Validate if mall and brand exist; auto-create if missing to ensure data is saved"""
         try:
-            mall = Mall.query.filter_by(name=mall_name).first()
+            m_name = str(mall_name).strip()
+            mall = Mall.query.filter(Mall.name.ilike(m_name)).first()
             if not mall:
-                return False, f"Mall '{mall_name}' not found. Please onboard the mall first."
+                mall = Mall(name=m_name)
+                db.session.add(mall)
+                db.session.commit()
             
-            brand = Brand.query.filter_by(name=brand_name, mall_id=mall.id).first()
-            if not brand:
-                return False, f"Brand '{brand_name}' not found in {mall_name}. Please onboard the brand first."
+            b_name = str(brand_name).strip() if brand_name else None
+            if b_name:
+                brand = Brand.query.filter(Brand.name.ilike(b_name), Brand.mall_id == mall.id).first()
+                if not brand:
+                    brand = Brand(name=b_name, mall_id=mall.id, status='Active')
+                    db.session.add(brand)
+                    db.session.commit()
+                return True, (mall.id, brand.id)
             
-            return True, (mall.id, brand.id)
+            return True, mall.id
         except Exception as e:
+            db.session.rollback()
             return False, str(e)
 
     @staticmethod
@@ -185,7 +179,7 @@ class DatabaseManager:
         }
         
         required_columns = templates.get(template_type, [])
-        missing_columns = set(required_columns) - set(df.columns)
+        missing_columns = set(required_columns) - set([str(c).strip() for c in df.columns])
         
         if missing_columns:
             return False, f"Missing required columns: {', '.join(missing_columns)}"
@@ -195,8 +189,6 @@ class DatabaseManager:
     def get_daily_updates_summary(mall_id=None, start_date=None, end_date=None):
         """Get summary of daily updates data"""
         try:
-            from .models import DailyUpdate
-            
             query = db.session.query(
                 DailyUpdate.mall_id,
                 Mall.name.label('mall_name'),

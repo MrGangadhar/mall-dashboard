@@ -87,9 +87,19 @@ def upload_walkin_data():
         
         for index, row in df.iterrows():
             try:
-                # Get mall ID
-                mall_name = str(row['Mall Name']).strip()
-                mall = Mall.query.filter_by(name=mall_name).first()
+                # Get mall ID cleanly
+                mall_name = str(row['Mall Name']).strip() if 'Mall Name' in row and pd.notna(row['Mall Name']) else ''
+                mall_id_param = request.form.get('mall_id')
+                
+                mall = None
+                if mall_id_param:
+                    mall = Mall.query.get(int(mall_id_param))
+                if not mall and mall_name:
+                    mall = Mall.query.filter(Mall.name.ilike(f"%{mall_name}%")).first()
+                if not mall:
+                    mall = Mall(name=mall_name or "Default Mall", created_by=request.current_user.id)
+                    db.session.add(mall)
+                    db.session.flush()
                 
                 # Check existing record
                 date = pd.to_datetime(row['Date']).date()
@@ -98,23 +108,40 @@ def upload_walkin_data():
                     date=date
                 ).first()
                 
+                footfall_val = int(row['Footfall'])
+                peak_val = int(row.get('Peak Hour Visitors', 0)) if pd.notna(row.get('Peak Hour Visitors')) else 0
+                dwell_val = int(row.get('Average Dwell Time', 0)) if pd.notna(row.get('Average Dwell Time')) else 0
+
                 if existing:
                     # Update
-                    existing.footfall = int(row['Footfall'])
-                    existing.peak_hour_visitors = int(row.get('Peak Hour Visitors', 0))
-                    existing.average_dwell_time = int(row.get('Average Dwell Time', 0))
+                    existing.footfall = footfall_val
+                    existing.peak_hour_visitors = peak_val
+                    existing.average_dwell_time = dwell_val
                     existing.created_by = request.current_user.id
                 else:
                     # Insert
                     walkin_data = WalkinData(
                         mall_id=mall.id,
                         date=date,
-                        footfall=int(row['Footfall']),
-                        peak_hour_visitors=int(row.get('Peak Hour Visitors', 0)),
-                        average_dwell_time=int(row.get('Average Dwell Time', 0)),
+                        footfall=footfall_val,
+                        peak_hour_visitors=peak_val,
+                        average_dwell_time=dwell_val,
                         created_by=request.current_user.id
                     )
                     db.session.add(walkin_data)
+
+                # Sync to DailyUpdate
+                d_existing = DailyUpdate.query.filter_by(mall_id=mall.id, update_date=date).first()
+                if d_existing:
+                    d_existing.mall_footfall = footfall_val
+                else:
+                    db.session.add(DailyUpdate(
+                        mall_id=mall.id,
+                        update_date=date,
+                        mall_footfall=footfall_val,
+                        remarks="Uploaded via Walkin Data",
+                        created_by=request.current_user.id
+                    ))
                 
                 success_count += 1
                 
@@ -238,17 +265,32 @@ def upload_sales_data():
         for index, row in df.iterrows():
             try:
                 # Get mall ID
-                mall_name = str(row['Mall Name']).strip()
+                mall_name = str(row['Mall Name']).strip() if 'Mall Name' in row and pd.notna(row['Mall Name']) else ''
+                mall_id_param = request.form.get('mall_id')
+                
+                if mall_id_param and int(mall_id_param) not in mall_cache.values():
+                    mall = Mall.query.get(int(mall_id_param))
+                    if mall:
+                        mall_cache[mall.name] = mall.id
+                
                 if mall_name not in mall_cache:
-                    mall = Mall.query.filter_by(name=mall_name).first()
+                    mall = Mall.query.filter(Mall.name.ilike(f"%{mall_name}%")).first()
+                    if not mall:
+                        mall = Mall(name=mall_name or "Default Mall", created_by=request.current_user.id)
+                        db.session.add(mall)
+                        db.session.flush()
                     mall_cache[mall_name] = mall.id
-                mall_id = mall_cache[mall_name]
+                mall_id = mall_cache.get(mall_name) or next(iter(mall_cache.values()))
                 
                 # Get brand ID
-                brand_name = str(row['Brand Name']).strip()
-                cache_key = f"{mall_name}_{brand_name}"
+                brand_name = str(row['Brand Name']).strip() if 'Brand Name' in row and pd.notna(row['Brand Name']) else ''
+                cache_key = f"{mall_id}_{brand_name}"
                 if cache_key not in brand_cache:
-                    brand = Brand.query.filter_by(name=brand_name, mall_id=mall_id).first()
+                    brand = Brand.query.filter(Brand.name.ilike(brand_name), Brand.mall_id == mall_id).first()
+                    if not brand:
+                        brand = Brand(name=brand_name or "General Brand", mall_id=mall_id, status='Active', created_by=request.current_user.id)
+                        db.session.add(brand)
+                        db.session.flush()
                     brand_cache[cache_key] = brand.id
                 brand_id = brand_cache[cache_key]
                 
@@ -417,17 +459,32 @@ def upload_rent_data():
         for index, row in df.iterrows():
             try:
                 # Get mall ID
-                mall_name = str(row['Mall Name']).strip()
+                mall_name = str(row['Mall Name']).strip() if 'Mall Name' in row and pd.notna(row['Mall Name']) else ''
+                mall_id_param = request.form.get('mall_id')
+                
+                if mall_id_param and int(mall_id_param) not in mall_cache.values():
+                    mall = Mall.query.get(int(mall_id_param))
+                    if mall:
+                        mall_cache[mall.name] = mall.id
+                
                 if mall_name not in mall_cache:
-                    mall = Mall.query.filter_by(name=mall_name).first()
+                    mall = Mall.query.filter(Mall.name.ilike(f"%{mall_name}%")).first()
+                    if not mall:
+                        mall = Mall(name=mall_name or "Default Mall", created_by=request.current_user.id)
+                        db.session.add(mall)
+                        db.session.flush()
                     mall_cache[mall_name] = mall.id
-                mall_id = mall_cache[mall_name]
+                mall_id = mall_cache.get(mall_name) or next(iter(mall_cache.values()))
                 
                 # Get brand ID
-                brand_name = str(row['Brand Name']).strip()
-                cache_key = f"{mall_name}_{brand_name}"
+                brand_name = str(row['Brand Name']).strip() if 'Brand Name' in row and pd.notna(row['Brand Name']) else ''
+                cache_key = f"{mall_id}_{brand_name}"
                 if cache_key not in brand_cache:
-                    brand = Brand.query.filter_by(name=brand_name, mall_id=mall_id).first()
+                    brand = Brand.query.filter(Brand.name.ilike(brand_name), Brand.mall_id == mall_id).first()
+                    if not brand:
+                        brand = Brand(name=brand_name or "General Brand", mall_id=mall_id, status='Active', created_by=request.current_user.id)
+                        db.session.add(brand)
+                        db.session.flush()
                     brand_cache[cache_key] = brand.id
                 brand_id = brand_cache[cache_key]
                 
