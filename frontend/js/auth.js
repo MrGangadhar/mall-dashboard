@@ -6,11 +6,11 @@ class Auth {
                 return window.API_BASE_URL;
             }
             if (typeof window !== 'undefined' && window.location) {
-                const { hostname, protocol, origin } = window.location;
+                const { hostname, protocol, origin, port } = window.location;
                 if (hostname === '127.0.0.1' || hostname === 'localhost' || protocol === 'file:') {
                     return 'http://127.0.0.1:5000/api';
                 }
-                if (protocol === 'http:' || protocol === 'https:') {
+                if (hostname.includes('onrender.com') || port === '5000') {
                     return origin + '/api';
                 }
             }
@@ -23,6 +23,7 @@ class Auth {
         } catch {
             this.user = null;
         }
+        console.log('🔐 Auth constructor - baseURL:', this.baseURL);
         console.log('🔐 Auth constructor - token from storage:', this.token);
         console.log('🔐 Auth constructor - token exists:', !!this.token);
         console.log('🔐 Current page:', window.location.pathname);
@@ -35,7 +36,7 @@ class Auth {
     }
 
     async login(username, password) {
-        console.log('📤 Login attempt started');
+        console.log('📤 Login attempt started to:', `${this.baseURL}/auth/login`);
         try {
             const response = await fetch(`${this.baseURL}/auth/login`, {
                 method: 'POST',
@@ -45,6 +46,16 @@ class Auth {
             });
 
             console.log('📥 Login response status:', response.status);
+
+            const contentType = response.headers.get('content-type') || '';
+            if (!contentType.includes('application/json')) {
+                const text = await response.text();
+                console.error('❌ Non-JSON response received:', text.substring(0, 200));
+                return {
+                    success: false,
+                    error: `Server error (${response.status}). Cannot connect to backend API at ${this.baseURL}`
+                };
+            }
 
             const data = await response.json();
             console.log('📦 Login response data:', data);

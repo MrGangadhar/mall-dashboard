@@ -6,11 +6,11 @@ class API {
                 return window.API_BASE_URL;
             }
             if (typeof window !== 'undefined' && window.location) {
-                const { hostname, protocol, origin } = window.location;
+                const { hostname, protocol, origin, port } = window.location;
                 if (hostname === '127.0.0.1' || hostname === 'localhost' || protocol === 'file:') {
                     return 'http://127.0.0.1:5000/api';
                 }
-                if (protocol === 'http:' || protocol === 'https:') {
+                if (hostname.includes('onrender.com') || port === '5000') {
                     return origin + '/api';
                 }
             }
