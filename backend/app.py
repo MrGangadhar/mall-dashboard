@@ -15,7 +15,7 @@ from logging.handlers import RotatingFileHandler
 # Add the current directory to Python path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from flask_login import LoginManager
@@ -126,9 +126,13 @@ def create_app():
     def unauthorized():
         return jsonify({'error': 'Authentication required'}), 401
 
-    # Root route
+    frontend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'frontend'))
+
+    # Root route - serve frontend index.html if available, or API status
     @app.route('/')
     def index():
+        if os.path.exists(os.path.join(frontend_dir, 'index.html')):
+            return send_from_directory(frontend_dir, 'index.html')
         return jsonify({
             'name': 'Mall Analytics API',
             'version': '1.0.0',
@@ -142,6 +146,15 @@ def create_app():
                 'daily': '/api/daily'
             }
         })
+
+    # Serve static frontend files (e.g., dashboard.html, js/..., css/...)
+    @app.route('/<path:path>')
+    def serve_static(path):
+        if path.startswith('api/') or path == 'health':
+            return jsonify({'error': 'Resource not found'}), 404
+        if os.path.exists(os.path.join(frontend_dir, path)):
+            return send_from_directory(frontend_dir, path)
+        return jsonify({'error': 'Resource not found'}), 404
 
     # Health check route
     @app.route('/health')

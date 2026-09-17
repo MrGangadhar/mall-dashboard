@@ -1,18 +1,22 @@
 // API Service
 class API {
     constructor() {
-        // ============================================================
-        // 🔧 UPDATE THIS URL TO YOUR DEPLOYED BACKEND
-        // Replace with your Render or PythonAnywhere URL:
-        // example: https://your-app-name.onrender.com/api
-        // ============================================================
-        const isLocalHost = typeof window !== 'undefined' && (
-            window.location.hostname === '127.0.0.1' || 
-            window.location.hostname === 'localhost' ||
-            window.location.protocol === 'file:'
-        );
-        this.baseURL = window.API_BASE_URL || (isLocalHost ? 'http://127.0.0.1:5000/api' : 'https://mall-dashboard.onrender.com/api');
-        
+        const getBaseURL = () => {
+            if (typeof window !== 'undefined' && window.API_BASE_URL) {
+                return window.API_BASE_URL;
+            }
+            if (typeof window !== 'undefined' && window.location) {
+                const { hostname, protocol, origin } = window.location;
+                if (hostname === '127.0.0.1' || hostname === 'localhost' || protocol === 'file:') {
+                    return 'http://127.0.0.1:5000/api';
+                }
+                if (protocol === 'http:' || protocol === 'https:') {
+                    return origin + '/api';
+                }
+            }
+            return 'https://mall-dashboard.onrender.com/api';
+        };
+        this.baseURL = getBaseURL();
         this.refreshToken = localStorage.getItem('refresh_token');
     }
 

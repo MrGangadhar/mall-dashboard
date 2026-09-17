@@ -142,3 +142,32 @@ def check_auth():
             'role': current_user.role
         }
     }), 200
+
+@auth_bp.route('/refresh', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def refresh_token():
+    """Refresh JWT token"""
+    try:
+        data = request.json or {}
+        refresh_tok = data.get('refresh_token')
+        if not refresh_tok:
+            auth_header = request.headers.get('Authorization')
+            if auth_header and auth_header.startswith('Bearer '):
+                refresh_tok = auth_header.split(' ')[1]
+
+        if not refresh_tok:
+            return jsonify({'error': 'Refresh token missing'}), 401
+
+        user = AuthService.verify_token(refresh_tok)
+        if not user:
+            return jsonify({'error': 'Invalid or expired token'}), 401
+
+        new_token = AuthService.generate_token(user)
+        return jsonify({
+            'success': True,
+            'token': new_token,
+            'refresh_token': new_token
+        }), 200
+    except Exception as e:
+        logger.error(f"Refresh token error: {e}")
+        return jsonify({'error': str(e)}), 500

@@ -337,3 +337,191 @@ def get_upload_history():
     except Exception as e:
         logger.error(f"Error in /upload-history: {e}", exc_info=True)
         return jsonify({'error': str(e)}), 500
+
+
+# ==================== DATA & COMPARISON ENDPOINTS ====================
+
+@api_bp.route('/sales-data', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_sales_data():
+    """Get sales data with optional filters"""
+    try:
+        mall_id = request.args.get('mall_id', type=int)
+        brand_id = request.args.get('brand_id', type=int)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+
+        query = SalesData.query
+        if mall_id:
+            query = query.filter(SalesData.mall_id == mall_id)
+        if brand_id:
+            query = query.filter(SalesData.brand_id == brand_id)
+        if start_date:
+            try:
+                start = datetime.strptime(start_date, '%Y-%m-%d').date()
+                query = query.filter(SalesData.date >= start)
+            except ValueError:
+                pass
+        if end_date:
+            try:
+                end = datetime.strptime(end_date, '%Y-%m-%d').date()
+                query = query.filter(SalesData.date <= end)
+            except ValueError:
+                pass
+
+        sales_records = query.order_by(SalesData.date.desc()).all()
+        result = []
+        for s in sales_records:
+            result.append({
+                'id': s.id,
+                'mall_id': s.mall_id,
+                'mall_name': s.brand.mall.name if (s.brand and s.brand.mall) else (Mall.query.get(s.mall_id).name if s.mall_id and Mall.query.get(s.mall_id) else 'Unknown'),
+                'brand_id': s.brand_id,
+                'brand_name': s.brand.name if s.brand else 'Unknown',
+                'date': s.date.isoformat() if s.date else None,
+                'total_sales': float(s.total_sales) if s.total_sales is not None else 0,
+                'transaction_count': s.transaction_count or 0,
+                'average_transaction_value': float(s.average_transaction_value) if s.average_transaction_value is not None else 0,
+                'customer_count': s.customer_count or 0,
+                'returns_amount': float(s.returns_amount) if s.returns_amount is not None else 0,
+                'discount_amount': float(s.discount_amount) if s.discount_amount is not None else 0,
+                'net_sales': float(s.net_sales) if s.net_sales is not None else 0
+            })
+        return jsonify(result), 200
+    except Exception as e:
+        logger.error(f"Error in /sales-data GET: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+
+@api_bp.route('/walkin-data', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_walkin_data():
+    """Get walkin data with optional filters"""
+    try:
+        mall_id = request.args.get('mall_id', type=int)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+
+        query = WalkinData.query
+        if mall_id:
+            query = query.filter(WalkinData.mall_id == mall_id)
+        if start_date:
+            try:
+                start = datetime.strptime(start_date, '%Y-%m-%d').date()
+                query = query.filter(WalkinData.date >= start)
+            except ValueError:
+                pass
+        if end_date:
+            try:
+                end = datetime.strptime(end_date, '%Y-%m-%d').date()
+                query = query.filter(WalkinData.date <= end)
+            except ValueError:
+                pass
+
+        walkin_records = query.order_by(WalkinData.date.desc()).all()
+        result = []
+        for w in walkin_records:
+            result.append({
+                'id': w.id,
+                'mall_id': w.mall_id,
+                'mall_name': w.mall.name if w.mall else 'Unknown',
+                'date': w.date.isoformat() if w.date else None,
+                'footfall': w.footfall or 0,
+                'peak_hour_visitors': w.peak_hour_visitors or 0,
+                'peak_hour_start': w.peak_hour_start or '',
+                'peak_hour_end': w.peak_hour_end or '',
+                'average_dwell_time': w.average_dwell_time or 0,
+                'weather_condition': w.weather_condition or '',
+                'special_event': w.special_event or ''
+            })
+        return jsonify(result), 200
+    except Exception as e:
+        logger.error(f"Error in /walkin-data GET: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+
+@api_bp.route('/rent-data', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_rent_data():
+    """Get rent data with optional filters"""
+    try:
+        mall_id = request.args.get('mall_id', type=int)
+        brand_id = request.args.get('brand_id', type=int)
+        month = request.args.get('month')
+        payment_status = request.args.get('payment_status')
+
+        query = RentData.query
+        if mall_id:
+            query = query.filter(RentData.mall_id == mall_id)
+        if brand_id:
+            query = query.filter(RentData.brand_id == brand_id)
+        if month:
+            query = query.filter(RentData.month == month)
+        if payment_status:
+            query = query.filter(RentData.payment_status == payment_status)
+
+        rent_records = query.order_by(RentData.month.desc()).all()
+        result = []
+        for r in rent_records:
+            result.append({
+                'id': r.id,
+                'mall_id': r.mall_id,
+                'mall_name': r.mall.name if r.mall else 'Unknown',
+                'brand_id': r.brand_id,
+                'brand_name': r.brand.name if r.brand else 'Unknown',
+                'month': r.month or '',
+                'base_rent': float(r.base_rent) if r.base_rent is not None else 0,
+                'maintenance_charges': float(r.maintenance_charges) if r.maintenance_charges is not None else 0,
+                'other_charges': float(r.other_charges) if r.other_charges is not None else 0,
+                'total_rent': float(r.total_rent) if r.total_rent is not None else 0,
+                'payment_status': r.payment_status or 'Pending',
+                'payment_date': r.payment_date.isoformat() if r.payment_date else None,
+                'remarks': r.remarks or ''
+            })
+        return jsonify(result), 200
+    except Exception as e:
+        logger.error(f"Error in /rent-data GET: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
+
+
+@api_bp.route('/compare', methods=['GET'])
+@cross_origin(supports_credentials=True)
+@token_required
+def get_comparison():
+    """Get month-over-month comparison data"""
+    try:
+        from sqlalchemy import extract
+        month1 = request.args.get('month1')
+        month2 = request.args.get('month2')
+        mall_id = request.args.get('mall_id', type=int)
+
+        def get_month_sales(month_str):
+            if not month_str:
+                return 0
+            q = db.session.query(db.func.sum(SalesData.total_sales))
+            if mall_id:
+                q = q.filter(SalesData.mall_id == mall_id)
+            try:
+                parts = month_str.split('-')
+                if len(parts) == 2:
+                    yr, mo = int(parts[0]), int(parts[1])
+                    q = q.filter(extract('year', SalesData.date) == yr, extract('month', SalesData.date) == mo)
+            except Exception:
+                pass
+            return float(q.scalar() or 0)
+
+        m1_sales = get_month_sales(month1)
+        m2_sales = get_month_sales(month2)
+
+        return jsonify({
+            'month1': m1_sales,
+            'month2': m2_sales,
+            'month1_name': month1,
+            'month2_name': month2
+        }), 200
+    except Exception as e:
+        logger.error(f"Error in /compare GET: {e}", exc_info=True)
+        return jsonify({'error': str(e)}), 500
