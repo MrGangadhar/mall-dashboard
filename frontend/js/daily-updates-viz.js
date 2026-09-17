@@ -11,7 +11,7 @@ class DailyUpdatesVisualization {
     async init() {
         // Check authentication
         if (!auth.isAuthenticated()) {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
             return;
         }
 
@@ -84,9 +84,12 @@ class DailyUpdatesVisualization {
                 });
             }
 
-            // Initialize select2 if available
+            // Initialize/update select2 if available
             if (typeof $ !== 'undefined' && $.fn.select2) {
-                $('#mallFilter').select2({
+                if ($(select).data('select2')) {
+                    $(select).select2('destroy');
+                }
+                $(select).select2({
                     placeholder: 'Select Mall',
                     width: '100%'
                 });
@@ -118,9 +121,12 @@ class DailyUpdatesVisualization {
                 });
             }
 
-            // Initialize select2 if available
+            // Initialize/update select2 if available
             if (typeof $ !== 'undefined' && $.fn.select2) {
-                $('#histogramMallFilter').select2({
+                if ($(select).data('select2')) {
+                    $(select).select2('destroy');
+                }
+                $(select).select2({
                     placeholder: 'Select Mall for Histogram',
                     width: '100%'
                 });
@@ -207,25 +213,41 @@ class DailyUpdatesVisualization {
             const period = document.getElementById('periodFilter')?.value || 'daily';
 
             // Fetch comparison data using API helper
-            this.currentData = await this.api.getDailyUpdatesComparison({
-                mall_id: mallId,
-                period: period
-            });
+            try {
+                this.currentData = await this.api.getDailyUpdatesComparison({
+                    mall_id: mallId,
+                    period: period
+                });
+                this.updateMetrics();
+            } catch (e) {
+                console.error('Error loading comparison data:', e);
+            }
 
-            // Update metrics (now with day-over-day comparison)
-            this.updateMetrics();
-            await this.updateSummaryCards(mallId);
+            try {
+                await this.updateSummaryCards(mallId);
+            } catch (e) {
+                console.error('Error loading summary cards:', e);
+            }
 
-            // Update performance table with real data
-            await this.updatePerformanceTable();
+            try {
+                await this.updatePerformanceTable();
+            } catch (e) {
+                console.error('Error loading performance table:', e);
+            }
 
-            // Update charts (default to bar chart)
-            this.updateMainChart();
-            this.updateVehicleChart();
-            this.updateUtilityChart();
+            try {
+                this.updateMainChart();
+                this.updateVehicleChart();
+                this.updateUtilityChart();
+            } catch (e) {
+                console.error('Error updating charts:', e);
+            }
 
-            // Load detailed data
-            await this.loadDetailedData();
+            try {
+                await this.loadDetailedData();
+            } catch (e) {
+                console.error('Error loading detailed data:', e);
+            }
 
         } catch (error) {
             console.error('Error loading visualization:', error);
@@ -1172,6 +1194,6 @@ window.logout = () => {
     } else {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user');
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 };

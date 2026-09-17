@@ -8,6 +8,41 @@
   force = true
 
 [[redirects]]
+  from = "/daily-updates-visualization"
+  to = "/daily-updates-visualization.html"
+  status = 200
+
+[[redirects]]
+  from = "/daily-updates"
+  to = "/daily-updates.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/sales-dashboard"
+  to = "/sales-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/walkin-dashboard"
+  to = "/walkin-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/rent-dashboard"
+  to = "/rent-dashboard.html"
+  status = 200
+
+[[redirects]]
+  from = "/comparison-dashboard"
+  to = "/comparison-dashboard.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

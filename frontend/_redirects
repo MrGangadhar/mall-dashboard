@@ -1,2 +1,9 @@
-/api/*  https://mall-dashboard.onrender.com/api/:splat  200!
-/*      /index.html                                     200
+/api/*                          https://mall-dashboard.onrender.com/api/:splat  200!
+/daily-updates-visualization    /daily-updates-visualization.html                200
+/daily-updates                  /daily-updates.html                              200
+/dashboard                      /dashboard.html                                  200
+/sales-dashboard                /sales-dashboard.html                            200
+/walkin-dashboard               /walkin-dashboard.html                           200
+/rent-dashboard                 /rent-dashboard.html                             200
+/comparison-dashboard           /comparison-dashboard.html                       200
+/*                              /index.html                                      200
