@@ -1,4 +1,5 @@
 /api/*                          https://mall-dashboard.onrender.com/api/:splat  200!
+/health                         https://mall-dashboard.onrender.com/health        200!
 /daily-updates-visualization    /daily-updates-visualization.html                200
 /daily-updates                  /daily-updates.html                              200
 /dashboard                      /dashboard.html                                  200

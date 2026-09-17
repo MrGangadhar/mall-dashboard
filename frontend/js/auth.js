@@ -2,18 +2,26 @@
 class Auth {
     constructor() {
         const getBaseURL = () => {
+            // Allow explicit override via window.API_BASE_URL
             if (typeof window !== 'undefined' && window.API_BASE_URL) {
                 return window.API_BASE_URL;
             }
             if (typeof window !== 'undefined' && window.location) {
                 const { hostname, protocol, origin, port } = window.location;
+                // Local development
                 if (hostname === '127.0.0.1' || hostname === 'localhost' || protocol === 'file:') {
                     return 'http://127.0.0.1:5000/api';
                 }
+                // Render hosted directly
                 if (hostname.includes('onrender.com') || port === '5000') {
                     return origin + '/api';
                 }
+                // Netlify hosted — proxy /api/* → Render backend via netlify.toml
+                if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                    return origin + '/api';
+                }
             }
+            // Fallback: direct Render URL
             return 'https://mall-dashboard.onrender.com/api';
         };
         this.baseURL = getBaseURL();
@@ -24,36 +32,46 @@ class Auth {
             this.user = null;
         }
         console.log('🔐 Auth constructor - baseURL:', this.baseURL);
-        console.log('🔐 Auth constructor - token from storage:', this.token);
         console.log('🔐 Auth constructor - token exists:', !!this.token);
         console.log('🔐 Current page:', window.location.pathname);
     }
 
     getToken() {
         this.token = localStorage.getItem('auth_token');
-        console.log('📝 getToken() called, returning:', this.token);
         return this.token;
     }
 
     async login(username, password) {
-        console.log('📤 Login attempt started to:', `${this.baseURL}/auth/login`);
+        const loginUrl = `${this.baseURL}/auth/login`;
+        console.log('📤 Login attempt to:', loginUrl);
         try {
-            const response = await fetch(`${this.baseURL}/auth/login`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-                credentials: 'include'
-            });
+            // Attempt up to 2 times to handle Render cold start
+            let response;
+            for (let attempt = 1; attempt <= 2; attempt++) {
+                try {
+                    response = await fetch(loginUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password }),
+                        credentials: 'include'
+                    });
+                    break; // Success, exit retry loop
+                } catch (fetchErr) {
+                    if (attempt === 2) throw fetchErr;
+                    console.warn(`⚠️ Login attempt ${attempt} failed, retrying in 2s...`, fetchErr.message);
+                    await new Promise(r => setTimeout(r, 2000));
+                }
+            }
 
             console.log('📥 Login response status:', response.status);
 
             const contentType = response.headers.get('content-type') || '';
             if (!contentType.includes('application/json')) {
                 const text = await response.text();
-                console.error('❌ Non-JSON response received:', text.substring(0, 200));
+                console.error('❌ Non-JSON response received:', text.substring(0, 300));
                 return {
                     success: false,
-                    error: `Server error (${response.status}). Cannot connect to backend API at ${this.baseURL}`
+                    error: `Server error (${response.status}). The backend may be starting up — please try again in a few seconds.`
                 };
             }
 
@@ -61,20 +79,16 @@ class Auth {
             console.log('📦 Login response data:', data);
 
             if (data.success && data.token) {
-                console.log('💾 Storing token in localStorage...');
                 localStorage.setItem('auth_token', data.token);
                 localStorage.setItem('user', JSON.stringify(data.user));
 
-                // Verify storage immediately
                 const storedToken = localStorage.getItem('auth_token');
-                console.log('✅ Token stored, verification read:', storedToken);
-
                 if (!storedToken) {
                     console.error('❌ Token was NOT stored!');
-                    return { success: false, error: 'Failed to store token' };
+                    return { success: false, error: 'Failed to store authentication token' };
                 }
 
-                console.log('🔄 Redirecting to dashboard in 100ms...');
+                console.log('✅ Login successful, redirecting...');
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 100);
@@ -82,10 +96,13 @@ class Auth {
                 return { success: true };
             } else {
                 console.error('❌ Login failed:', data.error);
-                return { success: false, error: data.error || 'Login failed' };
+                return { success: false, error: data.error || 'Login failed. Please check your credentials.' };
             }
         } catch (error) {
             console.error('❌ Login error:', error);
+            if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                return { success: false, error: 'Cannot connect to server. The backend may be starting up — please try again in 30 seconds.' };
+            }
             return { success: false, error: error.message };
         }
     }

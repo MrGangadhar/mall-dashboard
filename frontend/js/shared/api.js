@@ -2,18 +2,26 @@
 class API {
     constructor() {
         const getBaseURL = () => {
+            // Allow explicit override via window.API_BASE_URL
             if (typeof window !== 'undefined' && window.API_BASE_URL) {
                 return window.API_BASE_URL;
             }
             if (typeof window !== 'undefined' && window.location) {
                 const { hostname, protocol, origin, port } = window.location;
+                // Local development
                 if (hostname === '127.0.0.1' || hostname === 'localhost' || protocol === 'file:') {
                     return 'http://127.0.0.1:5000/api';
                 }
+                // Render hosted directly
                 if (hostname.includes('onrender.com') || port === '5000') {
                     return origin + '/api';
                 }
+                // Netlify hosted — proxy /api/* → Render backend via netlify.toml / _redirects
+                if (hostname.includes('netlify.app') || hostname.includes('netlify.com')) {
+                    return origin + '/api';
+                }
             }
+            // Fallback: direct Render URL
             return 'https://mall-dashboard.onrender.com/api';
         };
         this.baseURL = getBaseURL();

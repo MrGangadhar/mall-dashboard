@@ -69,6 +69,19 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Wake up backend on page load (Render free tier spins down after inactivity) -->
+    <script>
+        (function wakeUpBackend() {
+            const hostname = window.location.hostname;
+            // Always ping Render directly for health — no proxy needed for health check
+            const backendHealth = (hostname === '127.0.0.1' || hostname === 'localhost')
+                ? 'http://127.0.0.1:5000/health'
+                : 'https://mall-dashboard.onrender.com/health';
+            fetch(backendHealth, { method: 'GET', cache: 'no-store', mode: 'no-cors' })
+                .then(() => console.log('🚀 Backend wake-up ping sent'))
+                .catch(e => console.log('⚠️ Backend wake-up ping failed (may be starting):', e.message));
+        })();
+    </script>
     <!-- Custom JS -->
     <script src="js/auth.js"></script>
 </body>

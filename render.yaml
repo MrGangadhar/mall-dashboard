@@ -5,6 +5,7 @@ services:
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn --worker-class eventlet -w 1 --timeout 120 --keep-alive 5 app:app
+    healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.0
@@ -12,3 +13,5 @@ services:
         generateValue: true
       - key: JWT_SECRET_KEY
         generateValue: true
+      - key: FLASK_ENV
+        value: production

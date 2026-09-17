@@ -8,6 +8,12 @@
   force = true
 
 [[redirects]]
+  from = "/health"
+  to = "https://mall-dashboard.onrender.com/health"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/daily-updates-visualization"
   to = "/daily-updates-visualization.html"
   status = 200
